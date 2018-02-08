@@ -1,13 +1,15 @@
 from django.db import models
 from django.db.models.functions import Now
 
+
 class Member(models.Model):
     name = models.CharField('姓名', max_length=32)
-    gender = models.CharField('性别',max_length=4)
+    gender = models.CharField('性别', max_length=4)
     is_fake = models.IntegerField('如果是爬虫抓的话，就给这个字段1')
     brief_intro = models.CharField('个人简介', max_length=255)
     join_ip = models.CharField('加入ip', max_length=16)
     join_time = models.DateTimeField('加入时间', default=Now())
+
 
 class Recipe(models.Model):
     """ 菜谱 """
@@ -45,6 +47,7 @@ class Ingredient(models.Model):
     tips = models.CharField('食材烹饪小窍门', max_length=2048, default='暂无')
     add_time = models.DateTimeField(auto_now_add=True)
 
+
 class Nutrition(models.Model):
     """ 营养原型 """
     name = models.CharField('名称', max_length=12, null=False)
@@ -59,7 +62,6 @@ class RecipeIngredient(models.Model):
     usage = models.CharField('用量', max_length=64, null=False)
 
 
-
 class RecipeStep(models.Model):
     """ 菜谱的步骤 n:1 菜谱"""
     name = models.CharField('名称', max_length=64, null=False)
@@ -69,10 +71,12 @@ class RecipeStep(models.Model):
     recipe = models.ForeignKey(to='Recipe', on_delete=models.DO_NOTHING, db_constraint=False)
     add_time = models.DateTimeField(auto_now_add=True)
 
+
 class RecipeTag(models.Model):
     """ 菜谱的标签 n:m 菜谱"""
     name = models.CharField('名称', max_length=64, null=False)
     add_time = models.DateTimeField(auto_now_add=True)
+
 
 class RecipeCategory(models.Model):
     """ 菜谱的分类 n:m 菜谱"""
@@ -80,10 +84,12 @@ class RecipeCategory(models.Model):
     category_type = models.ManyToManyField(to='CategoryType')
     add_time = models.DateTimeField(auto_now_add=True)
 
+
 class CategoryType(models.Model):
     """ 菜谱的分类的类型 n:m 分类"""
     name = models.CharField('名称', max_length=64, null=False)
     add_time = models.DateTimeField(auto_now_add=True)
+
 
 class MemberRecipeList(models.Model):
     """ 用户创建的菜谱菜单 n:1 用户"""
@@ -97,6 +103,3 @@ class MemberRecipeList(models.Model):
                                related_name='collected_lists')
     last_modify_time = models.DateTimeField(default=Now())
     add_time = models.DateTimeField(auto_now_add=True)
-
-
-

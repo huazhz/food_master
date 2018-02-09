@@ -9,7 +9,9 @@ from scrapy.loader.processors import MapCompose
 class XiachufangSpider(scrapy.Spider):
     name = 'xiachufang'
     allowed_domains = ['xiachufang.com']
-    start_urls = ['http://www.xiachufang.com/recipe/1086136/']
+    start_urls = ['http://www.xiachufang.com/recipe/1086136/',
+                  'http://www.xiachufang.com/recipe/102904002/',
+                  'http://www.xiachufang.com/recipe/102325967/', ]
     
     def parse(self, response):
         """ This function parses a xiachufang page.
@@ -36,7 +38,7 @@ class XiachufangSpider(scrapy.Spider):
         l.add_value('server', socket.gethostname())
         l.add_value('date', datetime.datetime.now())
         
-        return l.load_item()
+        yield l.load_item()
         
         # old style
         # item = FoodScrapyItem()

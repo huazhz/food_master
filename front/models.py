@@ -93,7 +93,6 @@ class RecipeIngredient(models.Model):
     usage = models.CharField('用量', max_length=64, null=False)
 
     class Meta:
-        ordering = ['add_time']
         verbose_name_plural = '菜谱食材关联关系'
 
     def __str__(self):

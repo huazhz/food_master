@@ -26,3 +26,11 @@ class FoodScrapyItem(scrapy.Item):
     tag = Field()
     notice = Field()
     category = Field()
+    
+    # housekeeping fields
+    # Housekeeping fields
+    url = Field()
+    project = Field()
+    spider = Field()
+    server = Field()
+    date = Field()

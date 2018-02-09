@@ -3,16 +3,19 @@ from django.db.models.functions import Now
 
 
 class Member(models.Model):
-    name = models.CharField('姓名', max_length=32)
+    name = models.CharField('姓名', max_length=12)
     gender = models.CharField('性别', max_length=4)
-    email = models.EmailField('邮箱', max_length=40)
+    email = models.EmailField('邮箱', max_length=24)
+    mobile = models.EmailField('手机号', max_length=16)
+    password = models.CharField('明文密码',max_length=64)
+    md5_password = models.CharField('加密密码',max_length=64)
     is_fake = models.IntegerField('如果是爬虫抓的话，就给这个字段1', default=0)
     brief_intro = models.CharField('个人简介', max_length=255)
     join_ip = models.CharField('加入ip', max_length=16)
     join_time = models.DateTimeField('加入时间', auto_now_add=True)
     
     class Meta:
-        ordering = ['name']
+        ordering = ['join_time']
         verbose_name_plural = '会员'
     
     def __str__(self):
@@ -40,7 +43,7 @@ class Recipe(models.Model):
     add_time = models.DateTimeField(auto_now_add=True)
     
     class Meta:
-        ordering = ['name']
+        ordering = ['add_time']
         verbose_name_plural = '菜谱'
     
     def __str__(self):
@@ -49,8 +52,8 @@ class Recipe(models.Model):
 
 class Ingredient(models.Model):
     """ 原料 """
-    name = models.CharField('名称', max_length=16, null=False)
-    brief = models.CharField('名称', max_length=512, null=False)
+    name = models.CharField('名称', max_length=16, null=False,unique=True)
+    brief = models.CharField('简介', max_length=512, null=False)
     nutrition = models.ManyToManyField(to='Nutrition', db_constraint=False)
     benefits = models.CharField('功效好处描述', max_length=512, default='暂无')
     choose_method = models.CharField('如何挑选食材', max_length=2048, default='暂无')
@@ -63,7 +66,7 @@ class Ingredient(models.Model):
     add_time = models.DateTimeField(auto_now_add=True)
     
     class Meta:
-        ordering = ['name']
+        ordering = ['add_time']
         verbose_name_plural = '食材'
     
     def __str__(self):
@@ -77,7 +80,7 @@ class Nutrition(models.Model):
     add_time = models.DateTimeField(auto_now_add=True)
     
     class Meta:
-        ordering = ['name']
+        ordering = ['add_time']
         verbose_name_plural = '营养成分'
     
     def __str__(self):
@@ -90,6 +93,12 @@ class RecipeIngredient(models.Model):
     ingredient = models.ForeignKey(to='Ingredient', on_delete=models.DO_NOTHING, db_constraint=False)
     usage = models.CharField('用量', max_length=64, null=False)
 
+    class Meta:
+        ordering = ['add_time']
+        verbose_name_plural = '菜谱食材关联关系'
+
+    def __str__(self):
+        return self.recipe.name
 
 class RecipeStep(models.Model):
     """ 菜谱的步骤 n:1 菜谱"""
@@ -101,7 +110,7 @@ class RecipeStep(models.Model):
     add_time = models.DateTimeField(auto_now_add=True)
     
     class Meta:
-        ordering = ['name']
+        ordering = ['add_time']
         verbose_name_plural = '步骤'
     
     def __str__(self):
@@ -114,7 +123,7 @@ class RecipeTag(models.Model):
     add_time = models.DateTimeField(auto_now_add=True)
     
     class Meta:
-        ordering = ['name']
+        ordering = ['add_time']
         verbose_name_plural = '标签'
     
     def __str__(self):
@@ -124,11 +133,11 @@ class RecipeTag(models.Model):
 class RecipeCategory(models.Model):
     """ 菜谱的分类 n:m 菜谱"""
     name = models.CharField('名称', max_length=64, null=False)
-    category_type = models.ManyToManyField(to='CategoryType')
+    category_type = models.ManyToManyField(to='CategoryType', db_constraint=False)
     add_time = models.DateTimeField(auto_now_add=True)
     
     class Meta:
-        ordering = ['name']
+        ordering = ['add_time']
         verbose_name_plural = '菜谱分类'
     
     def __str__(self):
@@ -139,6 +148,13 @@ class CategoryType(models.Model):
     """ 菜谱的分类的类型 n:m 分类"""
     name = models.CharField('名称', max_length=64, null=False)
     add_time = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ['add_time']
+        verbose_name_plural = '菜谱菜单分类'
+
+    def __str__(self):
+        return self.name
 
 
 class MemberRecipeList(models.Model):
@@ -151,12 +167,12 @@ class MemberRecipeList(models.Model):
     recipes = models.ManyToManyField(to='Recipe', related_name='included_in_list', db_constraint=False)
     fav_by = models.ForeignKey(to='Member', on_delete=models.DO_NOTHING, db_constraint=False,
                                related_name='collected_lists')
-    last_modify_time = models.DateTimeField(default=Now())
+    last_modify_time = models.DateTimeField(auto_now_add=True)
     add_time = models.DateTimeField(auto_now_add=True)
     
     class Meta:
-        ordering = ['name']
-        verbose_name_plural = '用户创建的菜谱'
+        ordering = ['add_time']
+        verbose_name_plural = '用户创建的菜谱菜单'
     
     def __str__(self):
         return self.name

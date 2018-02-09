@@ -20,9 +20,9 @@ class FoodScrapyItem(scrapy.Item):
     steps = Field()
     cover_img = Field()
     rate_score = Field()
+    ingredients = Field()
     
     # other fields
     tag = Field()
     notice = Field()
     category = Field()
-    ingredients = Field()

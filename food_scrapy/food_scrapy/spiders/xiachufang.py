@@ -12,22 +12,22 @@ class XiachufangSpider(scrapy.Spider):
     start_urls = ['http://www.xiachufang.com/recipe/1086136/']
     
     def parse(self, response):
-        """
-            This function parses a web page.
-            @url http://www.xiachufang.com/recipe/1086136/'
-            @returns items 1
-            @scrapes name cook brief cover_img rate_score ingredients steps
+        """ This function parses a xiachufang page.
+        @url http://www.xiachufang.com/recipe/1086136/'
+        @returns items 1
+        @scrapes name cook steps cover_img rate_score ingredients
+        @scrapes url project spider server date
         """
         l = ItemLoader(item=FoodScrapyItem(), response=response)
         
         # prime fields
-        l.add_xpath('name', '//h1[@itemprop="name"]/text()', MapCompose(str.strip))
-        l.add_xpath('cook', '//span[@itemprop="name"]/text()')
-        l.add_xpath('brief', '//div[@itemprop="description"]/text()', MapCompose(str.strip))
-        l.add_xpath('cover_img', '//div/div/img/@src')
-        l.add_xpath('rate_score', '//span[@itemprop="ratingValue"]/text()')
-        l.add_xpath('ingredients', '//div[@class="ings"]')
         l.add_xpath('steps', '//div[@class="steps"]')
+        l.add_xpath('cover_img', '//div/div/img/@src')
+        l.add_xpath('cook', '//span[@itemprop="name"]/text()')
+        l.add_xpath('ingredients', '//div[@class="ings"]')
+        l.add_xpath('rate_score', '//span[@itemprop="ratingValue"]/text()')
+        l.add_xpath('name', '//h1[@itemprop="name"]/text()', MapCompose(str.strip))
+        l.add_xpath('brief', '//div[@itemprop="description"]/text()', MapCompose(str.strip))
         
         # housekeeping fields
         l.add_value('url', response.url)

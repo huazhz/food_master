@@ -21,6 +21,8 @@ class XiachufangSpider(scrapy.Spider):
         l.add_xpath('ingredients', '//div[@class="ings"]')
         l.add_xpath('steps', '//div[@class="steps"]')
         
+        return l.load_item()
+        
         # old style
         # item = FoodScrapyItem()
         # item['name'] = response.xpath('//h1[@itemprop="name"]/text()').extract()[0].strip()
@@ -41,4 +43,3 @@ class XiachufangSpider(scrapy.Spider):
         # self.log('steps: %s' % response.xpath('//div[@class="steps"]').extract())
         
         # return item
-        return l.load_item()

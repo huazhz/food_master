@@ -18,6 +18,7 @@ class FoodScrapyItem(scrapy.Item):
     cook = Field()
     brief = Field()
     steps = Field()
+    images = Field()
     cover_img = Field()
     rate_score = Field()
     ingredients = Field()

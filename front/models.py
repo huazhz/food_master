@@ -66,7 +66,6 @@ class Ingredient(models.Model):
     add_time = models.DateTimeField(auto_now_add=True)
     
     class Meta:
-        ordering = ['add_time']
         verbose_name_plural = '食材'
     
     def __str__(self):

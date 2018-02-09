@@ -12,7 +12,7 @@ from scrapy.exceptions import DropItem
 class FoodScrapyPipeline(object):
     
     def __init__(self):
-        self.file = open('caipu.json', 'a')
+        self.file = open('caipu.csv', 'a')
     
     def process_item(self, item, spider):
         if item['name']:

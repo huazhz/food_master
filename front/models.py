@@ -5,10 +5,18 @@ from django.db.models.functions import Now
 class Member(models.Model):
     name = models.CharField('姓名', max_length=32)
     gender = models.CharField('性别', max_length=4)
-    is_fake = models.IntegerField('如果是爬虫抓的话，就给这个字段1')
+    email = models.EmailField('邮箱', max_length=40)
+    is_fake = models.IntegerField('如果是爬虫抓的话，就给这个字段1', default=0)
     brief_intro = models.CharField('个人简介', max_length=255)
     join_ip = models.CharField('加入ip', max_length=16)
-    join_time = models.DateTimeField('加入时间', default=Now())
+    join_time = models.DateTimeField('加入时间', auto_now_add=True)
+    
+    class Meta:
+        ordering = ['name']
+        verbose_name_plural = '会员'
+    
+    def __str__(self):
+        return self.name
 
 
 class Recipe(models.Model):
@@ -20,7 +28,7 @@ class Recipe(models.Model):
     brief = models.CharField('简介', max_length=512, null=False)
     cook = models.ForeignKey(to=Member, null=True, on_delete=models.DO_NOTHING,
                              db_constraint=False, related_name='created_recipe')
-    # 因为食谱和原谅有一个用量的关联关系，所以用到了through这个参数。
+    # 因为食谱和原料有一个用量的关联关系，所以用到了through这个参数。
     ingredients = models.ManyToManyField(to='Ingredient', through='RecipeIngredient',
                                          through_fields=('recipe', 'ingredient'))
     category = models.ManyToManyField(to='RecipeCategory')
@@ -30,6 +38,13 @@ class Recipe(models.Model):
     tag = models.ManyToManyField(to='RecipeTag', db_constraint=False)
     extra = models.CharField('预留字段', max_length=16, default='暂无')
     add_time = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['name']
+        verbose_name_plural = '菜谱'
+    
+    def __str__(self):
+        return self.name
 
 
 class Ingredient(models.Model):
@@ -46,6 +61,13 @@ class Ingredient(models.Model):
     cautions = models.CharField('饮食宜忌', max_length=2048, default='暂无')
     tips = models.CharField('食材烹饪小窍门', max_length=2048, default='暂无')
     add_time = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['name']
+        verbose_name_plural = '食材'
+    
+    def __str__(self):
+        return self.name
 
 
 class Nutrition(models.Model):
@@ -53,6 +75,13 @@ class Nutrition(models.Model):
     name = models.CharField('名称', max_length=12, null=False)
     vol = models.CharField('含量', max_length=64, null=False)
     add_time = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['name']
+        verbose_name_plural = '营养成分'
+    
+    def __str__(self):
+        return self.name
 
 
 class RecipeIngredient(models.Model):
@@ -70,12 +99,26 @@ class RecipeStep(models.Model):
     image_url = models.CharField('步骤图示', null=True, max_length=255)
     recipe = models.ForeignKey(to='Recipe', on_delete=models.DO_NOTHING, db_constraint=False)
     add_time = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['name']
+        verbose_name_plural = '步骤'
+    
+    def __str__(self):
+        return self.name
 
 
 class RecipeTag(models.Model):
     """ 菜谱的标签 n:m 菜谱"""
     name = models.CharField('名称', max_length=64, null=False)
     add_time = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['name']
+        verbose_name_plural = '标签'
+    
+    def __str__(self):
+        return self.name
 
 
 class RecipeCategory(models.Model):
@@ -83,6 +126,13 @@ class RecipeCategory(models.Model):
     name = models.CharField('名称', max_length=64, null=False)
     category_type = models.ManyToManyField(to='CategoryType')
     add_time = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['name']
+        verbose_name_plural = '菜谱分类'
+    
+    def __str__(self):
+        return self.name
 
 
 class CategoryType(models.Model):
@@ -103,3 +153,10 @@ class MemberRecipeList(models.Model):
                                related_name='collected_lists')
     last_modify_time = models.DateTimeField(default=Now())
     add_time = models.DateTimeField(auto_now_add=True)
+    
+    class Meta:
+        ordering = ['name']
+        verbose_name_plural = '用户创建的菜谱'
+    
+    def __str__(self):
+        return self.name

@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
+import datetime, socket
 from ..items import FoodScrapyItem
 from scrapy.loader import ItemLoader
 from scrapy.loader.processors import MapCompose
@@ -11,8 +12,15 @@ class XiachufangSpider(scrapy.Spider):
     start_urls = ['http://www.xiachufang.com/recipe/1086136/']
     
     def parse(self, response):
-        ''' 解析函数 '''
+        """
+            This function parses a web page.
+            @url http://www.xiachufang.com/recipe/1086136/'
+            @returns items 1
+            @scrapes name cook brief cover_img rate_score ingredients steps
+        """
         l = ItemLoader(item=FoodScrapyItem(), response=response)
+        
+        # prime fields
         l.add_xpath('name', '//h1[@itemprop="name"]/text()', MapCompose(str.strip))
         l.add_xpath('cook', '//span[@itemprop="name"]/text()')
         l.add_xpath('brief', '//div[@itemprop="description"]/text()', MapCompose(str.strip))
@@ -20,6 +28,13 @@ class XiachufangSpider(scrapy.Spider):
         l.add_xpath('rate_score', '//span[@itemprop="ratingValue"]/text()')
         l.add_xpath('ingredients', '//div[@class="ings"]')
         l.add_xpath('steps', '//div[@class="steps"]')
+        
+        # housekeeping fields
+        l.add_value('url', response.url)
+        l.add_value('project', self.settings.get('BOT_NAME'))
+        l.add_value('spider', self.name)
+        l.add_value('server', socket.gethostname())
+        l.add_value('date', datetime.datetime.now())
         
         return l.load_item()
         

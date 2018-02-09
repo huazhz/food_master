@@ -36,7 +36,7 @@ class XiachufangSpider(scrapy.Spider):
         l.add_value('project', self.settings.get('BOT_NAME'))
         l.add_value('spider', self.name)
         l.add_value('server', socket.gethostname())
-        l.add_value('date', datetime.datetime.now())
+        l.add_value('date', str(datetime.datetime.now()))
         
         yield l.load_item()
         

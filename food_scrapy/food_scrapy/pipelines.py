@@ -41,3 +41,6 @@ class FoodScrapyPipeline(object):
                 return item
             else:
                 raise DropItem('there is no steps')
+        
+        else:
+            raise DropItem('the item is not what we want.')

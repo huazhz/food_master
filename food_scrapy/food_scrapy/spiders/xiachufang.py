@@ -11,8 +11,7 @@ class XiachufangSpider(scrapy.Spider):
     
     name = 'xiachufang'
     allowed_domains = ['xiachufang.com']
-    start_urls = ['http://www.xiachufang.com/recipe/1086136/',
-                  'http://www.xiachufang.com/recipe/102416213/', ]
+    start_urls = ['http://www.xiachufang.com/category/423/', ]
     
     def parse(self, response):
         """ This function parses a xiachufang page.
@@ -23,6 +22,18 @@ class XiachufangSpider(scrapy.Spider):
         @scrapes name val recipe
         @scrapes name image_url step_order recipe
         """
+        
+        # 顶级目录抽取 category   http://www.xiachufang.com/category/
+        category_links = response.xpath('//a[(contains(@href, category))]/@href').re('/category/\d+/')
+        
+        # category级别纵向抽取 recipe  http://www.xiachufang.com/category/423/
+        recipe_links = response.xpath('//a[contains(@class, "recipe")]//@href').re('/recipe/\d+/')
+        # category级别横向抽取
+        recipe_next_link = response.xpath('//a[@class="next"]//@href').extract()[0]
+        
+        # print(recipe_links)
+        # print(recipe_next_link)
+        
         recipe_name = response.xpath('//h1[@itemprop="name"]/text()').extract()[0].strip()
         
         # ----------- parse the recipe -----------

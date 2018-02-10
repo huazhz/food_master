@@ -27,14 +27,15 @@ class XiachufangSpider(scrapy.Spider):
         '''
         在category级别进行横向抽取和纵向抽取
         '''
-        # 横向爬取下一页
-        recipe_next_link = response.xpath('//a[@class="next"]//@href').extract()[0]
-        yield Request(urljoin(response.url, recipe_next_link))
         
         # 纵向爬取菜谱页
         recipe_links = response.xpath('//a[contains(@class, "recipe")]//@href').re('/recipe/\d+/')
         for link in recipe_links:
             yield Request(urljoin(response.url, link), callback=self.parse_item)
+        
+        # 横向爬取下一页
+        # next_page = response.xpath('//a[@class="next"]//@href').extract()[0]
+        # yield Request(urljoin(response.url, next_page))
     
     def parse_item(self, response):
         """ 解析菜谱详情并生成item

@@ -24,13 +24,13 @@ class XiachufangSpider(scrapy.Spider):
         recipe_name = response.xpath('//h1[@itemprop="name"]/text()').extract()[0].strip()
         
         l1 = ItemLoader(item=FoodScrapyItem(), response=response)
-        
+        # - prime fields -
         l1.add_xpath('cover_img', '//div/div/img/@src')
         l1.add_xpath('cook', '//span[@itemprop="name"]/text()')
         l1.add_xpath('rate_score', '//span[@itemprop="ratingValue"]/text()')
         l1.add_xpath('name', '//h1[@itemprop="name"]/text()', MapCompose(str.strip))
         l1.add_xpath('brief', '//div[@itemprop="description"]/text()', MapCompose(str.strip))
-        # ----------- housekeeping fields ----------
+        # - housekeeping fields -
         l1.add_value('url', response.url)
         l1.add_value('project', self.settings.get('BOT_NAME'))
         l1.add_value('spider', self.name)

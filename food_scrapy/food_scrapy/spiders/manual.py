@@ -37,7 +37,7 @@ class XiachufangSpider(scrapy.Spider):
             yield Request(urljoin(response.url, link), callback=self.parse_item)
     
     def parse_item(self, response):
-        """ This function parses a xiachufang page.
+        """ 解析菜谱详情并生成item
         @url http://www.xiachufang.com/recipe/1086136/
         @returns items 3
         @scrapes name cook cover_img rate_score

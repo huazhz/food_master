@@ -10,8 +10,10 @@ from scrapy import Item, Field
 
 
 class FoodScrapyItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
+    '''
+    define the fields for your item here like:
+    name = scrapy.Field()
+    '''
     
     # prime fields
     name = Field()

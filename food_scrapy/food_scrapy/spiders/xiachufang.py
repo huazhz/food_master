@@ -7,6 +7,10 @@ from scrapy.loader.processors import MapCompose
 
 
 class XiachufangSpider(scrapy.Spider):
+    '''
+    this is a xiachufang spider
+    it mainly scrapes the recipe.
+    '''
     name = 'xiachufang'
     allowed_domains = ['xiachufang.com']
     start_urls = ['http://www.xiachufang.com/recipe/1086136/', ]
@@ -37,10 +41,11 @@ class XiachufangSpider(scrapy.Spider):
         yield l1.load_item()
         
         # parse the nutrition
-        nutrition = response.xpath('//div[@class="ings"]//tr')
         
+        nutrition = response.xpath('//div[@class="ings"]//tr')
         for n in nutrition:
             l2 = ItemLoader(item=NutritionItem(), response=response)
+            
             n_val = n.xpath('td[2]/text()').extract()[0].strip()
             n_name = n.xpath('td[1]/a/text()').extract()[0].strip() if n.xpath('td[1]/a/text()').extract() else \
                 n.xpath('td[1]/text()').extract()[0].strip()
@@ -51,8 +56,8 @@ class XiachufangSpider(scrapy.Spider):
             yield l2.load_item()
         
         # parse the recipe steps
-        steps = response.xpath('//div[@class="steps"]//li')
         
+        steps = response.xpath('//div[@class="steps"]//li')
         for i, s in enumerate(steps):
             l3 = ItemLoader(item=RecipeStepItem(), response=response)
             l3.add_value('name', s.xpath('p/text()').extract()[0])

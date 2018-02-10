@@ -7,9 +7,8 @@ from scrapy.loader.processors import MapCompose
 
 
 class XiachufangSpider(scrapy.Spider):
-    '''
-    this is a xiachufang spider, it mainly scrapes the recipe.
-    '''
+    ''' this is a xiachufang spider, it mainly scrapes the recipe. '''
+    
     name = 'xiachufang'
     allowed_domains = ['xiachufang.com']
     start_urls = ['http://www.xiachufang.com/recipe/1086136/', ]
@@ -22,6 +21,8 @@ class XiachufangSpider(scrapy.Spider):
         @scrapes url project spider server date
         """
         recipe_name = response.xpath('//h1[@itemprop="name"]/text()').extract()[0].strip()
+        
+        # ----------- parse the recipe -----------
         
         l1 = ItemLoader(item=FoodScrapyItem(), response=response)
         # - prime fields -

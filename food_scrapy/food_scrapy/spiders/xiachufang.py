@@ -8,8 +8,7 @@ from scrapy.loader.processors import MapCompose
 
 class XiachufangSpider(scrapy.Spider):
     '''
-    this is a xiachufang spider
-    it mainly scrapes the recipe.
+    this is a xiachufang spider, it mainly scrapes the recipe.
     '''
     name = 'xiachufang'
     allowed_domains = ['xiachufang.com']
@@ -31,7 +30,7 @@ class XiachufangSpider(scrapy.Spider):
         l1.add_xpath('rate_score', '//span[@itemprop="ratingValue"]/text()')
         l1.add_xpath('name', '//h1[@itemprop="name"]/text()', MapCompose(str.strip))
         l1.add_xpath('brief', '//div[@itemprop="description"]/text()', MapCompose(str.strip))
-        # housekeeping fields
+        # ----------- housekeeping fields ----------
         l1.add_value('url', response.url)
         l1.add_value('project', self.settings.get('BOT_NAME'))
         l1.add_value('spider', self.name)
@@ -40,12 +39,11 @@ class XiachufangSpider(scrapy.Spider):
         
         yield l1.load_item()
         
-        # parse the nutrition
+        # ----------- parse the nutrition -----------
         
         nutrition = response.xpath('//div[@class="ings"]//tr')
         for n in nutrition:
             l2 = ItemLoader(item=NutritionItem(), response=response)
-            
             n_val = n.xpath('td[2]/text()').extract()[0].strip()
             n_name = n.xpath('td[1]/a/text()').extract()[0].strip() if n.xpath('td[1]/a/text()').extract() else \
                 n.xpath('td[1]/text()').extract()[0].strip()
@@ -55,7 +53,7 @@ class XiachufangSpider(scrapy.Spider):
             
             yield l2.load_item()
         
-        # parse the recipe steps
+        # ----------- parse the recipe steps ---------
         
         steps = response.xpath('//div[@class="steps"]//li')
         for i, s in enumerate(steps):

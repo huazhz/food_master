@@ -29,9 +29,22 @@ class FoodScrapyItem(scrapy.Item):
     category = Field()
     
     # housekeeping fields
-    # Housekeeping fields
     url = Field()
     project = Field()
     spider = Field()
     server = Field()
     date = Field()
+
+
+class NutritionItem(scrapy.Item):
+    name = Field()
+    val = Field()
+    recipe = Field()
+
+
+class RecipeStepItem(scrapy.Item):
+    name = Field()
+    step_order = Field()
+    step_detail = Field()
+    image_url = Field()
+    recipe = Field()

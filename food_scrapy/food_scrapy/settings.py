@@ -88,3 +88,13 @@ ITEM_PIPELINES = {
 # HTTPCACHE_DIR = 'httpcache'
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+# 60秒后自动停止
+# CLOSESPIDER_TIMEOUT = 60
+
+# 爬到10个item后停止
+# CLOSESPIDER_ITEMCOUNT=10
+
+# 爬到10个页面后停止
+# CLOSESPIDER_PAGECOUNT=10
+

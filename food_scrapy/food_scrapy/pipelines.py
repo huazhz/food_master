@@ -24,7 +24,7 @@ class FoodScrapyPipeline(object):
                 recipe.brief = item['brief']
                 recipe.rate_score = item['rate_score']
                 recipe.cover_img = item['cover_img']
-                #...
+                # ...
                 
                 recipe.save()
                 return item
@@ -33,6 +33,9 @@ class FoodScrapyPipeline(object):
         if isinstance(item, IngredientItem):
             if item['name']:
                 ingredient = RecipeIngredient()
+                # ingredient.recipe = to be done
+                
+                ingredient.save()
                 return item
             else:
                 raise DropItem('there is no nutrition')

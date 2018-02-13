@@ -7,37 +7,40 @@
 
 import json
 from scrapy.exceptions import DropItem
-from .items import FoodScrapyItem, NutritionItem, RecipeStepItem
+from .items import FoodScrapyItem, IngredientItem, RecipeStepItem
+from front.models import RecipeStep, RecipeIngredient, Recipe
 
 
 class FoodScrapyPipeline(object):
     
-    def __init__(self):
-        self.file1 = open('caipu.json', 'a')
-        self.file2 = open('nutrition.json', 'a')
-        self.file3 = open('step.json', 'a')
-    
     def process_item(self, item, spider):
         ''' 分item存储数据 '''
+        
         if isinstance(item, FoodScrapyItem):
             if item['name']:
-                recipe = json.dumps(dict(item), ensure_ascii=False) + '\n'
-                self.file1.write(recipe)
+                recipe = Recipe()
+                recipe.name = item['name']
+                recipe.cook = item['cook']
+                recipe.brief = item['brief']
+                recipe.rate_score = item['rate_score']
+                recipe.cover_img = item['cover_img']
+                #...
+                
+                recipe.save()
                 return item
             else:
                 raise DropItem("this recipe is not available %s" % item)
-        if isinstance(item, NutritionItem):
+        if isinstance(item, IngredientItem):
             if item['name']:
-                nutrition = json.dumps(dict(item), ensure_ascii=False) + '\n'
-                self.file2.write(nutrition)
+                ingredient = RecipeIngredient()
                 return item
             else:
                 raise DropItem('there is no nutrition')
         
         if isinstance(item, RecipeStepItem):
             if item['name']:
-                step = json.dumps(dict(item), ensure_ascii=False) + '\n'
-                self.file3.write(step)
+                self.recipestep = RecipeStep()
+                
                 return item
             else:
                 raise DropItem('there is no steps')

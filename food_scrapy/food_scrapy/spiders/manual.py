@@ -66,17 +66,17 @@ class XiachufangSpider(scrapy.Spider):
         
         yield l1.load_item()
         
-        # ----------- parse the nutrition -----------
+        # ----------- parse the RecipeIngredient -----------
         
         nutrition = response.xpath('//div[@class="ings"]//tr')
         for n in nutrition:
             l2 = ItemLoader(item=NutritionItem(), response=response)
-            n_val = n.xpath('td[2]/text()').extract()[0].strip()
-            n_name = n.xpath('td[1]/a/text()').extract()[0].strip() \
+            usage = n.xpath('td[2]/text()').extract()[0].strip()
+            ingredient = n.xpath('td[1]/a/text()').extract()[0].strip() \
                 if n.xpath('td[1]/a/text()').extract() \
                 else n.xpath('td[1]/text()').extract()[0].strip()
-            l2.add_value('val', n_val)
-            l2.add_value('name', n_name)
+            l2.add_value('usage', usage)
+            l2.add_value('ingredient', ingredient)
             l2.add_value('recipe', recipe_name)
             
             yield l2.load_item()

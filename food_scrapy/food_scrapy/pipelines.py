@@ -12,6 +12,7 @@ from celery import Celery
 from scrapy.exceptions import DropItem
 from .items import FoodScrapyItem, IngredientItem, RecipeStepItem
 from front.models import RecipeStep, RecipeIngredient, Recipe
+from django.core.exceptions import ObjectDoesNotExist
 
 broker = 'redis://127.0.0.1:6379'
 backend = 'redis://127.0.0.1:6379/0'
@@ -80,15 +81,15 @@ def insert_ingredient2mysql():
     while r2:
         v = r2.lindex('recipeingredient', 0)
         item = json.loads(v)
-        recipe_obj = Recipe.objects.filter(name=item['recipe'])[0]
-        if not recipe_obj.exists():
+        if Recipe.objects.filter(name=item['recipe']).exists():
+            recipe_obj = Recipe.objects.get(name=item['recipe'])
+            ingredient = RecipeIngredient(recipe=recipe_obj,
+                                          ingredient=item['ingredient'],
+                                          usage=item['usage'])
+            ingredient.save()
+            r2.lpop('recipeingredient')
+        else:
             return None
-        ingredient = RecipeIngredient(recipe=recipe_obj,
-                                      ingredient=item['ingredient'],
-                                      usage=item['usage']
-                                      )
-        ingredient.save()
-        r2.lpop('recipeingredient')
 
 
 @app.task
@@ -96,15 +97,15 @@ def insert_step2mysql():
     while r3:
         v = r3.lindex('recipestep', 0)
         item = json.loads(v)
-        recipe_obj = Recipe.objects.filter(name=item['name'])
-        if not recipe_obj.exists():
+        try:
+            recipe_obj = Recipe.objects.get(name=item['name'])
+            steps = RecipeStep(name=item['name'],
+                               step_order=item['step_order'],
+                               step_detail=item['step_detail'],
+                               image_url=item['image_url'],
+                               recipe=recipe_obj,
+                               add_time=datetime.datetime.now())
+            steps.save()
+            r3.lpop('recipestep')
+        except ObjectDoesNotExist:
             return None
-        steps = RecipeStep(name=item['name'],
-                           step_order=item['step_order'],
-                           step_detail=item['step_detail'],
-                           image_url=item['image_url'],
-                           recipe=recipe_obj,
-                           add_time=datetime.datetime.now()
-                           )
-        steps.save()
-        r3.lpop('recipestep')

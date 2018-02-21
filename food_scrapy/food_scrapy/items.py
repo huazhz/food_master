@@ -38,9 +38,9 @@ class FoodScrapyItem(scrapy.Item):
     date = Field()
 
 
-class NutritionItem(scrapy.Item):
-    name = Field()
-    val = Field()
+class IngredientItem(scrapy.Item):
+    ingredient = Field()
+    usage = Field()
     recipe = Field()
 
 

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import scrapy
 import datetime, socket
-from ..items import FoodScrapyItem, NutritionItem, RecipeStepItem
+from ..items import FoodScrapyItem, IngredientItem, RecipeStepItem
 from scrapy.loader import ItemLoader
 from scrapy.loader.processors import MapCompose
 
@@ -58,7 +58,7 @@ class XiachufangSpider(scrapy.Spider):
         
         nutrition = response.xpath('//div[@class="ings"]//tr')
         for n in nutrition:
-            l2 = ItemLoader(item=NutritionItem(), response=response)
+            l2 = ItemLoader(item=IngredientItem(), response=response)
             n_val = n.xpath('td[2]/text()').extract()[0].strip()
             n_name = n.xpath('td[1]/a/text()').extract()[0].strip() \
                 if n.xpath('td[1]/a/text()').extract() \

@@ -2,7 +2,7 @@
 import scrapy
 from urllib.parse import urljoin
 import datetime, socket
-from ..items import FoodScrapyItem, NutritionItem, RecipeStepItem
+from ..items import FoodScrapyItem, IngredientItem, RecipeStepItem
 from scrapy.loader import ItemLoader
 from scrapy.http import Request
 from scrapy.loader.processors import MapCompose
@@ -57,20 +57,13 @@ class XiachufangSpider(scrapy.Spider):
         l1.add_xpath('rate_score', '//span[@itemprop="ratingValue"]/text()')
         l1.add_xpath('name', '//h1[@itemprop="name"]/text()', MapCompose(str.strip))
         l1.add_xpath('brief', '//div[@itemprop="description"]/text()', MapCompose(str.strip))
-        # - housekeeping fields -
-        l1.add_value('url', response.url)
-        l1.add_value('spider', self.name)
-        l1.add_value('server', socket.gethostname())
-        l1.add_value('date', str(datetime.datetime.now()))
-        l1.add_value('project', self.settings.get('BOT_NAME'))
-        
         yield l1.load_item()
         
         # ----------- parse the RecipeIngredient -----------
         
-        nutrition = response.xpath('//div[@class="ings"]//tr')
-        for n in nutrition:
-            l2 = ItemLoader(item=NutritionItem(), response=response)
+        recipe_ingredient = response.xpath('//div[@class="ings"]//tr')
+        for n in recipe_ingredient:
+            l2 = ItemLoader(item=IngredientItem(), response=response)
             usage = n.xpath('td[2]/text()').extract()[0].strip()
             ingredient = n.xpath('td[1]/a/text()').extract()[0].strip() \
                 if n.xpath('td[1]/a/text()').extract() \

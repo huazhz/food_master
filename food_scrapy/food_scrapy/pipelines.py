@@ -27,7 +27,7 @@ class FoodScrapyPipeline(object):
     r3 = redis.Redis(connection_pool=pool)
     
     def process_item(self, item, spider):
-        ''' 分item存储数据到redis列表 '''
+        ''' 分item存储数据到redis列表，再通过celery异步写入MySQL '''
         
         if isinstance(item, FoodScrapyItem):
             if item['name']:

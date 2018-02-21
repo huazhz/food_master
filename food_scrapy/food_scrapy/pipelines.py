@@ -8,16 +8,14 @@
 import json
 import redis
 import datetime
+from celery import Celery
 from scrapy.exceptions import DropItem
 from .items import FoodScrapyItem, IngredientItem, RecipeStepItem
 from front.models import RecipeStep, RecipeIngredient, Recipe
 
-import time
-from celery import Celery
-
 broker = 'redis://127.0.0.1:6379'
 backend = 'redis://127.0.0.1:6379/0'
-app = Celery('my_task', broker=broker, backend=backend)
+app = Celery('tasks', broker=broker, backend=backend)
 
 
 class FoodScrapyPipeline(object):
@@ -34,7 +32,7 @@ class FoodScrapyPipeline(object):
                 global r1
                 v = json.dumps(item)
                 r1.rpush('recipe', v)
-                insert_recipe_2mysql.delay()
+                insert_recipe2mysql.delay()
                 return item
             else:
                 raise DropItem("this recipe is not available %s" % item)
@@ -43,7 +41,7 @@ class FoodScrapyPipeline(object):
                 global r2
                 v = json.dumps(item)
                 r2.rpush('recipeingredient', v)
-                insert_ingredient_2mysql.delay()
+                insert_ingredient2mysql.delay()
                 return item
             else:
                 raise DropItem('there is no nutrition')
@@ -53,7 +51,7 @@ class FoodScrapyPipeline(object):
                 global r3
                 v = json.dumps(item)
                 r3.rpush('recipestep', v)
-                insert_step_2mysql.delay()
+                insert_step2mysql.delay()
                 return item
             else:
                 raise DropItem('there is no steps')
@@ -63,7 +61,7 @@ class FoodScrapyPipeline(object):
 
 
 @app.task
-def insert_recipe_2mysql():
+def insert_recipe2mysql():
     while r1:
         v = r1.lpop('recipe')
         item = json.loads(v)
@@ -72,32 +70,41 @@ def insert_recipe_2mysql():
                         cover_img=item['cover_img'],
                         rate_score=item['rate_score'],
                         brief=item['brief'],
-                        cook=item['cook'], )
+                        cook=item['cook']
+                        )
         recipe.save()
 
 
 @app.task
-def insert_ingredient_2mysql():
+def insert_ingredient2mysql():
     while r2:
-        v = r2.lpop('recipeingredient')
+        v = r2.lindex('recipeingredient', 0)
         item = json.loads(v)
-        recipe_obj = Recipe.objects.get(name=item['recipe'])
+        recipe_obj = Recipe.objects.filter(name=item['recipe'])[0]
+        if not recipe_obj.exists():
+            return None
         ingredient = RecipeIngredient(recipe=recipe_obj,
                                       ingredient=item['ingredient'],
-                                      usage=item['usage'], )
+                                      usage=item['usage']
+                                      )
         ingredient.save()
+        r2.lpop('recipeingredient')
 
 
 @app.task
-def insert_step_2mysql():
+def insert_step2mysql():
     while r3:
-        v = r3.lpop('recipestep')
+        v = r3.lindex('recipestep', 0)
         item = json.loads(v)
-        recipe_obj = Recipe.objects.get(name=item['name'])
+        recipe_obj = Recipe.objects.filter(name=item['name'])
+        if not recipe_obj.exists():
+            return None
         steps = RecipeStep(name=item['name'],
                            step_order=item['step_order'],
                            step_detail=item['step_detail'],
                            image_url=item['image_url'],
                            recipe=recipe_obj,
-                           add_time=datetime.datetime.now(), )
+                           add_time=datetime.datetime.now()
+                           )
         steps.save()
+        r3.lpop('recipestep')

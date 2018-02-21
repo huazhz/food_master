@@ -105,6 +105,7 @@ class FoodScrapyDownloaderMiddleware(object):
 
 
 class RandomUserAgent(object):
+    ''' 随机选择User-Agent '''
     
     def __init__(self, agents):
         self.agents = agents
@@ -120,6 +121,7 @@ class RandomUserAgent(object):
 
 
 class RandomProxy(object):
+    ''' 随机选择代理ip '''
     
     def __init__(self, iplist):
         self.iplist = iplist

@@ -24,7 +24,7 @@ class NutritionAdmin(admin.ModelAdmin):
 
 
 class RecipeStepAdmin(admin.ModelAdmin):
-    list_display = ('name', 'step_detail', 'image_url', 'add_time')
+    list_display = ('step_detail', 'image_url', 'add_time')
 
 
 class RecipeTagAdmin(admin.ModelAdmin):

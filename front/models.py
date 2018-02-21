@@ -87,7 +87,7 @@ class Nutrition(models.Model):
 
 
 class RecipeIngredient(models.Model):
-    """ 菜谱和食材的关联关系 """
+    """ 菜谱的食材用量 """
     recipe = models.ForeignKey(to='Recipe', on_delete=models.DO_NOTHING, db_constraint=False)
     ingredient = models.ForeignKey(to='Ingredient', on_delete=models.DO_NOTHING, db_constraint=False)
     usage = models.CharField('用量', max_length=64, null=False)
@@ -100,7 +100,7 @@ class RecipeIngredient(models.Model):
 
 class RecipeStep(models.Model):
     """ 菜谱的步骤 n:1 菜谱"""
-    name = models.CharField('名称', max_length=64, null=False)
+    # name = models.CharField('名称', max_length=64, null=False)
     step_order = models.IntegerField('步骤的序号')
     step_detail = models.CharField('步骤详情', max_length=2048, default='暂无')
     image_url = models.CharField('步骤图示', null=True, max_length=255)

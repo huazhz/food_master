@@ -6,47 +6,19 @@
 # https://doc.scrapy.org/en/latest/topics/items.html
 
 import scrapy
-from scrapy import Item, Field
+from scrapy import Field
 
 
-class FoodScrapyItem(scrapy.Item):
-    '''
-    define the fields for your item here like:
-    name = scrapy.Field()
-    '''
-    
-    # prime fields
+class RecipeItem(scrapy.Item):
+    fid = Field()
     name = Field()
-    cook = Field()
-    brief = Field()
-    steps = Field()
-    images = Field()
     cover_img = Field()
     rate_score = Field()
-    ingredients = Field()
+    brief = Field()
+    cook = Field()
     
-    # other fields
-    tag = Field()
-    notice = Field()
+    recipe_ingredients = Field()
     category = Field()
-    
-    # housekeeping fields
-    url = Field()
-    project = Field()
-    spider = Field()
-    server = Field()
-    date = Field()
-
-
-class IngredientItem(scrapy.Item):
-    ingredient = Field()
-    usage = Field()
-    recipe = Field()
-
-
-class RecipeStepItem(scrapy.Item):
-    name = Field()
-    step_order = Field()
-    step_detail = Field()
-    image_url = Field()
-    recipe = Field()
+    fave_by = Field()
+    tag = Field()
+    steps = Field()

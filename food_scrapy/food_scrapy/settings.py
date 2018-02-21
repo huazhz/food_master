@@ -23,7 +23,7 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 1
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
@@ -49,9 +49,9 @@ COOKIES_ENABLED = False
 # Enable or disable downloader middlewares
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
-   'food_scrapy.middlewares.FoodScrapyDownloaderMiddleware': 543,
-   # 'food_scrapy.middlewares.RandomProxy': 544,
-   # 'food_scrapy.middlewares.RandomUserAgent': 545,
+    'food_scrapy.middlewares.FoodScrapyDownloaderMiddleware': 543,
+    # 'food_scrapy.middlewares.RandomProxy': 544,
+    # 'food_scrapy.middlewares.RandomUserAgent': 545,
 }
 
 # Enable or disable extensions
@@ -64,7 +64,7 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'food_scrapy.pipelines.FoodScrapyPipeline': 300,
-    'scrapy.pipelines.images.ImagesPipeline': 301,
+    # 'scrapy.pipelines.images.ImagesPipeline': 301,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
@@ -92,7 +92,7 @@ ITEM_PIPELINES = {
 # CLOSESPIDER_TIMEOUT = 60
 
 # 爬到10个item后停止
-# CLOSESPIDER_ITEMCOUNT=10
+CLOSESPIDER_ITEMCOUNT = 2
 
 # 爬到10个页面后停止
 # CLOSESPIDER_PAGECOUNT=10
@@ -165,9 +165,25 @@ USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36
 #     "Mozilla/5.0 (Linux; U; Android 1.6; es-es; SonyEricssonX10i Build/R1FA016) AppleWebKit/528.5  (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1",
 #     "Mozilla/5.0 (Linux; U; Android 1.6; en-us; SonyEricssonX10i Build/R1AA056) AppleWebKit/528.5  (KHTML, like Gecko) Version/3.1.2 Mobile Safari/525.20.1",
 # ]
-#
+
 IPLIST = [
     "http://60.217.178.13:8118",
     "http://220.196.42.158:8081",
     "http://175.14.112.44:808",
 ]
+
+# Setting up django's project full path.
+import sys
+
+sys.path.insert(0, '/Users/macbook/个人项目/food_master')
+
+# Setting up django's settings module name.
+# This module is located at /home/rolando/projects/myweb/myweb/settings.py.
+import os
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'food_web.settings'
+
+# Since Django 1.7, setup() call is required to populate the apps registry.
+import django
+
+django.setup()

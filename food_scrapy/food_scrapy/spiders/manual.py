@@ -58,7 +58,7 @@ class XiachufangSpider(scrapy.Spider):
             ingredient = n.xpath('td[1]/a/text()').extract()[0].strip() \
                 if n.xpath('td[1]/a/text()').extract() \
                 else n.xpath('td[1]/text()').extract()[0].strip()
-            dict_ingre['usage'] = usage
+            dict_ingre['usage'] = usage if usage else None
             dict_ingre['ingredient'] = ingredient
             dict_ingre['recipe'] = recipe_name
             list_ingre.append(dict_ingre)

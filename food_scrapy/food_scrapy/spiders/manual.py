@@ -72,8 +72,11 @@ class XiachufangSpider(scrapy.Spider):
             dict_steps['step_order'] = i
             dict_steps['recipe'] = recipe_name
             dict_steps['step_detail'] = s.xpath('p/text()').extract()[0]
-            dict_steps['image_url'] = s.xpath('img/@src').extract()[0] if s.xpath('img/@src').extract()[0] else \
-                response.xpath('//img[@class="recipe-menu-cover"]/@src').extract()[i - 1]
+            try:
+                dict_steps['image_url'] = s.xpath('img/@src').extract()[0] if s.xpath('img/@src').extract()[0] else \
+                    response.xpath('//img[@class="recipe-menu-cover"]/@src').extract()[i - 1]
+            except IndexError:
+                dict_steps['image_url'] = None
             list_steps.append(dict_steps)
             
             # ----------- parse the recipe -----------

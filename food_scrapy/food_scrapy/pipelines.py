@@ -28,7 +28,7 @@ class FoodScrapyPipeline(object):
         if item['name']:
             v = json.dumps(dict(item))
             self.r.rpush('recipe', v)
-            self.insert_2_mysql.delay()
+            self.insert_2_mysql(self).delay()
             return item
         else:
             raise DropItem('the item is not available')

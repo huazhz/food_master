@@ -78,8 +78,8 @@ class XiachufangSpider(scrapy.Spider):
             except IndexError:
                 dict_steps['image_url'] = None
             list_steps.append(dict_steps)
-            
-            # ----------- parse the recipe -----------
+        
+        # ----------- parse the recipe -----------
         
         l1 = ItemLoader(item=RecipeItem(), response=response)
         # - prime fields -
@@ -92,6 +92,26 @@ class XiachufangSpider(scrapy.Spider):
         l1.add_value('recipe_ingredients', list_ingre)
         l1.add_value('steps', list_steps)
         
-        # category, fave_by, tag
+        author_url = response.xpath('//div[@class="author"]/a/@href').extract()[0]
+        yield Request(url='http://www.xiachufang.com' + author_url, meta={'item': l1.load_item()},
+                      callback=self.parse_author)
+    
+    def parse_author(self, response):
+        item = response.meta['item']
+        name = response.xpath('//h1/text()').extract()[0].strip()
+        gender = response.xpath('//div[@class="gray-font"]//span[1]/text()')[0].extract()
+        brief_intro = response.xpath('//div[contains(@class,"people-base-desc")][1]/text()')[0].extract()
+        email = ''
+        mobile = ''
+        password = ''
+        md5_password = ''
+        is_fake = 1
+        join_ip = ''
+        cook_dict = dict(name=name, gender=gender, brief_intro=brief_intro, email=email, mobile=mobile,
+                         password=password, md5_password=md5_password, is_fake=is_fake, join_ip=join_ip)
+        item['cook'] = cook_dict
         
-        yield l1.load_item()
+        url = response.url
+        print(url)
+        
+        yield item

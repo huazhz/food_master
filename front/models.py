@@ -5,10 +5,10 @@ from django.db.models.functions import Now
 class Member(models.Model):
     name = models.CharField('姓名', max_length=12)
     gender = models.CharField('性别', max_length=4)
-    email = models.EmailField('邮箱', max_length=24)
-    mobile = models.EmailField('手机号', max_length=16)
-    password = models.CharField('明文密码',max_length=64)
-    md5_password = models.CharField('加密密码',max_length=64)
+    email = models.EmailField('邮箱', max_length=24, null=True)
+    mobile = models.EmailField('手机号', max_length=16, null=True)
+    password = models.CharField('明文密码', max_length=64, null=True)
+    md5_password = models.CharField('加密密码', max_length=64, null=True)
     is_fake = models.IntegerField('如果是爬虫抓的话，就给这个字段1', default=0)
     brief_intro = models.CharField('个人简介', max_length=255)
     join_ip = models.CharField('加入ip', max_length=16)
@@ -52,7 +52,7 @@ class Recipe(models.Model):
 
 class Ingredient(models.Model):
     """ 原料 """
-    name = models.CharField('名称', max_length=16, null=False,unique=True)
+    name = models.CharField('名称', max_length=16, null=False, unique=True)
     brief = models.CharField('简介', max_length=512, null=False)
     nutrition = models.ManyToManyField(to='Nutrition', db_constraint=False)
     benefits = models.CharField('功效好处描述', max_length=512, default='暂无')
@@ -91,12 +91,13 @@ class RecipeIngredient(models.Model):
     recipe = models.ForeignKey(to='Recipe', on_delete=models.DO_NOTHING, db_constraint=False)
     ingredient = models.ForeignKey(to='Ingredient', on_delete=models.DO_NOTHING, db_constraint=False)
     usage = models.CharField('用量', max_length=64, null=False)
-
+    
     class Meta:
         verbose_name_plural = '菜谱食材关联关系'
-
+    
     def __str__(self):
         return self.recipe.name
+
 
 class RecipeStep(models.Model):
     """ 菜谱的步骤 n:1 菜谱"""
@@ -112,7 +113,7 @@ class RecipeStep(models.Model):
         verbose_name_plural = '步骤'
     
     def __str__(self):
-        return self.name
+        return self.step_detail
 
 
 class RecipeTag(models.Model):
@@ -146,11 +147,11 @@ class CategoryType(models.Model):
     """ 菜谱的分类的类型 n:m 分类"""
     name = models.CharField('名称', max_length=64, null=False)
     add_time = models.DateTimeField(auto_now_add=True)
-
+    
     class Meta:
         ordering = ['add_time']
         verbose_name_plural = '菜谱菜单分类'
-
+    
     def __str__(self):
         return self.name
 

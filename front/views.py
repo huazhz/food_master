@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.http import Http404
+from front.models import Recipe
 from front import rs
 
 
@@ -14,6 +16,7 @@ def index(req):
     return render(req,'front/index.html')
 
 
+
 def generic(req):
     """ 首页 """
 
@@ -24,3 +27,9 @@ def elements(req):
     """ 首页 """
 
     return render(req,'front/elements.html')
+
+def recipe_details(req,id=None):
+    if not id:
+        return Http404
+    recipe = Recipe.objects.get(id=id)
+    return render(req, 'front/generic.html',locals())

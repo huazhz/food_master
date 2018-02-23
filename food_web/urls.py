@@ -19,5 +19,7 @@ from front import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index)
+    path('', views.index),
+    path('generic/', views.generic),
+    path('elements/', views.elements),
 ]

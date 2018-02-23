@@ -11,7 +11,7 @@ import redis
 import datetime
 from celery import Celery
 from scrapy.exceptions import DropItem
-from front.models import RecipeStep, RecipeIngredient, Recipe, Member
+from front.models import RecipeStep, RecipeIngredient, Recipe, Member, Ingredient
 
 broker = 'redis://127.0.0.1:6379'
 backend = 'redis://127.0.0.1:6379/0'
@@ -66,6 +66,8 @@ def insert_2_mysql():
                                          image_url=i['image_url'],
                                          recipe=recipe)
     for i in dict_recipe['recipe_ingredients']:
+        Ingredient.objects.get_or_create(name=i['ingredient'])
+    for i in dict_recipe['recipe_ingredients']:
         RecipeIngredient.objects.get_or_create(recipe=recipe,
-                                               ingredient=i['ingredient'],
+                                               ingredient=Ingredient.objects.filter(name=i['ingredient'])[0],
                                                usage=i['usage'])

@@ -96,11 +96,15 @@ class XiachufangSpider(scrapy.Spider):
         yield Request(url='http://www.xiachufang.com' + author_url, meta={'item': l1.load_item()},
                       callback=self.parse_author)
     
+    def parse_ingredient(self, response):
+        
+        pass
+    
     def parse_author(self, response):
         item = response.meta['item']
         name = response.xpath('//h1/text()').extract()[0].strip()
         gender = response.xpath('//div[@class="gray-font"]//span[1]/text()')[0].extract()
-        brief_intro = response.xpath('//div[contains(@class,"people-base-desc")][1]/text()')[0].extract()
+        brief_intro = response.xpath('//div[contains(@class,"people-base-desc")][1]/text()')[0].extract().strip()
         email = ''
         mobile = ''
         password = ''
@@ -110,8 +114,5 @@ class XiachufangSpider(scrapy.Spider):
         cook_dict = dict(name=name, gender=gender, brief_intro=brief_intro, email=email, mobile=mobile,
                          password=password, md5_password=md5_password, is_fake=is_fake, join_ip=join_ip)
         item['cook'] = cook_dict
-        
-        url = response.url
-        print(url)
         
         yield item

@@ -105,6 +105,7 @@ class FoodScrapyDownloaderMiddleware(object):
 
 
 class RandomUserAgent(object):
+    ''' 随机选择User-Agent '''
     
     def __init__(self, agents):
         self.agents = agents
@@ -116,10 +117,11 @@ class RandomUserAgent(object):
     
     def process_request(self, request, spider):
         # 在 process_request中设置User-Agent的值
-        request.headers.setdefault('User-Agent', random.choice(self.agents))
+        request.headers.setdefault('USER_AGENT', random.choice(self.agents))
 
 
 class RandomProxy(object):
+    ''' 随机选择代理ip '''
     
     def __init__(self, iplist):
         self.iplist = iplist

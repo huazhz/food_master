@@ -2,7 +2,7 @@
 import scrapy
 from urllib.parse import urljoin
 import datetime, socket
-from ..items import FoodScrapyItem, NutritionItem, RecipeStepItem
+from ..items import RecipeItem
 from scrapy.loader import ItemLoader
 from scrapy.http import Request
 from scrapy.loader.processors import MapCompose
@@ -48,47 +48,70 @@ class XiachufangSpider(scrapy.Spider):
         """
         recipe_name = response.xpath('//h1[@itemprop="name"]/text()').extract()[0].strip()
         
+        # ----------- parse the RecipeIngredient -----------
+        
+        list_ingre = []
+        recipe_ingredient = response.xpath('//div[@class="ings"]//tr')
+        for n in recipe_ingredient:
+            dict_ingre = dict()
+            usage = n.xpath('td[2]/text()').extract()[0].strip()
+            ingredient = n.xpath('td[1]/a/text()').extract()[0].strip() \
+                if n.xpath('td[1]/a/text()').extract() \
+                else n.xpath('td[1]/text()').extract()[0].strip()
+            dict_ingre['usage'] = usage if usage else None
+            dict_ingre['ingredient'] = ingredient
+            dict_ingre['recipe'] = recipe_name
+            list_ingre.append(dict_ingre)
+        
+        # ----------- parse the recipe steps ---------
+        
+        list_steps = []
+        steps = response.xpath('//div[@class="steps"]//li')
+        for i, s in enumerate(steps, 1):
+            dict_steps = dict()
+            dict_steps['step_order'] = i
+            dict_steps['recipe'] = recipe_name
+            dict_steps['step_detail'] = s.xpath('p/text()').extract()[0]
+            try:
+                dict_steps['image_url'] = s.xpath('img/@src').extract()[0] if s.xpath('img/@src').extract()[0] else \
+                    response.xpath('//img[@class="recipe-menu-cover"]/@src').extract()[i - 1]
+            except IndexError:
+                dict_steps['image_url'] = None
+            list_steps.append(dict_steps)
+        
         # ----------- parse the recipe -----------
         
-        l1 = ItemLoader(item=FoodScrapyItem(), response=response)
+        l1 = ItemLoader(item=RecipeItem(), response=response)
         # - prime fields -
+        l1.add_value('fid', response.url.split('/')[-2])
         l1.add_xpath('cover_img', '//div/div/img/@src')
         l1.add_xpath('cook', '//span[@itemprop="name"]/text()')
         l1.add_xpath('rate_score', '//span[@itemprop="ratingValue"]/text()')
         l1.add_xpath('name', '//h1[@itemprop="name"]/text()', MapCompose(str.strip))
         l1.add_xpath('brief', '//div[@itemprop="description"]/text()', MapCompose(str.strip))
-        # - housekeeping fields -
-        l1.add_value('url', response.url)
-        l1.add_value('spider', self.name)
-        l1.add_value('server', socket.gethostname())
-        l1.add_value('date', str(datetime.datetime.now()))
-        l1.add_value('project', self.settings.get('BOT_NAME'))
+        l1.add_value('recipe_ingredients', list_ingre)
+        l1.add_value('steps', list_steps)
         
-        yield l1.load_item()
+        author_url = response.xpath('//div[@class="author"]/a/@href').extract()[0]
+        yield Request(url='http://www.xiachufang.com' + author_url, meta={'item': l1.load_item()},
+                      callback=self.parse_author)
+    
+    def parse_author(self, response):
+        item = response.meta['item']
+        name = response.xpath('//h1/text()').extract()[0].strip()
+        gender = response.xpath('//div[@class="gray-font"]//span[1]/text()')[0].extract()
+        brief_intro = response.xpath('//div[contains(@class,"people-base-desc")][1]/text()')[0].extract()
+        email = ''
+        mobile = ''
+        password = ''
+        md5_password = ''
+        is_fake = 1
+        join_ip = ''
+        cook_dict = dict(name=name, gender=gender, brief_intro=brief_intro, email=email, mobile=mobile,
+                         password=password, md5_password=md5_password, is_fake=is_fake, join_ip=join_ip)
+        item['cook'] = cook_dict
         
-        # ----------- parse the nutrition -----------
+        url = response.url
+        print(url)
         
-        nutrition = response.xpath('//div[@class="ings"]//tr')
-        for n in nutrition:
-            l2 = ItemLoader(item=NutritionItem(), response=response)
-            n_val = n.xpath('td[2]/text()').extract()[0].strip()
-            n_name = n.xpath('td[1]/a/text()').extract()[0].strip() \
-                if n.xpath('td[1]/a/text()').extract() \
-                else n.xpath('td[1]/text()').extract()[0].strip()
-            l2.add_value('val', n_val)
-            l2.add_value('name', n_name)
-            l2.add_value('recipe', recipe_name)
-            
-            yield l2.load_item()
-        
-        # ----------- parse the recipe steps ---------
-        
-        steps = response.xpath('//div[@class="steps"]//li')
-        for i, s in enumerate(steps, 1):
-            l3 = ItemLoader(item=RecipeStepItem(), response=response)
-            l3.add_value('step_order', i)
-            l3.add_value('recipe', recipe_name)
-            l3.add_value('name', s.xpath('p/text()').extract()[0])
-            l3.add_value('image_url', s.xpath('img/@src').extract()[0])
-            
-            yield l3.load_item()
+        yield item

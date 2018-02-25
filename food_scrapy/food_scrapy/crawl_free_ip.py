@@ -45,4 +45,5 @@ print(get_free_ip(headers, url))
 
 def get_ips():
     ips = [i.decode('utf-8') for i in r.lrange('ip_list', -5, -1)]
+    print(ips)
     return ips

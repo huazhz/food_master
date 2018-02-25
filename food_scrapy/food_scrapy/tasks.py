@@ -17,3 +17,13 @@
     4. 检查伪代码
 10. 在伪代码中试验一些想法，留下最好的想法
 '''
+
+import sys, os
+
+sys.path.insert(0, '/Users/macbook/个人项目/food_master')
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'food_web.settings'
+import django
+
+django.setup()
+

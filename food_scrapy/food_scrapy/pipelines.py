@@ -4,20 +4,10 @@
 #
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-
-
 import json
-import redis
-import datetime
-from celery import Celery
+from food_scrapy import r, app
 from scrapy.exceptions import DropItem
-from front.models import RecipeStep, RecipeIngredient, Recipe, Member, Ingredient
-
-broker = 'redis://127.0.0.1:6379'
-backend = 'redis://127.0.0.1:6379/0'
-app = Celery('tasks', broker=broker, backend=backend)
-pool = redis.ConnectionPool(host='127.0.0.1', port=6379)
-r = redis.Redis(connection_pool=pool)
+from front.models import Member, Recipe, RecipeStep, Ingredient, RecipeIngredient
 
 
 class FoodScrapyPipeline(object):
@@ -28,16 +18,14 @@ class FoodScrapyPipeline(object):
         if item['name']:
             v = json.dumps(dict(item))
             r.rpush('recipe', v)
-            # insert_2_mysql.delay()
-            insert_2_mysql()
+            save_2_mysql.delay()
             return item
         else:
             raise DropItem('the item is not available')
 
 
-# @app.task
-def insert_2_mysql():
-    # while r:
+@app.task(name='pipelines.save_2_mysql')
+def save_2_mysql():
     v = r.lpop('recipe')
     dict_recipe = json.loads(v)
     cook_info = dict_recipe['cook']
@@ -57,16 +45,18 @@ def insert_2_mysql():
                     rate_score=dict_recipe['rate_score'][0],
                     brief=dict_recipe['brief'][0],
                     cook=cook_obj,
-                    fav_by=cook_obj,
-                    )
+                    fav_by=cook_obj)
     recipe.save()
+    
     for i in dict_recipe['steps']:
         RecipeStep.objects.get_or_create(step_order=i['step_order'],
                                          step_detail=i['step_detail'],
                                          image_url=i['image_url'],
                                          recipe=recipe)
+    
     for i in dict_recipe['recipe_ingredients']:
         Ingredient.objects.get_or_create(name=i['ingredient'])
+    
     for i in dict_recipe['recipe_ingredients']:
         RecipeIngredient.objects.get_or_create(recipe=recipe,
                                                ingredient=Ingredient.objects.filter(name=i['ingredient'])[0],

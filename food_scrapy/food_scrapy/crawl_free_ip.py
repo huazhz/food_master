@@ -11,7 +11,7 @@ url = 'http://www.mogumiao.com/proxy/free/listFreeIp'
 import json
 
 import requests
-from food_scrapy.settings import r
+from .config import r
 
 
 def get_free_ip(headers, url):
@@ -35,12 +35,14 @@ def get_free_ip(headers, url):
     return s
 
 
-get_free_ip(headers, url)
+print(get_free_ip(headers, url))
+
+
 # r.rpush('ip_list', json.dumps(dict(ips=get_free_ip(headers, url))))
 
 # s = r.lindex('ip_list', 0)
 # print(s.decode('utf-8'))
 
-ips = [i.decode('utf-8') for i in r.lrange('ip_list', -5, -1)]
-print(ips)
-print(type(ips))
+def get_ips():
+    ips = [i.decode('utf-8') for i in r.lrange('ip_list', -5, -1)]
+    return ips

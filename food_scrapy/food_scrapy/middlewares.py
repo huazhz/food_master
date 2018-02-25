@@ -72,7 +72,7 @@ class FoodScrapyDownloaderMiddleware(object):
     def process_request(self, request, spider):
         # Called for each request that goes through the downloader
         # middleware.
-        
+        # request.meta['proxy'] = "http://180.113.46.229:8118"
         # Must either:
         # - return None: continue processing this request
         # - or return a Response object

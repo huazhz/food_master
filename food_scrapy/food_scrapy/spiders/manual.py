@@ -19,6 +19,7 @@ class XiachufangSpider(scrapy.Spider):
         '''
         从顶级目录向下解析所有子目录
         '''
+        self.log(response.status)
         category_links = response.xpath('//a[(contains(@href, category))]/@href').re('/category/\d+/')
         for url in category_links:
             yield Request(urljoin(response.url, url), callback=self.parse_category)

@@ -23,7 +23,7 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 1
+DOWNLOAD_DELAY = 2
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
@@ -50,8 +50,8 @@ COOKIES_ENABLED = False
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
     'food_scrapy.middlewares.FoodScrapyDownloaderMiddleware': 543,
-    # 'food_scrapy.middlewares.RandomProxy': 544,
-    # 'food_scrapy.middlewares.RandomUserAgent': 545,
+    # 'food_scrapy.middlewares.RandomProxy': 540,
+    # 'food_scrapy.middlewares.RandomUserAgent': 541,
 }
 
 # Enable or disable extensions
@@ -167,9 +167,9 @@ USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36
 # ]
 
 IPLIST = [
-    "http://60.217.178.13:8118",
-    "http://220.196.42.158:8081",
-    "http://175.14.112.44:808",
+    "http://139.129.166.68:3128",
+    "http://49.86.200.205:8118",
+    "http://58.216.202.149:8118",
 ]
 
 # Setting up django's project full path.

@@ -53,7 +53,7 @@ class Recipe(models.Model):
 class Ingredient(models.Model):
     """ 原料 """
     name = models.CharField('名称', max_length=16, null=False, unique=True)
-    brief = models.CharField('简介', max_length=512, null=False)
+    brief = models.CharField('简介', max_length=512, null=False, default="暂无")
     nutrition = models.ManyToManyField(to='Nutrition', db_constraint=False)
     benefits = models.CharField('功效好处描述', max_length=512, default='暂无')
     choose_method = models.CharField('如何挑选食材', max_length=2048, default='暂无')
@@ -90,7 +90,7 @@ class RecipeIngredient(models.Model):
     """ 菜谱的食材用量 """
     recipe = models.ForeignKey(to='Recipe', on_delete=models.DO_NOTHING, db_constraint=False)
     ingredient = models.ForeignKey(to='Ingredient', on_delete=models.DO_NOTHING, db_constraint=False)
-    usage = models.CharField('用量', max_length=64, null=False)
+    usage = models.CharField('用量', max_length=64, null=True)
     
     class Meta:
         verbose_name_plural = '菜谱食材关联关系'

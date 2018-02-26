@@ -17,14 +17,3 @@
     4. 检查伪代码
 10. 在伪代码中试验一些想法，留下最好的想法
 '''
-
-import time
-from food_scrapy.food_scrapy.crawl_free_ip import get_ips
-
-# headers = {'User-Agent': 'Mozilla/4.0 (compatible; IBrowse 3.0; AmigaOS4.0)'}
-# url = 'http://www.mogumiao.com/proxy/free/listFreeIp'
-
-while True:
-    time.sleep(20)
-    get_ips()
-    print(get_ips())

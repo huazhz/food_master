@@ -133,3 +133,4 @@ class RandomProxy(object):
     def process_request(self, request, spider):
         proxy = random.choice(self.iplist)
         request.meta['proxy'] = proxy
+

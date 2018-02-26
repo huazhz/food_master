@@ -5,7 +5,7 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import json
-from .config import r, app
+from food_scrapy.config import r, app
 from scrapy.exceptions import DropItem
 from front.models import Member, Recipe, RecipeStep, Ingredient, RecipeIngredient
 

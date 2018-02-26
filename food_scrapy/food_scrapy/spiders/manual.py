@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 import scrapy
 from urllib.parse import urljoin
-import datetime, socket
 from ..items import RecipeItem
 from scrapy.loader import ItemLoader
 from scrapy.http import Request
 from scrapy.loader.processors import MapCompose
+from food_scrapy.food_scrapy.celery_app import r
 
 
 class XiachufangSpider(scrapy.Spider):
@@ -28,11 +28,15 @@ class XiachufangSpider(scrapy.Spider):
         '''
         在category级别进行横向抽取和纵向抽取
         '''
-        
         # 纵向爬取菜谱页
         recipe_links = response.xpath('//a[contains(@class, "recipe")]//@href').re('/recipe/\d+/')
         for link in recipe_links:
-            yield Request(urljoin(response.url, link), callback=self.parse_item)
+            # yield Request(urljoin(response.url, link), callback=self.parse_item)
+            if not r.sismember('urlset', link):
+                r.sadd('urlset', link)
+                yield Request(urljoin(response.url, link), callback=self.parse_item)
+            else:
+                return None
         
         # 横向爬取下一页
         # next_page = response.xpath('//a[@class="next"]//@href').extract()[0]

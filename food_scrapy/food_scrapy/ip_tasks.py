@@ -19,7 +19,7 @@
 '''
 
 import time
-from food_scrapy.crawl_free_ip import get_ips
+from food_scrapy.ip_cralwer import get_ips
 
 # headers = {'User-Agent': 'Mozilla/4.0 (compatible; IBrowse 3.0; AmigaOS4.0)'}
 # url = 'http://www.mogumiao.com/proxy/free/listFreeIp'

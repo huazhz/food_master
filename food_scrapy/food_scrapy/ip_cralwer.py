@@ -11,7 +11,7 @@ url = 'http://www.mogumiao.com/proxy/free/listFreeIp'
 import json
 
 import requests
-from food_scrapy.config import r
+from food_scrapy.celery_app import r
 
 
 def get_free_ip(headers, url):

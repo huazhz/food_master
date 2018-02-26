@@ -59,11 +59,18 @@ class XiachufangSpider(scrapy.Spider):
         recipe_ingredient = response.xpath('//div[@class="ings"]//tr')
         for n in recipe_ingredient:
             dict_ingre = dict()
-            usage = n.xpath('td[2]/text()').extract()[0].strip()
-            ingredient = n.xpath('td[1]/a/text()').extract()[0].strip() \
-                if n.xpath('td[1]/a/text()').extract() \
-                else n.xpath('td[1]/text()').extract()[0].strip()
-            dict_ingre['usage'] = usage if usage else None
+            try:
+                usage = n.xpath('td[2]/text()').extract()[0].strip()
+            except:
+                usage = "暂无"
+            try:
+                ingredient = n.xpath('td[1]/a/text()').extract()[0].strip() \
+                    if n.xpath('td[1]/a/text()').extract() \
+                    else n.xpath('td[1]/text()').extract()[0].strip()
+            except:
+                ingredient = "暂无"
+            
+            dict_ingre['usage'] = usage
             dict_ingre['ingredient'] = ingredient
             dict_ingre['recipe'] = recipe_name
             list_ingre.append(dict_ingre)
@@ -76,39 +83,66 @@ class XiachufangSpider(scrapy.Spider):
             dict_steps = dict()
             dict_steps['step_order'] = i
             dict_steps['recipe'] = recipe_name
-            dict_steps['step_detail'] = s.xpath('p/text()').extract()[0]
+            try:
+                dict_steps['step_detail'] = s.xpath('p/text()').extract()[0]
+            except:
+                dict_steps['step_detail'] = '暂无'
             try:
                 dict_steps['image_url'] = s.xpath('img/@src').extract()[0] if s.xpath('img/@src').extract()[0] else \
                     response.xpath('//img[@class="recipe-menu-cover"]/@src').extract()[i - 1]
             except IndexError:
-                dict_steps['image_url'] = None
+                dict_steps['image_url'] = '暂无'
             list_steps.append(dict_steps)
         
         # ----------- parse the recipe -----------
         
-        l1 = ItemLoader(item=RecipeItem(), response=response)
-        # - prime fields -
-        l1.add_value('fid', response.url.split('/')[-2])
-        l1.add_xpath('cover_img', '//div/div/img/@src')
-        l1.add_xpath('cook', '//span[@itemprop="name"]/text()')
-        l1.add_xpath('rate_score', '//span[@itemprop="ratingValue"]/text()')
-        l1.add_xpath('name', '//h1[@itemprop="name"]/text()', MapCompose(str.strip))
-        l1.add_xpath('brief', '//div[@itemprop="description"]/text()', MapCompose(str.strip))
-        l1.add_value('recipe_ingredients', list_ingre)
-        l1.add_value('steps', list_steps)
+        item = RecipeItem()
+        try:
+            item['fid'] = response.url.split('/')[-2]
+        except:
+            item['fid'] = '暂无'
+        try:
+            item['cover_img'] = response.xpath('//div/div/img/@src').extract()[0]
+        except:
+            item['cover_img'] = '暂无'
+        try:
+            item['cook'] = response.xpath('//span[@itemprop="name"]/text()').extract()[0]
+        except:
+            item['cook'] = '暂无'
+        try:
+            item['rate_score'] = response.xpath('//span[@itemprop="ratingValue"]/text()').extract()[0]
+        except:
+            item['rate_score'] = '暂无'
+        try:
+            item['name'] = response.xpath('//h1[@itemprop="name"]/text()').extract()[0].strip()
+        except:
+            item['name'] = '暂无'
+        try:
+            item['brief'] = response.xpath('//div[@itemprop="description"]/text()').extract()[0].strip()
+        except:
+            item['brief'] = '暂无'
+        
+        item['recipe_ingredients'] = list_ingre
+        item['steps'] = list_steps
         
         author_url = response.xpath('//div[@class="author"]/a/@href').extract()[0]
-        yield Request(url='http://www.xiachufang.com' + author_url, meta={'item': l1.load_item()},
+        yield Request(url='http://www.xiachufang.com' + author_url, meta={'item': item},
                       callback=self.parse_author)
     
-    def parse_ingredient(self, response):
-        
-        pass
-    
     def parse_author(self, response):
+        
         item = response.meta['item']
-        name = response.xpath('//h1/text()').extract()[0].strip()
-        gender = response.xpath('//div[@class="gray-font"]//span[1]/text()')[0].extract()
+        
+        try:
+            name = response.xpath('//h1/text()').extract()[0].strip()
+        except:
+            name = '暂无'
+        try:
+            gender = response.xpath('//div[@class="gray-font"]//span[1]/text()')[0].extract()
+            if gender not in ['男', '女']:
+                gender = '暂无'
+        except:
+            gender = '暂无'
         try:
             brief_intro = response.xpath('//div[contains(@class,"people-base-desc")][1]/text()')[0].extract().strip()
         except:
@@ -122,5 +156,7 @@ class XiachufangSpider(scrapy.Spider):
         cook_dict = dict(name=name, gender=gender, brief_intro=brief_intro, email=email, mobile=mobile,
                          password=password, md5_password=md5_password, is_fake=is_fake, join_ip=join_ip)
         item['cook'] = cook_dict
+        
+        print('he')
         
         yield item

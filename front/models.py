@@ -3,8 +3,8 @@ from django.db.models.functions import Now
 
 
 class Member(models.Model):
-    name = models.CharField('姓名', max_length=12)
-    gender = models.CharField('性别', max_length=4)
+    name = models.CharField('姓名', max_length=100)
+    gender = models.CharField('性别', max_length=20)
     email = models.EmailField('邮箱', max_length=24, null=True)
     mobile = models.EmailField('手机号', max_length=16, null=True)
     password = models.CharField('明文密码', max_length=64, null=True)

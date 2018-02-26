@@ -5,7 +5,7 @@ from ..items import RecipeItem
 from scrapy.loader import ItemLoader
 from scrapy.http import Request
 from scrapy.loader.processors import MapCompose
-from food_scrapy.food_scrapy.celery_app import r
+from celery_app import r
 
 
 class XiachufangSpider(scrapy.Spider):
@@ -109,7 +109,10 @@ class XiachufangSpider(scrapy.Spider):
         item = response.meta['item']
         name = response.xpath('//h1/text()').extract()[0].strip()
         gender = response.xpath('//div[@class="gray-font"]//span[1]/text()')[0].extract()
-        brief_intro = response.xpath('//div[contains(@class,"people-base-desc")][1]/text()')[0].extract().strip()
+        try:
+            brief_intro = response.xpath('//div[contains(@class,"people-base-desc")][1]/text()')[0].extract().strip()
+        except:
+            brief_intro = '暂无'
         email = ''
         mobile = ''
         password = ''

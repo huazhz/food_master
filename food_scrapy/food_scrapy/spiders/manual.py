@@ -37,11 +37,11 @@ class XiachufangSpider(scrapy.Spider):
                 r.sadd('urlset', link)
                 yield Request(urljoin(response.url, link), callback=self.parse_item)
             else:
-                return None
+                continue
         
         # 横向爬取下一页
-        # next_page = response.xpath('//a[@class="next"]//@href').extract()[0]
-        # yield Request(urljoin(response.url, next_page))
+        next_page = response.xpath('//a[@class="next"]//@href').extract()[0]
+        yield Request(urljoin(response.url, next_page), callback=self.parse_category)
     
     def parse_item(self, response):
         """ 解析菜谱详情并生成item

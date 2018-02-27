@@ -3,8 +3,8 @@ from django.db.models.functions import Now
 
 
 class Member(models.Model):
-    name = models.CharField('姓名', max_length=12)
-    gender = models.CharField('性别', max_length=4)
+    name = models.CharField('姓名', max_length=100)
+    gender = models.CharField('性别', max_length=20)
     email = models.EmailField('邮箱', max_length=24, null=True)
     mobile = models.EmailField('手机号', max_length=16, null=True)
     password = models.CharField('明文密码', max_length=64, null=True)
@@ -17,6 +17,7 @@ class Member(models.Model):
     class Meta:
         ordering = ['join_time']
         verbose_name_plural = '会员'
+        unique_together = (('name', 'brief_intro'))
     
     def __str__(self):
         return self.name
@@ -25,7 +26,7 @@ class Member(models.Model):
 class Recipe(models.Model):
     """ 菜谱 """
     fid = models.CharField('外部id', max_length=64, null=True)
-    name = models.CharField('名称', max_length=64, null=False)
+    name = models.CharField('名称', max_length=128, null=False)
     cover_img = models.CharField('封面图片', max_length=255, null=False)
     rate_score = models.CharField('综合评分', max_length=8, default='5')
     brief = models.CharField('简介', max_length=512, null=False)
@@ -45,6 +46,7 @@ class Recipe(models.Model):
     class Meta:
         ordering = ['add_time']
         verbose_name_plural = '菜谱'
+        unique_together = (('name', 'fid'))
     
     def __str__(self):
         return self.name
@@ -52,8 +54,8 @@ class Recipe(models.Model):
 
 class Ingredient(models.Model):
     """ 原料 """
-    name = models.CharField('名称', max_length=16, null=False, unique=True)
-    brief = models.CharField('简介', max_length=512, null=False)
+    name = models.CharField('名称', max_length=128, null=False, unique=True)
+    brief = models.CharField('简介', max_length=512, null=False, default="暂无")
     nutrition = models.ManyToManyField(to='Nutrition', db_constraint=False)
     benefits = models.CharField('功效好处描述', max_length=512, default='暂无')
     choose_method = models.CharField('如何挑选食材', max_length=2048, default='暂无')
@@ -67,6 +69,7 @@ class Ingredient(models.Model):
     
     class Meta:
         verbose_name_plural = '食材'
+        unique_together = (('name', 'brief'))
     
     def __str__(self):
         return self.name
@@ -74,7 +77,7 @@ class Ingredient(models.Model):
 
 class Nutrition(models.Model):
     """ 营养原型 """
-    name = models.CharField('名称', max_length=12, null=False)
+    name = models.CharField('名称', max_length=128, null=False)
     vol = models.CharField('含量', max_length=64, null=False)
     add_time = models.DateTimeField(auto_now_add=True)
     
@@ -90,10 +93,11 @@ class RecipeIngredient(models.Model):
     """ 菜谱的食材用量 """
     recipe = models.ForeignKey(to='Recipe', on_delete=models.DO_NOTHING, db_constraint=False)
     ingredient = models.ForeignKey(to='Ingredient', on_delete=models.DO_NOTHING, db_constraint=False)
-    usage = models.CharField('用量', max_length=64, null=False)
+    usage = models.CharField('用量', max_length=128, null=True)
     
     class Meta:
         verbose_name_plural = '菜谱食材关联关系'
+        unique_together = (('recipe', 'usage', 'ingredient'))
     
     def __str__(self):
         return self.recipe.name
@@ -111,6 +115,7 @@ class RecipeStep(models.Model):
     class Meta:
         ordering = ['add_time']
         verbose_name_plural = '步骤'
+        unique_together = ('image_url', 'step_order', 'recipe')
     
     def __str__(self):
         return self.step_detail

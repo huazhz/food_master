@@ -13,33 +13,33 @@ def save_2_mysql():
     dict_recipe = json.loads(v)
     cook_info = dict_recipe['cook']
     
-    cook_obj, status = Member.objects.get_or_create(name=cook_info['name'],
-                                                    gender=cook_info['gender'],
-                                                    email=cook_info['email'],
-                                                    mobile=cook_info['email'],
-                                                    password=cook_info['password'],
-                                                    md5_password=cook_info['md5_password'],
-                                                    is_fake=cook_info['is_fake'],
-                                                    brief_intro=cook_info['brief_intro'],
-                                                    join_ip=cook_info['join_ip'])
+    cook_obj, status = Member.objects.get_or_create(name=cook_info.get('name'),
+                                                    gender=cook_info.get('gender'),
+                                                    email=cook_info.get('email'),
+                                                    mobile=cook_info.get('email'),
+                                                    password=cook_info.get('password'),
+                                                    md5_password=cook_info.get('md5_password'),
+                                                    is_fake=cook_info.get('is_fake'),
+                                                    brief_intro=cook_info.get('brief_intro'),
+                                                    join_ip=cook_info.get('join_ip'))
     
-    recipe = Recipe(fid=dict_recipe['fid'],
-                    name=dict_recipe['name'],
-                    cover_img=dict_recipe['cover_img'],
-                    rate_score=dict_recipe['rate_score'],
-                    brief=dict_recipe['brief'],
-                    cook=cook_obj,
-                    fav_by=cook_obj)
+    recipe, status = Recipe.objects.get_or_create(fid=dict_recipe.get('fid'),
+                                                  name=dict_recipe.get('name'),
+                                                  cover_img=dict_recipe.get('cover_img'),
+                                                  rate_score=dict_recipe.get('rate_score'),
+                                                  brief=dict_recipe.get('brief'),
+                                                  cook=cook_obj,
+                                                  fav_by=cook_obj)
     recipe.save()
     
     for i in dict_recipe['steps']:
-        RecipeStep.objects.get_or_create(step_order=i['step_order'],
-                                         step_detail=i['step_detail'],
-                                         image_url=i['image_url'],
+        RecipeStep.objects.get_or_create(step_order=i.get('step_order'),
+                                         step_detail=i.get('step_detail'),
+                                         image_url=i.get('image_url'),
                                          recipe=recipe)
     
     for i in dict_recipe['recipe_ingredients']:
-        Ingredient.objects.get_or_create(name=i['ingredient'])
+        Ingredient.objects.get_or_create(name=i.get('ingredient'))
     
     for i in dict_recipe['recipe_ingredients']:
         RecipeIngredient.objects.get_or_create(recipe=recipe,

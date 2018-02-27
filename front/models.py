@@ -25,7 +25,7 @@ class Member(models.Model):
 class Recipe(models.Model):
     """ 菜谱 """
     fid = models.CharField('外部id', max_length=64, null=True)
-    name = models.CharField('名称', max_length=64, null=False)
+    name = models.CharField('名称', max_length=128, null=False)
     cover_img = models.CharField('封面图片', max_length=255, null=False)
     rate_score = models.CharField('综合评分', max_length=8, default='5')
     brief = models.CharField('简介', max_length=512, null=False)
@@ -52,7 +52,7 @@ class Recipe(models.Model):
 
 class Ingredient(models.Model):
     """ 原料 """
-    name = models.CharField('名称', max_length=16, null=False, unique=True)
+    name = models.CharField('名称', max_length=128, null=False, unique=True)
     brief = models.CharField('简介', max_length=512, null=False, default="暂无")
     nutrition = models.ManyToManyField(to='Nutrition', db_constraint=False)
     benefits = models.CharField('功效好处描述', max_length=512, default='暂无')
@@ -74,7 +74,7 @@ class Ingredient(models.Model):
 
 class Nutrition(models.Model):
     """ 营养原型 """
-    name = models.CharField('名称', max_length=12, null=False)
+    name = models.CharField('名称', max_length=128, null=False)
     vol = models.CharField('含量', max_length=64, null=False)
     add_time = models.DateTimeField(auto_now_add=True)
     

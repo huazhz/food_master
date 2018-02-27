@@ -6,6 +6,7 @@ from scrapy.loader import ItemLoader
 from scrapy.http import Request
 from scrapy.loader.processors import MapCompose
 from celery_app import r
+from front.models import Member, Recipe, RecipeStep, Ingredient, RecipeIngredient
 
 
 class XiachufangSpider(scrapy.Spider):
@@ -61,13 +62,13 @@ class XiachufangSpider(scrapy.Spider):
             dict_ingre = dict()
             try:
                 usage = n.xpath('td[2]/text()').extract()[0].strip()
-            except:
+            except IndexError:
                 usage = "暂无"
             try:
                 ingredient = n.xpath('td[1]/a/text()').extract()[0].strip() \
                     if n.xpath('td[1]/a/text()').extract() \
                     else n.xpath('td[1]/text()').extract()[0].strip()
-            except:
+            except IndexError:
                 ingredient = "暂无"
             
             dict_ingre['usage'] = usage
@@ -85,7 +86,7 @@ class XiachufangSpider(scrapy.Spider):
             dict_steps['recipe'] = recipe_name
             try:
                 dict_steps['step_detail'] = s.xpath('p/text()').extract()[0]
-            except:
+            except IndexError:
                 dict_steps['step_detail'] = '暂无'
             try:
                 dict_steps['image_url'] = s.xpath('img/@src').extract()[0] if s.xpath('img/@src').extract()[0] else \
@@ -99,27 +100,27 @@ class XiachufangSpider(scrapy.Spider):
         item = RecipeItem()
         try:
             item['fid'] = response.url.split('/')[-2]
-        except:
+        except IndexError:
             item['fid'] = '暂无'
         try:
             item['cover_img'] = response.xpath('//div/div/img/@src').extract()[0]
-        except:
+        except IndexError:
             item['cover_img'] = '暂无'
         try:
             item['cook'] = response.xpath('//span[@itemprop="name"]/text()').extract()[0]
-        except:
+        except IndexError:
             item['cook'] = '暂无'
         try:
             item['rate_score'] = response.xpath('//span[@itemprop="ratingValue"]/text()').extract()[0]
-        except:
+        except IndexError:
             item['rate_score'] = '暂无'
         try:
             item['name'] = response.xpath('//h1[@itemprop="name"]/text()').extract()[0].strip()
-        except:
+        except IndexError:
             item['name'] = '暂无'
         try:
             item['brief'] = response.xpath('//div[@itemprop="description"]/text()').extract()[0].strip()
-        except:
+        except IndexError:
             item['brief'] = '暂无'
         
         item['recipe_ingredients'] = list_ingre
@@ -135,17 +136,17 @@ class XiachufangSpider(scrapy.Spider):
         
         try:
             name = response.xpath('//h1/text()').extract()[0].strip()
-        except:
+        except IndexError:
             name = '暂无'
         try:
             gender = response.xpath('//div[@class="gray-font"]//span[1]/text()')[0].extract()
             if gender not in ['男', '女']:
                 gender = '暂无'
-        except:
+        except IndexError:
             gender = '暂无'
         try:
             brief_intro = response.xpath('//div[contains(@class,"people-base-desc")][1]/text()')[0].extract().strip()
-        except:
+        except IndexError:
             brief_intro = '暂无'
         email = ''
         mobile = ''
@@ -157,6 +158,58 @@ class XiachufangSpider(scrapy.Spider):
                          password=password, md5_password=md5_password, is_fake=is_fake, join_ip=join_ip)
         item['cook'] = cook_dict
         
-        print('he')
+        # test --------- debug
+        # print('he')
+        #
+        # import json
+        #
+        # # v = json.dumps(dict(item))
+        # # r.rpush('recipe', v)
+        # # v = r.lindex('recipe', -1)
+        # # dict_recipe = json.loads(v)
+        # # brief = dict_recipe['brief']
+        # # print(brief)
+        # if item['name']:
+        #     v = json.dumps(dict(item))
+        #     r.rpush('recipe', v)
+        #
+        # v = r.lindex('recipe', -1)
+        # dict_recipe = json.loads(v)
+        # cook_info = dict_recipe['cook']
+        #
+        # cook_obj, status = Member.objects.get_or_create(name=cook_info.get('name'),
+        #                                                 gender=cook_info.get('gender'),
+        #                                                 email=cook_info.get('email'),
+        #                                                 mobile=cook_info.get('email'),
+        #                                                 password=cook_info.get('password'),
+        #                                                 md5_password=cook_info.get('md5_password'),
+        #                                                 is_fake=cook_info.get('is_fake'),
+        #                                                 brief_intro=cook_info.get('brief_intro'),
+        #                                                 join_ip=cook_info.get('join_ip'))
+        # self.log('fucking rate_score ---------------------------- %s'% dict_recipe.get('rate_score'))
+        #
+        # recipe = Recipe(fid=dict_recipe.get('fid'),
+        #                 name=dict_recipe.get('name'),
+        #                 cover_img=dict_recipe.get('cover_img'),
+        #                 rate_score=dict_recipe.get('rate_score'),
+        #                 brief=dict_recipe.get('brief'),
+        #                 cook=cook_obj,
+        #                 fav_by=cook_obj)
+        # recipe.save()
+        #
+        # for i in dict_recipe['steps']:
+        #     RecipeStep.objects.get_or_create(step_order=i.get('step_order'),
+        #                                      step_detail=i.get('step_detail'),
+        #                                      image_url=i.get('image_url'),
+        #                                      recipe=recipe)
+        #
+        # for i in dict_recipe['recipe_ingredients']:
+        #     Ingredient.objects.get_or_create(name=i.get('ingredient'))
+        #
+        # for i in dict_recipe['recipe_ingredients']:
+        #     RecipeIngredient.objects.get_or_create(recipe=recipe,
+        #                                            ingredient=Ingredient.objects.filter(name=i['ingredient'])[0],
+        #                                            usage=i['usage'])
+        # r.lpop('recipe')
         
         yield item

@@ -15,3 +15,9 @@
 #### 清空爬取url
 
     del urlset
+    
+    
+#### 解决MultipleObjectsReturned
+
+    在class meta里加上联合约束
+    https://stackoverflow.com/questions/17960593/multipleobjectsreturned-with-get-or-create/29521117#29521117

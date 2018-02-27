@@ -37,12 +37,17 @@ def save_2_mysql():
                                          step_detail=i.get('step_detail'),
                                          image_url=i.get('image_url'),
                                          recipe=recipe)
+        # recipe=Recipe.objects.filter(fid=dict_recipe.get('fid'),
+        #                              name=dict_recipe.get('name')[0],
+        #                              rate_score=dict_recipe.get('rate_score'))[0], )
     
     for i in dict_recipe['recipe_ingredients']:
         Ingredient.objects.get_or_create(name=i.get('ingredient'))
     
     for i in dict_recipe['recipe_ingredients']:
-        RecipeIngredient.objects.get_or_create(recipe=recipe,
-                                               ingredient=Ingredient.objects.filter(name=i['ingredient'])[0],
-                                               usage=i['usage'])
+        RecipeIngredient.objects.get_or_create(
+            recipe=Recipe.objects.filter(fid=dict_recipe.get('fid'), name=dict_recipe.get('name'),
+                                         rate_score=dict_recipe.get('rate_score'))[0],
+            ingredient=Ingredient.objects.filter(name=i['ingredient'])[0],
+            usage=i.get('usage'))
     r.lpop('recipe')

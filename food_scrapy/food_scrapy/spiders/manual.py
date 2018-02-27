@@ -52,6 +52,7 @@ class XiachufangSpider(scrapy.Spider):
         @scrapes name val recipe
         @scrapes name image_url step_order recipe
         """
+        
         recipe_name = response.xpath('//h1[@itemprop="name"]/text()').extract()[0].strip()
         
         # ----------- parse the RecipeIngredient -----------

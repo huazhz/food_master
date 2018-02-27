@@ -93,7 +93,7 @@ class RecipeIngredient(models.Model):
     """ 菜谱的食材用量 """
     recipe = models.ForeignKey(to='Recipe', on_delete=models.DO_NOTHING, db_constraint=False)
     ingredient = models.ForeignKey(to='Ingredient', on_delete=models.DO_NOTHING, db_constraint=False)
-    usage = models.CharField('用量', max_length=64, null=True)
+    usage = models.CharField('用量', max_length=128, null=True)
     
     class Meta:
         verbose_name_plural = '菜谱食材关联关系'

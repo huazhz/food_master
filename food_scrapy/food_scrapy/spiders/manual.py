@@ -35,13 +35,17 @@ class XiachufangSpider(scrapy.Spider):
             # yield Request(urljoin(response.url, link), callback=self.parse_item)
             if not r.sismember('urlset', link):
                 r.sadd('urlset', link)
-                yield Request(urljoin(response.url, link), callback=self.parse_item)
+            
             else:
                 continue
         
         # 横向爬取下一页
         next_page = response.xpath('//a[@class="next"]//@href').extract()[0]
         yield Request(urljoin(response.url, next_page), callback=self.parse_category)
+        
+        while r.scard('urlset') > 0:
+            yield Request(urljoin('http://www.xiachufang.com', r.spop('urlset').decode('utf-8')),
+                          callback=self.parse_item)
     
     def parse_item(self, response):
         """ 解析菜谱详情并生成item

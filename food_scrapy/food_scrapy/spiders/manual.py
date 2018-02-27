@@ -30,12 +30,14 @@ class XiachufangSpider(scrapy.Spider):
         在category级别进行横向抽取和纵向抽取
         '''
         # 纵向爬取菜谱页
+        
+        s = set()
+        
         recipe_links = response.xpath('//a[contains(@class, "recipe")]//@href').re('/recipe/\d+/')
         for link in recipe_links:
             # yield Request(urljoin(response.url, link), callback=self.parse_item)
-            if not r.sismember('urlset', link):
-                r.sadd('urlset', link)
-            
+            if not r.sismember('visited_urlset', 'http://www.xiachufang.com' + link):
+                s.add(link)
             else:
                 continue
         
@@ -43,8 +45,8 @@ class XiachufangSpider(scrapy.Spider):
         next_page = response.xpath('//a[@class="next"]//@href').extract()[0]
         yield Request(urljoin(response.url, next_page), callback=self.parse_category)
         
-        while r.scard('urlset') > 0:
-            yield Request(urljoin('http://www.xiachufang.com', r.spop('urlset').decode('utf-8')),
+        while len(s) > 0:
+            yield Request(urljoin('http://www.xiachufang.com', s.pop()),
                           callback=self.parse_item)
     
     def parse_item(self, response):
@@ -56,6 +58,11 @@ class XiachufangSpider(scrapy.Spider):
         @scrapes name val recipe
         @scrapes name image_url step_order recipe
         """
+        
+        if response.status != 200:
+            return None
+        else:
+            r.sadd('visited_urlset', response.url)
         
         recipe_name = response.xpath('//h1[@itemprop="name"]/text()').extract()[0].strip()
         
@@ -162,59 +169,5 @@ class XiachufangSpider(scrapy.Spider):
         cook_dict = dict(name=name, gender=gender, brief_intro=brief_intro, email=email, mobile=mobile,
                          password=password, md5_password=md5_password, is_fake=is_fake, join_ip=join_ip)
         item['cook'] = cook_dict
-        
-        # test --------- debug
-        # print('he')
-        #
-        # import json
-        #
-        # # v = json.dumps(dict(item))
-        # # r.rpush('recipe', v)
-        # # v = r.lindex('recipe', -1)
-        # # dict_recipe = json.loads(v)
-        # # brief = dict_recipe['brief']
-        # # print(brief)
-        # if item['name']:
-        #     v = json.dumps(dict(item))
-        #     r.rpush('recipe', v)
-        #
-        # v = r.lindex('recipe', -1)
-        # dict_recipe = json.loads(v)
-        # cook_info = dict_recipe['cook']
-        #
-        # cook_obj, status = Member.objects.get_or_create(name=cook_info.get('name'),
-        #                                                 gender=cook_info.get('gender'),
-        #                                                 email=cook_info.get('email'),
-        #                                                 mobile=cook_info.get('email'),
-        #                                                 password=cook_info.get('password'),
-        #                                                 md5_password=cook_info.get('md5_password'),
-        #                                                 is_fake=cook_info.get('is_fake'),
-        #                                                 brief_intro=cook_info.get('brief_intro'),
-        #                                                 join_ip=cook_info.get('join_ip'))
-        # self.log('fucking rate_score ---------------------------- %s'% dict_recipe.get('rate_score'))
-        #
-        # recipe = Recipe(fid=dict_recipe.get('fid'),
-        #                 name=dict_recipe.get('name'),
-        #                 cover_img=dict_recipe.get('cover_img'),
-        #                 rate_score=dict_recipe.get('rate_score'),
-        #                 brief=dict_recipe.get('brief'),
-        #                 cook=cook_obj,
-        #                 fav_by=cook_obj)
-        # recipe.save()
-        #
-        # for i in dict_recipe['steps']:
-        #     RecipeStep.objects.get_or_create(step_order=i.get('step_order'),
-        #                                      step_detail=i.get('step_detail'),
-        #                                      image_url=i.get('image_url'),
-        #                                      recipe=recipe)
-        #
-        # for i in dict_recipe['recipe_ingredients']:
-        #     Ingredient.objects.get_or_create(name=i.get('ingredient'))
-        #
-        # for i in dict_recipe['recipe_ingredients']:
-        #     RecipeIngredient.objects.get_or_create(recipe=recipe,
-        #                                            ingredient=Ingredient.objects.filter(name=i['ingredient'])[0],
-        #                                            usage=i['usage'])
-        # r.lpop('recipe')
         
         yield item

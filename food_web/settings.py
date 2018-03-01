@@ -78,7 +78,7 @@ DATABASES = {
         'NAME': 'food',
         'USER': 'root',
         'PASSWORD': 'root',
-        'HOST': '192.168.1.117',
+        'HOST': '192.168.3.101',
         'PORT': '3306',
         'CHARSET': "utf8mb4",
     }

@@ -1,138 +1,110 @@
 {% load staticfiles %}
-<html>
-<head>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
     <title>Food Master</title>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
-    <!--[if lte IE 8]><script src="{% static  "/js/ie/html5shiv.js" %}></script><![endif]-->
 
-    <!--[if lte IE 9]><link rel="stylesheet" href="{% static  "/css/ie9.css" %} " /><![endif]-->
-    <!--[if lte IE 8]><link rel="stylesheet" href="{% static  "/css/ie8.css" %} " /><![endif]-->
-{#    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">#}
-    <link rel="stylesheet" href="{% static  "/css/bootstrap.css" %} " />
-    <link rel="stylesheet" href="{% static  "/css/main.css" %} " />
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,300i" rel="stylesheet">
 
-    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-</head>
-<body>
-<div id="wrapper">
- <div id="main">
-        <div class="inner">
+    <!-- Styles -->
+    <link href="/static/css/core.min.css" rel="stylesheet">
+    <link href="/static/css/app.min.css" rel="stylesheet">
+    <link href="/static/css/style.min.css" rel="stylesheet">
+     {% block css %}
 
-            <!-- Header -->
-            <header id="header">
-                <a href="index.html" class="logo"><strong>Editorial</strong> by HTML5 UP</a>
-                <ul class="icons">
-                    <li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-                    <li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-                    <li><a href="#" class="icon fa-snapchat-ghost"><span class="label">Snapchat</span></a></li>
-                    <li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-                    <li><a href="#" class="icon fa-medium"><span class="label">Medium</span></a></li>
-                </ul>
-            </header>
-    {% block content %}
+    {% endblock css %}
+    <!-- Favicons -->
+    <link rel="apple-touch-icon" href="/static/img/apple-touch-icon.png">
+    <link rel="icon" href="/static/img/favicon.png">
+  </head>
+
+  <body>
+
+    <div class="preloader"></div>
+{#    <aside class="sidebar"></aside>#}
+    <header class="topbar"></header>
+
+
+    <!-- Main container -->
+    <main>
+         {% block content %}
 
     {% endblock content %}
-    </div>
-    </div>
+{#      <aside class="aside"></aside>#}
+      <header class="topbar topbar-expand-lg">
+          <div class="topbar-left">
+            <span class="topbar-btn topbar-menu-toggler"><i>☰</i></span>
+            <span class="topbar-brand"><img src="/static/img/logo.png" alt="logo-icon"></span>
 
- <div id="sidebar" >
-        <div class="inner">
+            <div class="topbar-divider d-none d-xl-block"></div>
 
-            <!-- Search -->
-            <section id="search" class="alt">
-                <form method="post" action="#">
-                    <input type="text" name="query" id="query" placeholder="Search" />
-                </form>
-            </section>
+            <nav class="topbar-navigation">
+              <ul class="menu">
 
-            <!-- Menu -->
-            <nav id="menu">
-                <header class="major">
-                    <h2>Menu</h2>
-                </header>
-                <ul>
-                    <li><a href="index.html">Homepage</a></li>
-                    <li><a href="generic.html">Generic</a></li>
-                    <li><a href="elements.html">Elements</a></li>
-                    <li>
-                        <span class="opener">Submenu</span>
-                        <ul>
-                            <li><a href="#">Lorem Dolor</a></li>
-                            <li><a href="#">Ipsum Adipiscing</a></li>
-                            <li><a href="#">Tempus Magna</a></li>
-                            <li><a href="#">Feugiat Veroeros</a></li>
-                        </ul>
+                <li class="menu-item active">
+                  <a class="menu-link" href="#">
+                    <span class="icon ti-home"></span>
+                    <span class="title">Dashboard</span>
+                  </a>
+                </li>
+
+                <li class="menu-item">
+                  <a class="menu-link" href="#">
+                    <span class="icon ti-layout"></span>
+                    <span class="title">Layout</span>
+                    <span class="arrow"></span>
+                  </a>
+                  <ul class="menu-submenu">
+                    <li class="menu-item">
+                      <a class="menu-link" href="#">
+                        <span class="title">Blank page</span>
+                      </a>
                     </li>
-                    <li><a href="#">Etiam Dolore</a></li>
-                    <li><a href="#">Adipiscing</a></li>
-                    <li>
-                        <span class="opener">Another Submenu</span>
-                        <ul>
-                            <li><a href="#">Lorem Dolor</a></li>
-                            <li><a href="#">Ipsum Adipiscing</a></li>
-                            <li><a href="#">Tempus Magna</a></li>
-                            <li><a href="#">Feugiat Veroeros</a></li>
-                        </ul>
+                    <li class="menu-item">
+                      <a class="menu-link" href="#">
+                        <span class="title">Topbar</span>
+                      </a>
                     </li>
-                    <li><a href="#">Maximus Erat</a></li>
-                    <li><a href="#">Sapien Mauris</a></li>
-                    <li><a href="#">Amet Lacinia</a></li>
-                </ul>
+                    <li class="menu-item">
+                      <a class="menu-link" href="#">
+                        <span class="title">Sidebar</span>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+
+              </ul>
             </nav>
-
-            <!-- Section -->
-            <section>
-                <header class="major">
-                    <h2>Ante interdum</h2>
-                </header>
-                <div class="mini-posts">
-                    <article>
-                        <a href="#" class="image"><img src="images/pic07.jpg" alt="" /></a>
-                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                    </article>
-                    <article>
-                        <a href="#" class="image"><img src="images/pic08.jpg" alt="" /></a>
-                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                    </article>
-                    <article>
-                        <a href="#" class="image"><img src="images/pic09.jpg" alt="" /></a>
-                        <p>Aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore aliquam.</p>
-                    </article>
-                </div>
-                <ul class="actions">
-                    <li><a href="#" class="button">More</a></li>
-                </ul>
-            </section>
-
-            <!-- Section -->
-            <section>
-                <header class="major">
-                    <h2>Get in touch</h2>
-                </header>
-                <p>Sed varius enim lorem ullamcorper dolore aliquam aenean ornare velit lacus, ac varius enim lorem ullamcorper dolore. Proin sed aliquam facilisis ante interdum. Sed nulla amet lorem feugiat tempus aliquam.</p>
-                <ul class="contact">
-                    <li class="fa-envelope-o"><a href="#">information@untitled.tld</a></li>
-                    <li class="fa-phone">(000) 000-0000</li>
-                    <li class="fa-home">1234 Somewhere Road #8254<br />
-                        Nashville, TN 00000-0000</li>
-                </ul>
-            </section>
-
-            <!-- Footer -->
-            <footer id="footer">
-                <p class="copyright">&copy; Untitled. All rights reserved. Demo Images: <a href="https://unsplash.com">Unsplash</a>. Design: <a href="https://html5up.net">HTML5 UP</a>.</p>
-            </footer>
-
+              <div class="lookup d-none d-md-block topbar-search" id="theadmin-search">
+          <span class="twitter-typeahead" style="position: relative; display: inline-block;"><input class="form-control w-300px tt-hint" type="text" readonly="" autocomplete="off" spellcheck="false" tabindex="-1" dir="ltr" style="position: absolute; top: 0px; left: 0px; border-color: transparent; box-shadow: none; opacity: 1; background: none 0% 0% / auto repeat scroll padding-box padding-box rgba(0, 0, 0, 0);"><input class="form-control w-300px tt-input" type="text" autocomplete="off" spellcheck="false" dir="auto" style="position: relative; vertical-align: top; background-color: transparent;"><pre aria-hidden="true" style="position: absolute; visibility: hidden; white-space: pre; font-family: Roboto, sans-serif; font-size: 15px; font-style: normal; font-variant: normal; font-weight: 300; word-spacing: 0px; letter-spacing: 0.5px; text-indent: 0px; text-rendering: auto; text-transform: none;"></pre><div class="tt-menu" style="position: absolute; top: 100%; left: 0px; z-index: 100; display: none;"><div class="tt-dataset tt-dataset-theadmin-components"></div></div></span>
+          <div class="lookup-placeholder">
+            <i class="ti-search"></i>
+            <span style="opacity: 1;"><strong>Try</strong> button, slider, modal, etc.</span>
+          </div>
         </div>
-    </div>
-</div>
+          </div>
+        </header>
+
+      <div class="main-content"></div>
+      <footer class="site-footer"></footer>
+
+    </main>
+    <!-- END Main container -->
+
+
+    <!-- Scripts -->
+    <script src="/static/js/core.min.js"></script>
+    <script src="/static/js/app.min.js"></script>
+    <script src="/static/js/script.min.js"></script>
+
 {% block footer_script %}
 
 {% endblock footer_script %}
-</body>
-
-
+  </body>
 </html>
+
+

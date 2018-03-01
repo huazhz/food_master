@@ -1,38 +1,43 @@
 {% extends '../include/base.html' %}
-{% load staticfiles %}
-
-
-
-
-<!-- Main -->
-
 
 {% block content %}
-            <!-- Content -->
-            <section>
-                <header class="main">
-                    <h1>{{ recipe.name }}</h1>
+    <header class="header">
+        <div class="header-info">
+            <div class="left">
+                <h2 class="header-title">{{ recipe.name }}</h2>
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    {% if first_cate %}
+                        <li class="breadcrumb-item"><a href="#">{{ first_cate.name }}</a></li>
+                    {% endif %}
+
+                    <li class="breadcrumb-item active">{{ recipe.name }}</li>
+                </ol>
+            </div>
+        </div>
+    </header>
+    <div class="card-columns">
+        {% for step in recipe_steps %}
+            <div class="card">
+                <header class="card-header">
+                    <h4 class="card-title"><strong>第{{ step.step_order }}步</strong></h4>
                 </header>
+                <div class="card-body">
 
-                <span class="image col-xs-1"><img src={{ recipe.cover_img }} alt="{{ recipe.name }}" /></span>
-                {% for step in recipe.recipestep_set.all %}
-                    <hr class="major" />
-                <p>{{ step.step_detail }}</p>
-
-                {% endfor %}
-                
-
-            </section>
-{% endblock content %}
+                    <p>{{ step.step_detail }}
+                    </p>
+                    <p><small>{{ step.add_time }}</small></p>
+                </div>
+                {% if step.image_url != '暂无' %}
+                    <img class="card-img-top" src="{{ step.image_url }}" alt="Card image cap">
+                {% endif %}
 
 
+            </div>
+        {% endfor %}
 
-<!-- Scripts -->
+    </div>
+{% endblock %}
 {% block footer_script %}
-    <script src="{% static  "/js/jquery.min.js" %}"></script>
-    <script src="{% static  "/js/skel.min.js" %}"></script>
-    <script src="{% static  "/js/util.js" %}"></script>
-    <!--[if lte IE 8]><script src="{% static  "/js/ie/respond.min.js" %}"></script><![endif]-->
-    <script src="{% static  "/js/main.js" %}"></script>
-{% endblock footer_script %}
 
+{% endblock %}

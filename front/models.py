@@ -17,7 +17,7 @@ class Member(models.Model):
     class Meta:
         ordering = ['join_time']
         verbose_name_plural = '会员'
-        unique_together = (('name', 'brief_intro'))
+        # unique_together = (('name', 'brief_intro'))
     
     def __str__(self):
         return self.name
@@ -46,7 +46,7 @@ class Recipe(models.Model):
     class Meta:
         ordering = ['add_time']
         verbose_name_plural = '菜谱'
-        unique_together = (('name', 'fid'))
+        # unique_together = (('name', 'fid'))
     
     def __str__(self):
         return self.name
@@ -69,7 +69,7 @@ class Ingredient(models.Model):
     
     class Meta:
         verbose_name_plural = '食材'
-        unique_together = (('name', 'brief'))
+        # unique_together = (('name', 'brief'))
     
     def __str__(self):
         return self.name
@@ -97,7 +97,7 @@ class RecipeIngredient(models.Model):
     
     class Meta:
         verbose_name_plural = '菜谱食材关联关系'
-        unique_together = (('recipe', 'usage', 'ingredient'))
+        # unique_together = (('recipe', 'usage', 'ingredient'))
     
     def __str__(self):
         return self.recipe.name
@@ -115,7 +115,7 @@ class RecipeStep(models.Model):
     class Meta:
         ordering = ['add_time']
         verbose_name_plural = '步骤'
-        unique_together = ('image_url', 'step_order', 'recipe')
+        # unique_together = ('image_url', 'step_order', 'recipe')
     
     def __str__(self):
         return self.step_detail
@@ -143,6 +143,7 @@ class RecipeCategory(models.Model):
     class Meta:
         ordering = ['add_time']
         verbose_name_plural = '菜谱分类'
+        # unique_together = ('name',)
     
     def __str__(self):
         return self.name

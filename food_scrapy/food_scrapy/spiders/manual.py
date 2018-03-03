@@ -35,7 +35,6 @@ class XiachufangSpider(scrapy.Spider):
         
         recipe_links = response.xpath('//a[contains(@class, "recipe")]//@href').re('/recipe/\d+/')
         for link in recipe_links:
-            # yield Request(urljoin(response.url, link), callback=self.parse_item)
             if not r.sismember('visited_urlset', 'http://www.xiachufang.com' + link):
                 s.add(link)
             else:
@@ -49,6 +48,9 @@ class XiachufangSpider(scrapy.Spider):
             yield Request(urljoin('http://www.xiachufang.com', s.pop()),
                           callback=self.parse_item)
     
+    # def parse_category(self, response):
+    #     pass
+    
     def parse_item(self, response):
         """ 解析菜谱详情并生成item
         @url http://www.xiachufang.com/recipe/1086136/
@@ -61,8 +63,6 @@ class XiachufangSpider(scrapy.Spider):
         
         if response.status != 200:
             return None
-        else:
-            r.sadd('visited_urlset', response.url)
         
         recipe_name = response.xpath('//h1[@itemprop="name"]/text()').extract()[0].strip()
         
@@ -110,6 +110,21 @@ class XiachufangSpider(scrapy.Spider):
         # ----------- parse the recipe -----------
         
         item = RecipeItem()
+        
+        item['url'] = response.url
+        recipe_category = response.xpath('//div[@class="recipe-cats"]/a/text()').extract()
+        
+        # recipe_menu_list = response.xpath('//img[@class="recipe-menu-cover"]/@alt').extract()
+        # recipe_menu_link_list = response.xpath('//a[contains(@class,"recipe-menu")]/@href').extract()
+        
+        # try:
+        #     item['recipe_menu_list'] = recipe_menu_list
+        # except Exception:
+        #     item['recipe_menu_list'] = []
+        try:
+            item['category'] = recipe_category
+        except IndexError:
+            item['category'] = '全部'
         try:
             item['fid'] = response.url.split('/')[-2]
         except IndexError:
@@ -160,12 +175,14 @@ class XiachufangSpider(scrapy.Spider):
             brief_intro = response.xpath('//div[contains(@class,"people-base-desc")][1]/text()')[0].extract().strip()
         except IndexError:
             brief_intro = '暂无'
-        email = ''
-        mobile = ''
-        password = ''
-        md5_password = ''
+        
         is_fake = 1
-        join_ip = ''
+        email = '暂无'
+        mobile = '暂无'
+        join_ip = '暂无'
+        password = '暂无'
+        md5_password = '暂无'
+        
         cook_dict = dict(name=name, gender=gender, brief_intro=brief_intro, email=email, mobile=mobile,
                          password=password, md5_password=md5_password, is_fake=is_fake, join_ip=join_ip)
         item['cook'] = cook_dict

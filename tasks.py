@@ -3,6 +3,7 @@
 
 
 import json
+import logging
 from celery_app import r, app
 from front.models import Member, Recipe, RecipeStep, Ingredient, RecipeIngredient
 
@@ -12,7 +13,6 @@ def save_2_mysql():
     v = r.lindex('recipe', 0)
     dict_recipe = json.loads(v)
     cook_info = dict_recipe['cook']
-    
     cook_obj, status = Member.objects.get_or_create(name=cook_info.get('name'),
                                                     gender=cook_info.get('gender'),
                                                     email=cook_info.get('email'),

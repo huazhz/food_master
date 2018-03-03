@@ -29,7 +29,7 @@ class Recipe(models.Model):
     name = models.CharField('名称', max_length=128, null=False)
     cover_img = models.CharField('封面图片', max_length=255, null=False)
     rate_score = models.CharField('综合评分', max_length=8, default='5')
-    brief = models.CharField('简介', max_length=512, null=False)
+    brief = models.CharField('简介', max_length=2048, null=False)
     cook = models.ForeignKey(to=Member, null=True, on_delete=models.DO_NOTHING,
                              db_constraint=False, related_name='created_recipe')
     # 因为食谱和原料有一个用量的关联关系，所以用到了through这个参数。

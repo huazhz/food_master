@@ -25,6 +25,6 @@ from food_scrapy.ip_cralwer import get_ips
 # url = 'http://www.mogumiao.com/proxy/free/listFreeIp'
 
 while True:
-    time.sleep(15)
+    time.sleep(60)
     get_ips()
     print(get_ips())

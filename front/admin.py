@@ -1,7 +1,8 @@
 from django.contrib import admin
 
 # Register your models here.
-from .models import Member, Recipe, Ingredient, Nutrition, RecipeStep, RecipeTag, RecipeCategory, MemberRecipeList
+from .models import Member, Recipe, Ingredient, Nutrition, RecipeStep, RecipeTag, RecipeCategory, MemberRecipeList, \
+    RecipeIngredient
 
 
 class MemberAdmin(admin.ModelAdmin):
@@ -15,6 +16,10 @@ class RecipeAdmin(admin.ModelAdmin):
     list_display = ('name', 'cover_img', 'rate_score', 'brief')
 
 
+class RecipeIngredientAdmin(admin.ModelAdmin):
+    list_display = ("recipe", 'ingredient', 'usage')
+
+
 class IngredientAdmin(admin.ModelAdmin):
     list_display = ('name', 'brief', 'benefits', 'choose_method', 'storage_duration', 'nutrition_knowledge')
 
@@ -24,7 +29,7 @@ class NutritionAdmin(admin.ModelAdmin):
 
 
 class RecipeStepAdmin(admin.ModelAdmin):
-    list_display = ('name', 'step_detail', 'image_url', 'add_time')
+    list_display = ('step_detail', 'image_url', 'add_time')
 
 
 class RecipeTagAdmin(admin.ModelAdmin):
@@ -46,4 +51,5 @@ admin.site.register(Nutrition, NutritionAdmin)
 admin.site.register(RecipeStep, RecipeStepAdmin)
 admin.site.register(RecipeTag, RecipeTagAdmin)
 admin.site.register(RecipeCategory, RecipeTagAdmin)
+admin.site.register(RecipeIngredient, RecipeIngredientAdmin)
 admin.site.register(MemberRecipeList, MemberRecipeListAdmin)

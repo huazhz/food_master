@@ -1,14 +1,32 @@
 {% extends '../include/base.html' %}
 
+
+{% block title %}
+{{ recipe.name }} - {{ first_cate.name }} - 菜谱大全
+{% endblock %}
+
+{% block keywords %}
+{{ recipe.name }},{{ first_cate.name }}
+{% endblock %}
+
+{% block description %}
+菜谱大全网提供最全面的{{ recipe.name }}做法,还可学会如何做{{ first_cate.name }}类的菜谱.
+{% endblock %}
+
+
 {% block content %}
     <header class="header">
         <div class="header-info">
             <div class="left">
-                <h2 class="header-title">{{ recipe.name }}</h2>
+                <h1 class="header-title">{{ recipe.name }}</h1>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">Home</a></li>
                     {% if first_cate %}
-                        <li class="breadcrumb-item"><a href="#">{{ first_cate.name }}</a></li>
+                        <li class="breadcrumb-item">
+                            <a href="/category/{{ first_cate.id }}">
+                                {{ first_cate.name }}
+                            </a>
+                        </li>
                     {% endif %}
 
                     <li class="breadcrumb-item active">{{ recipe.name }}</li>

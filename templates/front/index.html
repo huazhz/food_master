@@ -1,16 +1,25 @@
 {% extends '../include/base.html' %}
 
-{% block content %}
-<div class="col-xs-12">
-            <div class="card">
-              <h4 class="card-title">With <strong>title</strong></h4>
 
-              <div class="card-body">
-                <p><code>h4.card-title</code></p>
-                <p>Credibly harness multidisciplinary ideas via alternative e-commerce. Intrinsicly transition interdependent best practices before resource sucking outsourcing.</p>
-              </div>
-            </div>
-          </div>
+{% block title %}
+菜谱大全
+{% endblock %}
+
+{% block keywords %}
+菜谱,美食,菜谱大全
+{% endblock %}
+
+{% block description %}
+菜谱大全网提供最全面的菜谱,还可学会如何做东北菜,冀菜,豫菜,鄂菜,本帮菜,客家菜,赣菜,京菜,清真菜.
+{% endblock %}
+
+
+{% block content %}
+<div class="card card-shadowed">
+          <form class="lookup lookup-huge">
+            <input class="no-radius no-border" type="text" placeholder="搜索你想要做的菜...">
+          </form>
+        </div>
 {% endblock %}
 {% block footer_script %}
 

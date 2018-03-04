@@ -20,7 +20,7 @@ def index(req):
 def generic(req):
     """ 首页 """
 
-    return render(req,'front/generic.html')
+    return render(req, 'front/recipe.html')
 
 
 def elements(req):
@@ -35,4 +35,4 @@ def recipe_details(req,id=None):
     category = recipe.category.all()
     first_cate = category[0] if category else None
     recipe_steps = recipe.recipestep_set.all()
-    return render(req, 'front/generic.html',locals())
+    return render(req, 'front/recipe.html', locals())

@@ -9,6 +9,9 @@ __pycache__/
 # ?
 _trial_temp
 
+# setting 
+food_web/settings.py
+
 # C extensions
 *.so
 

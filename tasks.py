@@ -9,7 +9,6 @@ from front.models import Member, Recipe, RecipeStep, Ingredient, RecipeIngredien
 
 @app.task(name='tasks.save_2_mysql')
 def save_2_mysql(v):
-    # v = r.lindex('recipe', 0)
     dict_recipe = json.loads(v)
     cook_info = dict_recipe['cook']
     cook_obj, status = Member.objects.get_or_create(name=cook_info.get('name'),
@@ -50,5 +49,4 @@ def save_2_mysql(v):
                                          rate_score=dict_recipe.get('rate_score'))[0],
             ingredient=Ingredient.objects.filter(name=i['ingredient'])[0],
             usage=i.get('usage'))
-    # r.lpop('recipe')
     r.sadd('visited_urlset', dict_recipe['url'])

@@ -22,3 +22,4 @@ class RecipeItem(scrapy.Item):
     fave_by = Field()
     tag = Field()
     steps = Field()
+    url = Field()

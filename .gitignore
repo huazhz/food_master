@@ -3,6 +3,10 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# __pycache__/
+food_web/__pycache__/
+front/__pycache__/
+
 # python 
 *.pyc
 

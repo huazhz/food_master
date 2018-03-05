@@ -4,15 +4,13 @@
 
 import json
 from celery_app import r, app
-from front.models import Member, Recipe, RecipeStep, Ingredient, RecipeIngredient
+from front.models import Member, Recipe, RecipeStep, Ingredient, RecipeIngredient, RecipeCategory, CategoryType
 
 
 @app.task(name='tasks.save_2_mysql')
-def save_2_mysql():
-    v = r.lindex('recipe', 0)
+def save_2_mysql(v):
     dict_recipe = json.loads(v)
     cook_info = dict_recipe['cook']
-    
     cook_obj, status = Member.objects.get_or_create(name=cook_info.get('name'),
                                                     gender=cook_info.get('gender'),
                                                     email=cook_info.get('email'),
@@ -32,14 +30,15 @@ def save_2_mysql():
                                                   fav_by=cook_obj)
     recipe.save()
     
+    for name in dict_recipe['category']:
+        category, status = RecipeCategory.objects.get_or_create(name=name)
+        recipe.category.add(category)
+    
     for i in dict_recipe['steps']:
         RecipeStep.objects.get_or_create(step_order=i.get('step_order'),
                                          step_detail=i.get('step_detail'),
                                          image_url=i.get('image_url'),
                                          recipe=recipe)
-        # recipe=Recipe.objects.filter(fid=dict_recipe.get('fid'),
-        #                              name=dict_recipe.get('name')[0],
-        #                              rate_score=dict_recipe.get('rate_score'))[0], )
     
     for i in dict_recipe['recipe_ingredients']:
         Ingredient.objects.get_or_create(name=i.get('ingredient'))
@@ -50,4 +49,4 @@ def save_2_mysql():
                                          rate_score=dict_recipe.get('rate_score'))[0],
             ingredient=Ingredient.objects.filter(name=i['ingredient'])[0],
             usage=i.get('usage'))
-    r.lpop('recipe')
+    r.sadd('visited_urlset', dict_recipe['url'])

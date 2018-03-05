@@ -10,7 +10,6 @@ food_web/settings.py
 food_web/__pycache__/
 front/__pycache__/
 
-#
 # python 
 *.pyc
 

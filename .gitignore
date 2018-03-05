@@ -16,6 +16,9 @@ front/__pycache__/
 # ?
 _trial_temp
 
+# setting 
+food_web/settings.py
+
 # C extensions
 *.so
 
@@ -28,7 +31,7 @@ dist/
 downloads/
 eggs/
 .eggs/
-lib/
+#lib/
 lib64/
 parts/
 sdist/
@@ -93,10 +96,9 @@ celerybeat-schedule
 *.sage.py
 
 # dotenv
-.env
+# .env
 
 # virtualenv
-.venv
 venv/
 ENV/
 

@@ -3,6 +3,13 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# settings
+# food_web/settings.py
+
+# __pycache__/
+food_web/__pycache__/
+front/__pycache__/
+
 # python 
 *.pyc
 
@@ -10,7 +17,7 @@ __pycache__/
 _trial_temp
 
 # setting 
-# food_web/settings.py
+food_web/settings.py
 
 # C extensions
 *.so

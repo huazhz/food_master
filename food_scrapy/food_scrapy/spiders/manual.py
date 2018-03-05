@@ -30,18 +30,26 @@ class XiachufangSpider(scrapy.Spider):
         在category级别进行横向抽取和纵向抽取
         '''
         # 纵向爬取菜谱页
+        
+        s = set()
+        
         recipe_links = response.xpath('//a[contains(@class, "recipe")]//@href').re('/recipe/\d+/')
         for link in recipe_links:
-            # yield Request(urljoin(response.url, link), callback=self.parse_item)
-            if not r.sismember('urlset', link):
-                r.sadd('urlset', link)
-                yield Request(urljoin(response.url, link), callback=self.parse_item)
+            if not r.sismember('visited_urlset', 'http://www.xiachufang.com' + link):
+                s.add(link)
             else:
                 continue
         
         # 横向爬取下一页
         next_page = response.xpath('//a[@class="next"]//@href').extract()[0]
         yield Request(urljoin(response.url, next_page), callback=self.parse_category)
+        
+        while len(s) > 0:
+            yield Request(urljoin('http://www.xiachufang.com', s.pop()),
+                          callback=self.parse_item)
+    
+    # def parse_category(self, response):
+    #     pass
     
     def parse_item(self, response):
         """ 解析菜谱详情并生成item
@@ -52,6 +60,9 @@ class XiachufangSpider(scrapy.Spider):
         @scrapes name val recipe
         @scrapes name image_url step_order recipe
         """
+        
+        if response.status != 200:
+            return None
         
         recipe_name = response.xpath('//h1[@itemprop="name"]/text()').extract()[0].strip()
         
@@ -99,6 +110,21 @@ class XiachufangSpider(scrapy.Spider):
         # ----------- parse the recipe -----------
         
         item = RecipeItem()
+        
+        item['url'] = response.url
+        recipe_category = response.xpath('//div[@class="recipe-cats"]/a/text()').extract()
+        
+        # recipe_menu_list = response.xpath('//img[@class="recipe-menu-cover"]/@alt').extract()
+        # recipe_menu_link_list = response.xpath('//a[contains(@class,"recipe-menu")]/@href').extract()
+        
+        # try:
+        #     item['recipe_menu_list'] = recipe_menu_list
+        # except Exception:
+        #     item['recipe_menu_list'] = []
+        try:
+            item['category'] = recipe_category
+        except IndexError:
+            item['category'] = '全部'
         try:
             item['fid'] = response.url.split('/')[-2]
         except IndexError:
@@ -149,68 +175,16 @@ class XiachufangSpider(scrapy.Spider):
             brief_intro = response.xpath('//div[contains(@class,"people-base-desc")][1]/text()')[0].extract().strip()
         except IndexError:
             brief_intro = '暂无'
-        email = ''
-        mobile = ''
-        password = ''
-        md5_password = ''
+        
         is_fake = 1
-        join_ip = ''
+        email = '暂无'
+        mobile = '暂无'
+        join_ip = '暂无'
+        password = '暂无'
+        md5_password = '暂无'
+        
         cook_dict = dict(name=name, gender=gender, brief_intro=brief_intro, email=email, mobile=mobile,
                          password=password, md5_password=md5_password, is_fake=is_fake, join_ip=join_ip)
         item['cook'] = cook_dict
-        
-        # test --------- debug
-        # print('he')
-        #
-        # import json
-        #
-        # # v = json.dumps(dict(item))
-        # # r.rpush('recipe', v)
-        # # v = r.lindex('recipe', -1)
-        # # dict_recipe = json.loads(v)
-        # # brief = dict_recipe['brief']
-        # # print(brief)
-        # if item['name']:
-        #     v = json.dumps(dict(item))
-        #     r.rpush('recipe', v)
-        #
-        # v = r.lindex('recipe', -1)
-        # dict_recipe = json.loads(v)
-        # cook_info = dict_recipe['cook']
-        #
-        # cook_obj, status = Member.objects.get_or_create(name=cook_info.get('name'),
-        #                                                 gender=cook_info.get('gender'),
-        #                                                 email=cook_info.get('email'),
-        #                                                 mobile=cook_info.get('email'),
-        #                                                 password=cook_info.get('password'),
-        #                                                 md5_password=cook_info.get('md5_password'),
-        #                                                 is_fake=cook_info.get('is_fake'),
-        #                                                 brief_intro=cook_info.get('brief_intro'),
-        #                                                 join_ip=cook_info.get('join_ip'))
-        # self.log('fucking rate_score ---------------------------- %s'% dict_recipe.get('rate_score'))
-        #
-        # recipe = Recipe(fid=dict_recipe.get('fid'),
-        #                 name=dict_recipe.get('name'),
-        #                 cover_img=dict_recipe.get('cover_img'),
-        #                 rate_score=dict_recipe.get('rate_score'),
-        #                 brief=dict_recipe.get('brief'),
-        #                 cook=cook_obj,
-        #                 fav_by=cook_obj)
-        # recipe.save()
-        #
-        # for i in dict_recipe['steps']:
-        #     RecipeStep.objects.get_or_create(step_order=i.get('step_order'),
-        #                                      step_detail=i.get('step_detail'),
-        #                                      image_url=i.get('image_url'),
-        #                                      recipe=recipe)
-        #
-        # for i in dict_recipe['recipe_ingredients']:
-        #     Ingredient.objects.get_or_create(name=i.get('ingredient'))
-        #
-        # for i in dict_recipe['recipe_ingredients']:
-        #     RecipeIngredient.objects.get_or_create(recipe=recipe,
-        #                                            ingredient=Ingredient.objects.filter(name=i['ingredient'])[0],
-        #                                            usage=i['usage'])
-        # r.lpop('recipe')
         
         yield item

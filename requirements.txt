@@ -58,12 +58,16 @@ redis==2.10.6
 reportlab==3.3.0
 requests==2.9.1
 Scrapy==1.5.0
+scrapyd==1.2.0
+scrapyd-client==1.1.0
+selenium==3.9.0
 service-identity==17.0.0
 simplegeneric==0.8.1
 six==1.11.0
 traitlets==4.3.2
 Twisted==17.9.0
 urllib3==1.13.1
+uWSGI==2.0.17
 vine==1.1.4
 w3lib==1.19.0
 wcwidth==0.1.7

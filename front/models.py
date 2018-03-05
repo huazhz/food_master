@@ -17,7 +17,6 @@ class Member(models.Model):
     class Meta:
         ordering = ['join_time']
         verbose_name_plural = '会员'
-        unique_together = (('name', 'brief_intro'))
     
     def __str__(self):
         return self.name
@@ -29,7 +28,7 @@ class Recipe(models.Model):
     name = models.CharField('名称', max_length=128, null=False)
     cover_img = models.CharField('封面图片', max_length=255, null=False)
     rate_score = models.CharField('综合评分', max_length=8, default='5')
-    brief = models.CharField('简介', max_length=512, null=False)
+    brief = models.CharField('简介', max_length=2048, null=False)
     cook = models.ForeignKey(to=Member, null=True, on_delete=models.DO_NOTHING,
                              db_constraint=False, related_name='created_recipe')
     # 因为食谱和原料有一个用量的关联关系，所以用到了through这个参数。
@@ -46,7 +45,6 @@ class Recipe(models.Model):
     class Meta:
         ordering = ['add_time']
         verbose_name_plural = '菜谱'
-        unique_together = (('name', 'fid'))
     
     def __str__(self):
         return self.name
@@ -69,7 +67,6 @@ class Ingredient(models.Model):
     
     class Meta:
         verbose_name_plural = '食材'
-        unique_together = (('name', 'brief'))
     
     def __str__(self):
         return self.name
@@ -97,7 +94,6 @@ class RecipeIngredient(models.Model):
     
     class Meta:
         verbose_name_plural = '菜谱食材关联关系'
-        unique_together = (('recipe', 'usage', 'ingredient'))
     
     def __str__(self):
         return self.recipe.name
@@ -115,7 +111,6 @@ class RecipeStep(models.Model):
     class Meta:
         ordering = ['add_time']
         verbose_name_plural = '步骤'
-        unique_together = ('image_url', 'step_order', 'recipe')
     
     def __str__(self):
         return self.step_detail

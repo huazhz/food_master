@@ -43,6 +43,10 @@ deactivate nondestructive
 VIRTUAL_ENV="/home/www/food_master/.env"
 export VIRTUAL_ENV
 
+export PYTHONPATH="/home/www/food_master/food_scrapy/food_scrapy/"
+
+
+
 _OLD_VIRTUAL_PATH="$PATH"
 PATH="$VIRTUAL_ENV/bin:$PATH"
 export PATH

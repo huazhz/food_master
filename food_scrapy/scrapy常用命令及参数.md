@@ -22,3 +22,17 @@
 
    ​
 
+4. 缺少动态链接库
+
+    ```shell
+    # ImportError: libffi.so.6: cannot open shared object file: No such file or directory 
+
+    echo $LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH="/usr/local/lib/python3.6/dist-packages/.libs_cffi_backend"
+    ```
+
+
+    ​
+
+5. 更改utf8为utf8mb4
+

@@ -2,11 +2,8 @@
 import scrapy
 from urllib.parse import urljoin
 from ..items import RecipeItem
-from scrapy.loader import ItemLoader
 from scrapy.http import Request
-from scrapy.loader.processors import MapCompose
 from celery_app import r
-from front.models import Member, Recipe, RecipeStep, Ingredient, RecipeIngredient
 
 
 class XiachufangSpider(scrapy.Spider):
@@ -40,13 +37,13 @@ class XiachufangSpider(scrapy.Spider):
             else:
                 continue
         
-        # 横向爬取下一页
-        next_page = response.xpath('//a[@class="next"]//@href').extract()[0]
-        yield Request(urljoin(response.url, next_page), callback=self.parse_category)
-        
         while len(s) > 0:
             yield Request(urljoin('http://www.xiachufang.com', s.pop()),
                           callback=self.parse_item)
+        
+        # 横向爬取下一页
+        next_page = response.xpath('//a[@class="next"]//@href').extract()[0]
+        yield Request(urljoin(response.url, next_page), callback=self.parse_category)
     
     # def parse_category(self, response):
     #     pass

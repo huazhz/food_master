@@ -5,8 +5,7 @@
 # Don't forget to add your pipeline to the ITEM_PIPELINES setting
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 import json
-from celery_app import r
-from tasks import save_2_mysql
+from celery_app.sql_task import save_2_mysql
 from scrapy.exceptions import DropItem
 
 

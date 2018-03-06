@@ -116,6 +116,6 @@ USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.36 Safari/535.7",
 ]
 
-from food_scrapy.ip_cralwer import get_ips
+from celery_app.ip_task import get_ips
 
 IPLIST = get_ips()

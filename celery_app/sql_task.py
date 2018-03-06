@@ -25,7 +25,6 @@ from celery_app import r, app
 from front.models import Member, Recipe, RecipeStep, Ingredient, RecipeIngredient, RecipeCategory
 
 
-# @app.task(name='tasks.save_2_mysql')
 @app.task
 def save_2_mysql(v):
     print('------start to save data to MySQL--------')

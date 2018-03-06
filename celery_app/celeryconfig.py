@@ -17,37 +17,30 @@ CELERY_TIMEZONE = 'Asia/Shanghai'  # 指定时区，不指定默认为 'UTC'
 CELERY_IMPORTS = (
     'celery_app.spider_task',
     'celery_app.sql_task',
-    # 'celery_app.ip_task',
-    # 'celery_app.hello'
-    # 'spider_task',
-    # 'sql_task',
-    # 'ip_task'
+    'celery_app.ip_task',
+    'celery_app.hello'
 )
 
 # schedules
 CELERYBEAT_SCHEDULE = {
-    # '获取免费ip': {
-    #     'task': 'celery_app.ip_task.get_free_ip',
-    #     'schedule': timedelta(seconds=10),  # 每 30 秒执行一次
-    #     'args': None  # 任务函数参数
-    # },
-    # 'hello task': {
-    #     'task': 'celery_app.hello.hello',
-    #     'schedule': timedelta(seconds=10),  # 每 30 秒执行一次
-    #     'schedule': crontab(hour=1, minute=22)
-    # 'args': None  # 任务函数参数
-    # },
+    '获取免费ip': {
+        'task': 'celery_app.ip_task.get_free_ip',
+        'schedule': crontab(minute='*/3'),  # 每5分钟执行一次，但仅限于0点到1点
+        # 'schedule': crontab(),  # 每5分钟执行一次，但仅限于0点到1点
+    },
     '定时启动 sql-worker': {
         'task': 'celery_app.sql_task.save_2_mysql',
-        'schedule': crontab(hour=20, minute=10),  # 每晚 8 点 10 分执行一次
-        'args': None  # 任务函数参数
+        'schedule': crontab(minute='*/10'),  # 每晚 0 点 0 分执行一次
+        # 'schedule': crontab(),  # 每晚 0 点 0 分执行一次
+        'args': ('v',),
     },
     '定时启动spider': {
         'task': 'celery_app.spider_task.start_spider',
-        'schedule': crontab(),
+        'schedule': crontab(minute='*/5'),  # 每5分钟执行一次，但仅限于0点到1点
+        # 'schedule': crontab(),  # 每5分钟执行一次，但仅限于0点到1点
     },
-    # 'multiply-at-some-time': {
-    #     'task': 'celery_app.hello.hello',
-    #     'schedule': crontab(),  # 每天早上 9 点 50 分执行一次
-    # }
+    'hello test': {
+        'task': 'celery_app.hello.hello',
+        'schedule': crontab(),  # 每天早上 9 点 50 分执行一次
+    }
 }

@@ -18,3 +18,6 @@
 ### 启动flower
 
     flower -A celery_app --port=5555
+    celery -A celery_app worker --loglevel=info
+    celery beat -A celery_app   --loglevel=info
+

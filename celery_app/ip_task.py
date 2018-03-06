@@ -39,6 +39,7 @@ def get_free_ip():
         r.ltrim('ip_list', -5, -1)
     return s
 
+get_free_ip()
 
 def get_ips():
     ips = [i.decode('utf-8') for i in r.lrange('ip_list', -5, -1)]

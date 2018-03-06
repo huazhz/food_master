@@ -18,7 +18,7 @@
 10. 在伪代码中试验一些想法，留下最好的想法
 '''
 
-# import os, sys
+import os, sys
 #
 # curPath = os.path.abspath(os.path.dirname(__file__))
 # rootPath = os.path.split(curPath)[0]
@@ -27,8 +27,10 @@
 from celery_app import app
 
 
+# @app.task(name='celery_app.spider_task.start_spider')
 @app.task
 def start_spider():
-    # os.system('cd ../food_scrapy/ && python begin.py')
+    # 此处填绝对路径即可
+    os.system('cd /Users/macbook/个人项目/food_master/food_scrapy/  && python begin.py')
     print('spider begins to crawl')
     return None

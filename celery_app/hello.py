@@ -18,3 +18,10 @@
 10. 在伪代码中试验一些想法，留下最好的想法
 '''
 
+from celery_app import app
+
+
+@app.task
+def hello():
+    print('hello world!')
+    return 'hello world!'

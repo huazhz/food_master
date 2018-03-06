@@ -2,21 +2,10 @@
 # -*- coding: utf-8 -*-
 
 '''
-
 从代理网站抓免费试用ip，每5分钟换一次
-
-celery -A ip_task worker --loglevel=info
-celery -A ip_task beat   --loglevel=info
-
-
 '''
 
-# no module name celery_dir
-# import os, sys
 
-# curPath = os.path.abspath(os.path.dirname(__file__))
-# rootPath = os.path.split(curPath)[0]
-# sys.path.append(rootPath)
 
 import json
 import requests

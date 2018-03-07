@@ -19,5 +19,14 @@
     
 #### 解决MultipleObjectsReturned
 
-    在class meta里加上联合约束
+    不要在class meta里加上联合约束
+    要想办法在程序中解决
     https://stackoverflow.com/questions/17960593/multipleobjectsreturned-with-get-or-create/29521117#29521117
+    
+
+####  一个爬虫只跑5分钟，然后celery开启另一个爬虫实例
+
+    CLOSESPIDER_TIMEOUT = 300
+    
+    
+### 为什么会connect_refused ?

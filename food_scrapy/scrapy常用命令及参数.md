@@ -32,7 +32,10 @@
     ```
 
 
-    ​
 
-5. 更改utf8为utf8mb4
+
+
+5. 更改utf8为utf8mb4，储存emoji
+6. Scrapy重启 
+
 

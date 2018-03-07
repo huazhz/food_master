@@ -30,6 +30,7 @@ def save_2_mysql(v):
     print('------start to save data to MySQL--------')
     dict_recipe = json.loads(v)
     cook_info = dict_recipe['cook']
+    print('this url is -----%s' % dict_recipe['url'])
     cook_obj, status = Member.objects.get_or_create(name=cook_info.get('name'),
                                                     gender=cook_info.get('gender'),
                                                     email=cook_info.get('email'),

@@ -13,12 +13,13 @@ class MemberAdmin(admin.ModelAdmin):
 
 
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'cover_img', 'rate_score', 'brief')
-    search_fields = ('name',)
+    list_display = ('fid', 'name', 'cover_img', 'rate_score', 'brief')
+    search_fields = ('fid', 'name',)
 
 
 class RecipeIngredientAdmin(admin.ModelAdmin):
     list_display = ("recipe", 'ingredient', 'usage')
+    search_fields = ('recipe__name', 'ingredient__name', 'usage')
 
 
 class IngredientAdmin(admin.ModelAdmin):

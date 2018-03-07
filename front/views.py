@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import Http404
+from django.db.models import Q
 from front.models import Recipe
 from front import rs
 
@@ -12,8 +13,20 @@ from front import rs
 
 def index(req):
     """ 首页 """
+    recipe1 = Recipe.objects.filter(category__name='家常菜') \
+                  .exclude(rate_score='暂无') \
+                  .exclude(cover_img='暂无') \
+                  .order_by('-rate_score')[:10]
+    recipe2 = Recipe.objects.filter(category__name='快手菜') \
+                  .exclude(rate_score='暂无') \
+                  .exclude(cover_img='暂无') \
+                  .order_by('-rate_score')[:10]
+    recipe3 = Recipe.objects.filter(category__name='下饭菜') \
+                  .exclude(rate_score='暂无') \
+                  .exclude(cover_img='暂无') \
+                  .order_by('-rate_score')[:10]
 
-    return render(req,'front/index.html')
+    return render(req,'front/index.html',locals())
 
 
 

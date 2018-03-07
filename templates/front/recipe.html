@@ -2,7 +2,7 @@
 
 
 {% block title %}
-{{ recipe.name }} - {{ first_cate.name }} - 润厨房
+{{ recipe.name }} - {{ first_cate.name }} - 贝斯特厨房
 {% endblock %}
 
 {% block keywords %}
@@ -20,7 +20,7 @@
             <div class="left">
                 <h1 class="header-title">{{ recipe.name }}</h1>
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="/">Home</a></li>
+                    <li class="breadcrumb-item"><a href="/">首页</a></li>
                     {% if first_cate %}
                         <li class="breadcrumb-item">
                             <a href="/category/{{ first_cate.id }}">

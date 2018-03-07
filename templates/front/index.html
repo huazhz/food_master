@@ -2,7 +2,7 @@
 
 
 {% block title %}
-    润厨房
+    贝斯特厨房
 {% endblock %}
 
 {% block keywords %}
@@ -31,12 +31,15 @@
                             <div class="media media-single">
                                 <a  href="/recipe/{{ x.id }}">
                                             <img src="{{ x.cover_img }}"  class="avatar avatar-xxxl">
+                                    </a>
                                     <div class="media-body">
+                                        <a  href="/recipe/{{ x.id }}">
                                             <p class="title">{{ x.name }}</p>
                                             <p>{{ x.brief }}</p>
                                             <span>网友评分{{ x.rate_score }}</span>
+                                        </a>
                                         </div>
-                                </a>
+
                             </div>
                         {% endfor %}
 
@@ -52,20 +55,19 @@
 
                 <div class="card-body">
                     <div class="media-list media-list-divided media-list-hover">
-                        {% for x in recipe2 %}
+                       {% for x in recipe2 %}
                             <div class="media media-single">
                                 <a  href="/recipe/{{ x.id }}">
-                                    <div class="row">
-                                        <div class="col-md-3">
-                                           <img src="{{ x.cover_img }}"  class="avatar avatar-xxxl">
-                                        </div>
-                                        <div class="col-md-9">
+                                            <img src="{{ x.cover_img }}"  class="avatar avatar-xxxl">
+                                    </a>
+                                    <div class="media-body">
+                                        <a  href="/recipe/{{ x.id }}">
                                             <p class="title">{{ x.name }}</p>
                                             <p>{{ x.brief }}</p>
                                             <span>网友评分{{ x.rate_score }}</span>
+                                        </a>
                                         </div>
-                                    </div>
-                                </a>
+
                             </div>
                         {% endfor %}
 
@@ -84,17 +86,16 @@
                        {% for x in recipe3 %}
                             <div class="media media-single">
                                 <a  href="/recipe/{{ x.id }}">
-                                    <div class="row">
-                                        <div class="col-md-3">
                                             <img src="{{ x.cover_img }}"  class="avatar avatar-xxxl">
-                                        </div>
-                                        <div class="col-md-9">
+                                    </a>
+                                    <div class="media-body">
+                                        <a  href="/recipe/{{ x.id }}">
                                             <p class="title">{{ x.name }}</p>
                                             <p>{{ x.brief }}</p>
                                             <span>网友评分{{ x.rate_score }}</span>
+                                        </a>
                                         </div>
-                                    </div>
-                                </a>
+
                             </div>
                         {% endfor %}
 

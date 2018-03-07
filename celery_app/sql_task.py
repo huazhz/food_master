@@ -2,15 +2,35 @@
 # -*- coding: utf-8 -*-
 
 
+import sys
+import os
+
+# no module name celery_dir
+# curPath = os.path.abspath(os.path.dirname(__file__))
+# rootPath = os.path.split(curPath)[0]
+# sys.path.append(rootPath)
+
+import os
+import sys
 import json
+
+sys.path.insert(0, '/Users/macbook/个人项目/food_master')
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'food_web.settings'
+import django
+
+django.setup()
+
 from celery_app import r, app
-from front.models import Member, Recipe, RecipeStep, Ingredient, RecipeIngredient, RecipeCategory, CategoryType
+from front.models import Member, Recipe, RecipeStep, Ingredient, RecipeIngredient, RecipeCategory
 
 
-@app.task(name='tasks.save_2_mysql')
+@app.task
 def save_2_mysql(v):
+    print('------start to save data to MySQL--------')
     dict_recipe = json.loads(v)
     cook_info = dict_recipe['cook']
+    print('this url is -----%s' % dict_recipe['url'])
     cook_obj, status = Member.objects.get_or_create(name=cook_info.get('name'),
                                                     gender=cook_info.get('gender'),
                                                     email=cook_info.get('email'),

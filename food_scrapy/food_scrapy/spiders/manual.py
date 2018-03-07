@@ -2,11 +2,8 @@
 import scrapy
 from urllib.parse import urljoin
 from ..items import RecipeItem
-from scrapy.loader import ItemLoader
 from scrapy.http import Request
-from scrapy.loader.processors import MapCompose
 from celery_app import r
-from front.models import Member, Recipe, RecipeStep, Ingredient, RecipeIngredient
 
 
 class XiachufangSpider(scrapy.Spider):
@@ -30,10 +27,11 @@ class XiachufangSpider(scrapy.Spider):
         在category级别进行横向抽取和纵向抽取
         '''
         # 纵向爬取菜谱页
-        
         s = set()
-        
         recipe_links = response.xpath('//a[contains(@class, "recipe")]//@href').re('/recipe/\d+/')
+        if not recipe_links:
+            return None
+        
         for link in recipe_links:
             if not r.sismember('visited_urlset', 'http://www.xiachufang.com' + link):
                 s.add(link)
@@ -41,8 +39,11 @@ class XiachufangSpider(scrapy.Spider):
                 continue
         
         # 横向爬取下一页
-        next_page = response.xpath('//a[@class="next"]//@href').extract()[0]
-        yield Request(urljoin(response.url, next_page), callback=self.parse_category)
+        try:
+            next_page = response.xpath('//a[@class="next"]//@href').extract()[0]
+            yield Request(urljoin(response.url, next_page), callback=self.parse_category)
+        except IndexError:
+            pass
         
         while len(s) > 0:
             yield Request(urljoin('http://www.xiachufang.com', s.pop()),
@@ -152,10 +153,12 @@ class XiachufangSpider(scrapy.Spider):
         
         item['recipe_ingredients'] = list_ingre
         item['steps'] = list_steps
-        
-        author_url = response.xpath('//div[@class="author"]/a/@href').extract()[0]
-        yield Request(url='http://www.xiachufang.com' + author_url, meta={'item': item},
-                      callback=self.parse_author)
+        try:
+            author_url = response.xpath('//div[@class="author"]/a/@href').extract()[0]
+            yield Request(url='http://www.xiachufang.com' + author_url, meta={'item': item},
+                          callback=self.parse_author)
+        except IndexError:
+            return None
     
     def parse_author(self, response):
         

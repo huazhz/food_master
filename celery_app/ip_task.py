@@ -5,16 +5,21 @@
 从代理网站抓免费试用ip，每5分钟换一次
 '''
 
-headers = {'User-Agent': 'Mozilla/4.0 (compatible; IBrowse 3.0; AmigaOS4.0)'}
-url = 'http://www.mogumiao.com/proxy/free/listFreeIp'
+
 
 import json
-
 import requests
-from celery_app import r
+from celery_app import r, app
 
 
-def get_free_ip(headers, url):
+@app.task
+def get_free_ip():
+    '''
+    crawl free ip from mogu
+    '''
+    headers = {'User-Agent': 'Mozilla/4.0 (compatible; IBrowse 3.0; AmigaOS4.0)'}
+    url = 'http://www.mogumiao.com/proxy/free/listFreeIp'
+    
     response = requests.get(url, headers=headers)
     infos = json.loads(response.text)
     
@@ -34,9 +39,7 @@ def get_free_ip(headers, url):
         r.ltrim('ip_list', -5, -1)
     return s
 
-
-print(get_free_ip(headers, url))
-
+get_free_ip()
 
 def get_ips():
     ips = [i.decode('utf-8') for i in r.lrange('ip_list', -5, -1)]

@@ -21,6 +21,9 @@ ROBOTSTXT_OBEY = False
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
 CONCURRENT_REQUESTS = 200
 
+# 下载器在取消一个请求之前需要等待的时间
+DOWNLOAD_TIMEOUT = 10
+
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
@@ -89,8 +92,8 @@ ITEM_PIPELINES = {
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
-# 60秒后自动停止
-# CLOSESPIDER_TIMEOUT = 60
+# 540秒后自动停止
+CLOSESPIDER_TIMEOUT = 540
 
 # 爬到10个item后停止
 # CLOSESPIDER_ITEMCOUNT = 2
@@ -116,6 +119,6 @@ USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.36 Safari/535.7",
 ]
 
-from ip_cralwer import get_ips
+from celery_app.ip_task import get_ips
 
 IPLIST = get_ips()

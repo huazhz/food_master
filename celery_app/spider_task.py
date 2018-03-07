@@ -18,13 +18,19 @@
 10. 在伪代码中试验一些想法，留下最好的想法
 '''
 
-import time
-from ip_cralwer import get_ips
+import os, sys
+#
+# curPath = os.path.abspath(os.path.dirname(__file__))
+# rootPath = os.path.split(curPath)[0]
+# sys.path.append(rootPath)
 
-# headers = {'User-Agent': 'Mozilla/4.0 (compatible; IBrowse 3.0; AmigaOS4.0)'}
-# url = 'http://www.mogumiao.com/proxy/free/listFreeIp'
+from celery_app import app
 
-while True:
-    time.sleep(20)
-    get_ips()
-    print(get_ips())
+
+# @app.task(name='celery_app.spider_task.start_spider')
+@app.task
+def start_spider():
+    # 此处填绝对路径即可
+    os.system('cd /Users/macbook/个人项目/food_master/food_scrapy/  && python begin.py')
+    print('spider begins to crawl')
+    return None

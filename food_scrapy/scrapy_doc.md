@@ -46,4 +46,13 @@
 
 8. 改变爬取策略，brutal force
 
+    
     以fid为标识，自增爬取
+    redis: fid_flag
+    
+    
+5. 回调函数不运行
+
+        
+    加大深度优先
+    

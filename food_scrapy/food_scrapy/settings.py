@@ -29,9 +29,9 @@ DOWNLOAD_TIMEOUT = 180
 # 如果为零（默认），则不从深度进行优先级调整
 # 正值将降低优先级，即，较高深度请求将被稍后处理 ; 这通常用于做广度优先爬网（BFO）
 # 负值将增加优先级，即，较高深度请求将被更快地处理（DFO）
-# DEPTH_PRIORITY = 1
+# DEPTH_PRIORITY = -1
 
-# DEPTH_LIMIT = 1
+DEPTH_LIMIT = 100
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -102,10 +102,10 @@ ITEM_PIPELINES = {
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 # 540秒后自动停止
-# CLOSESPIDER_TIMEOUT = 600
+# CLOSESPIDER_TIMEOUT = 540
 
 # 爬到10个item后停止
-# CLOSESPIDER_ITEMCOUNT = 2
+CLOSESPIDER_ITEMCOUNT = 10
 
 # 爬到10个页面后停止
 # CLOSESPIDER_PAGECOUNT=10

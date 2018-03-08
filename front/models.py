@@ -3,10 +3,10 @@ from django.db.models.functions import Now
 
 
 class Member(models.Model):
-    name = models.CharField('姓名', max_length=100)
+    name = models.CharField('姓名', max_length=100, db_index=True)
     gender = models.CharField('性别', max_length=20)
     email = models.EmailField('邮箱', max_length=24, null=True)
-    mobile = models.EmailField('手机号', max_length=16, null=True)
+    mobile = models.EmailField('手机号', max_length=16, null=True, db_index=True)
     password = models.CharField('明文密码', max_length=64, null=True)
     md5_password = models.CharField('加密密码', max_length=64, null=True)
     is_fake = models.IntegerField('如果是爬虫抓的话，就给这个字段1', default=0)
@@ -25,7 +25,7 @@ class Member(models.Model):
 class Recipe(models.Model):
     """ 菜谱 """
     fid = models.CharField('外部id', max_length=64, null=True)
-    name = models.CharField('名称', max_length=128, null=False)
+    name = models.CharField('名称', max_length=128, null=False, db_index=True)
     cover_img = models.CharField('封面图片', max_length=255, null=False)
     rate_score = models.CharField('综合评分', max_length=8, default='5')
     brief = models.CharField('简介', max_length=2048, null=False)
@@ -35,7 +35,7 @@ class Recipe(models.Model):
     ingredients = models.ManyToManyField(to='Ingredient', through='RecipeIngredient',
                                          through_fields=('recipe', 'ingredient'))
     category = models.ManyToManyField(to='RecipeCategory')
-    fav_by = models.ForeignKey(to='Member', on_delete=models.DO_NOTHING, db_constraint=False,
+    fav_by = models.ManyToManyField(to='Member', db_constraint=False,
                                related_name='collected_recipe')
     notice = models.CharField('小贴士', max_length=255, default='暂无')
     tag = models.ManyToManyField(to='RecipeTag', db_constraint=False)
@@ -52,7 +52,7 @@ class Recipe(models.Model):
 
 class Ingredient(models.Model):
     """ 原料 """
-    name = models.CharField('名称', max_length=128, null=False, unique=True)
+    name = models.CharField('名称', max_length=128, null=False, unique=True, db_index=True)
     brief = models.CharField('简介', max_length=512, null=False, default="暂无")
     nutrition = models.ManyToManyField(to='Nutrition', db_constraint=False)
     benefits = models.CharField('功效好处描述', max_length=512, default='暂无')
@@ -118,7 +118,7 @@ class RecipeStep(models.Model):
 
 class RecipeTag(models.Model):
     """ 菜谱的标签 n:m 菜谱"""
-    name = models.CharField('名称', max_length=64, null=False)
+    name = models.CharField('名称', max_length=64, null=False, db_index=True)
     add_time = models.DateTimeField(auto_now_add=True)
     
     class Meta:
@@ -131,7 +131,7 @@ class RecipeTag(models.Model):
 
 class RecipeCategory(models.Model):
     """ 菜谱的分类 n:m 菜谱"""
-    name = models.CharField('名称', max_length=64, null=False)
+    name = models.CharField('名称', max_length=64, null=False, db_index=True)
     category_type = models.ManyToManyField(to='CategoryType', db_constraint=False)
     add_time = models.DateTimeField(auto_now_add=True)
     
@@ -145,7 +145,7 @@ class RecipeCategory(models.Model):
 
 class CategoryType(models.Model):
     """ 菜谱的分类的类型 n:m 分类"""
-    name = models.CharField('名称', max_length=64, null=False)
+    name = models.CharField('名称', max_length=64, null=False, db_index=True)
     add_time = models.DateTimeField(auto_now_add=True)
     
     class Meta:
@@ -159,12 +159,12 @@ class CategoryType(models.Model):
 class MemberRecipeList(models.Model):
     """ 用户创建的菜谱菜单 n:1 用户"""
     fid = models.CharField('外部id', max_length=64, null=True)
-    name = models.CharField('名称', max_length=64, null=False)
+    name = models.CharField('名称', max_length=64, null=False, db_index=True)
     created_member = models.ForeignKey(to=Member, null=True, on_delete=models.DO_NOTHING,
                                        db_constraint=False,
                                        related_name='created_recipe_list')
     recipes = models.ManyToManyField(to='Recipe', related_name='included_in_list', db_constraint=False)
-    fav_by = models.ForeignKey(to='Member', on_delete=models.DO_NOTHING, db_constraint=False,
+    fav_by = models.ManyToManyField(to='Member', db_constraint=False,
                                related_name='collected_lists')
     last_modify_time = models.DateTimeField(auto_now_add=True)
     add_time = models.DateTimeField(auto_now_add=True)

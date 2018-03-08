@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.db.models import Q
 from front.models import Recipe
 from front import rs
@@ -41,6 +41,11 @@ def elements(req):
 
     return render(req,'front/elements.html')
 
+def search_result(req, key):
+    """ 搜索列表展示页"""
+    result = Recipe.objects.filter(name__contains=key)
+    return HttpResponse(result)
+    render(req, 'front/list.html', locals())
 def recipe_details(req,id=None):
     if not id:
         return Http404

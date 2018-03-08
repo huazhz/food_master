@@ -21,9 +21,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
 
-    path('generic/', views.generic),
-    path('elements/', views.elements),
-
+    path('search/<str:key>', views.search_result),
     path('recipe/<int:id>', views.recipe_details)
 
 

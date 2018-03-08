@@ -41,6 +41,7 @@ def save_2_mysql(v):
                                                   cover_img=dict_recipe.get('cover_img'),
                                                   rate_score=dict_recipe.get('rate_score'),
                                                   brief=dict_recipe.get('brief'),
+                                                  notice=dict_recipe.get('tips'),
                                                   cook=cook_obj)
     recipe.save()
     recipe.fav_by.add(cook_obj)

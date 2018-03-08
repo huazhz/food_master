@@ -19,24 +19,24 @@ NEWSPIDER_MODULE = 'food_scrapy.spiders'
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 32
+CONCURRENT_REQUESTS = 64
 
 # 下载器在取消一个请求之前需要等待的时间
-DOWNLOAD_TIMEOUT = 180
+DOWNLOAD_TIMEOUT = 10
 
 # 用于根据深度调整请求优先级的整数：
 
 # 如果为零（默认），则不从深度进行优先级调整
 # 正值将降低优先级，即，较高深度请求将被稍后处理 ; 这通常用于做广度优先爬网（BFO）
 # 负值将增加优先级，即，较高深度请求将被更快地处理（DFO）
-DEPTH_PRIORITY = -1
+DEPTH_PRIORITY = 10
 
 # DEPTH_LIMIT = 100
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-# DOWNLOAD_DELAY = 1
+DOWNLOAD_DELAY = 0.2
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
 CONCURRENT_REQUESTS_PER_IP = 16
@@ -105,7 +105,7 @@ ITEM_PIPELINES = {
 # CLOSESPIDER_TIMEOUT = 540
 
 # 爬到10个item后停止
-CLOSESPIDER_ITEMCOUNT = 100
+# CLOSESPIDER_ITEMCOUNT = 100
 
 # 爬到10个页面后停止
 # CLOSESPIDER_PAGECOUNT=10

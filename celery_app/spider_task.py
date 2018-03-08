@@ -31,6 +31,6 @@ from celery_app import app
 @app.task
 def start_spider():
     # 此处填绝对路径即可
-    os.system('cd /Users/macbook/个人项目/food_master/food_scrapy/  && python begin.py')
+    os.system('cd /home/www/food_master/food_scrapy/  && python begin.py')
     print('spider begins to crawl')
     return None

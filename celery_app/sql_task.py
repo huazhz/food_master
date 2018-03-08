@@ -14,7 +14,7 @@ import os
 import sys
 import json
 
-sys.path.insert(0, '/Users/macbook/个人项目/food_master')
+sys.path.insert(0, '/home/www/food_master/')
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'food_web.settings'
 import django

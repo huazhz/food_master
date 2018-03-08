@@ -195,7 +195,7 @@ class XiachufangSpider(scrapy.Spider):
         item['steps'] = list_steps
         
         try:
-            item['tips'] = response.xpath('//div[@class="tip"]/text()').extract()
+            item['tips'] = [x.strip() for x in response.xpath('//div[@class="tip"]/text()').extract()]
         except Exception:
             item['tips'] = ['暂无']
         

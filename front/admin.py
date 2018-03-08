@@ -31,7 +31,8 @@ class NutritionAdmin(admin.ModelAdmin):
 
 
 class RecipeStepAdmin(admin.ModelAdmin):
-    list_display = ('step_detail', 'image_url', 'add_time')
+    list_display = ('recipe', 'step_detail', 'image_url', 'add_time')
+    search_fields = ('recipe__name',)
 
 
 class RecipeTagAdmin(admin.ModelAdmin):
@@ -40,6 +41,7 @@ class RecipeTagAdmin(admin.ModelAdmin):
 
 class RecipeCategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'category_type', 'add_time')
+    search_fields = ('name',)
 
 
 class MemberRecipeListAdmin(admin.ModelAdmin):

@@ -34,6 +34,7 @@ CELERYBEAT_SCHEDULE = {
     },
     '定时启动spider': {
         'task': 'celery_app.spider_task.start_spider',
+        # 'schedule': crontab(hour=0, minute=23, day_of_week=4),  # 每10分钟执行一次，但仅限于0点到1点
         'schedule': crontab(minute='*/10'),  # 每10分钟执行一次，但仅限于0点到1点
     },
     'hello test': {

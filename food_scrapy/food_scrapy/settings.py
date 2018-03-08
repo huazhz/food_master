@@ -19,10 +19,19 @@ NEWSPIDER_MODULE = 'food_scrapy.spiders'
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 200
+CONCURRENT_REQUESTS = 32
 
 # 下载器在取消一个请求之前需要等待的时间
-DOWNLOAD_TIMEOUT = 10
+DOWNLOAD_TIMEOUT = 180
+
+# 用于根据深度调整请求优先级的整数：
+
+# 如果为零（默认），则不从深度进行优先级调整
+# 正值将降低优先级，即，较高深度请求将被稍后处理 ; 这通常用于做广度优先爬网（BFO）
+# 负值将增加优先级，即，较高深度请求将被更快地处理（DFO）
+# DEPTH_PRIORITY = 1
+
+# DEPTH_LIMIT = 1
 
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
@@ -93,7 +102,7 @@ ITEM_PIPELINES = {
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 # 540秒后自动停止
-CLOSESPIDER_TIMEOUT = 540
+# CLOSESPIDER_TIMEOUT = 600
 
 # 爬到10个item后停止
 # CLOSESPIDER_ITEMCOUNT = 2
@@ -101,10 +110,12 @@ CLOSESPIDER_TIMEOUT = 540
 # 爬到10个页面后停止
 # CLOSESPIDER_PAGECOUNT=10
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'
+# USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENTS = [
+import random
+
+USER_AGENT = random.choice([
     "Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20100101 Firefox/5.0",
     "Mozilla/5.0 (Linux; U; Android 2.3.6; en-us; Nexus S Build/GRK39F) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
     "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/532.5 (KHTML, like Gecko) Chrome/4.0.249.0 Safari/532.5",
@@ -117,7 +128,7 @@ USER_AGENTS = [
     "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.24 Safari/535.1",
     "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2",
     "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.36 Safari/535.7",
-]
+])
 
 from celery_app.ip_task import get_ips
 

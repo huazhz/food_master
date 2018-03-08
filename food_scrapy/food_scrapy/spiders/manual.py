@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import re
 import scrapy
 from urllib.parse import urljoin
 from ..items import RecipeItem
@@ -8,49 +9,85 @@ from celery_app import r
 
 class XiachufangSpider(scrapy.Spider):
     ''' this is a xiachufang spider, it mainly scrapes the recipe. '''
-    
     name = 'manual'
+    handle_httpstatus_list = [404]
+    
+    fid_begin_flag = r.get('fid_begin_flag').decode('utf8')  # 爬取起始点
     allowed_domains = ['xiachufang.com']
-    start_urls = ['http://www.xiachufang.com/category/', ]
+    start_urls = ['http://www.xiachufang.com/recipe/%s/' % fid_begin_flag]
+    not_scrapied_numer = 0
+    scrapied_numer = 0
+    start_page = 1
     
     def parse(self, response):
         '''
         从顶级目录向下解析所有子目录
         '''
         self.log(response.status)
-        category_links = response.xpath('//a[(contains(@href, category))]/@href').re('/category/\d+/')
-        for url in category_links:
-            yield Request(urljoin(response.url, url), callback=self.parse_category)
+        
+        # brutal force 策略
+        self.fid_begin_flag = int(self.fid_begin_flag) + 1
+        r.set('fid_begin_flag', self.fid_begin_flag)
+        new_url = 'http://www.xiachufang.com/recipe/%s/' % r.get('fid_begin_flag').decode('utf8')
+        
+        if not r.sismember('visited_urlset', response.url):
+            print('------------- this url has been scraped ---------------')
+            if response.status == 200:
+                yield Request(response.url, callback=self.parse_item, dont_filter=True)
+            if response.status == 302:
+                yield Request(response.url.replace('m.', ''), callback=self.parse_item, dont_filter=True)
+        else:
+            print('------------- this url has been scraped ---------------')
+        
+        yield Request(new_url, callback=self.parse, dont_filter=True)
     
-    def parse_category(self, response):
-        '''
-        在category级别进行横向抽取和纵向抽取
-        '''
-        # 纵向爬取菜谱页
-        s = set()
-        recipe_links = response.xpath('//a[contains(@class, "recipe")]//@href').re('/recipe/\d+/')
-        if not recipe_links:
-            return None
-        
-        for link in recipe_links:
-            if not r.sismember('visited_urlset', 'http://www.xiachufang.com' + link):
-                s.add(link)
-            else:
-                continue
-        
-        # 横向爬取下一页
-        try:
-            next_page = response.xpath('//a[@class="next"]//@href').extract()[0]
-            yield Request(urljoin(response.url, next_page), callback=self.parse_category)
-        except IndexError:
-            pass
-        
-        while len(s) > 0:
-            yield Request(urljoin('http://www.xiachufang.com', s.pop()),
-                          callback=self.parse_item)
+    # ----------------------------------------------------------------------------------------------------------------------
+    #
+    # 原有逻辑，从顶部目录开始向下遍历
+    #
+    # recent_urls = response.xpath('//a//@hre').re('/explore/\w*/?')  # ['/explore/', '/explore/rising/', ...]
+    # category_links = response.xpath('//a[(contains(@href, category))]/@href').re('/category/\d+/')
+    #
+    # # 爬取最近页
+    # for url in recent_urls:
+    #     yield Request('http://www.xiachufang.com' + url + '?page=%s' % self.start_page,
+    #                   callback=self.parse_category)
+    #
+    # # 爬取所有页
+    # for url in category_links:
+    #     yield Request(('http://www.xiachufang.com' + url[:-1] + '?page=%s' % self.start_page),
+    #                   callback=self.parse_category)
     
     # def parse_category(self, response):
-    #     pass
+    #     '''
+    #     在category级别进行横向抽取和纵向抽取
+    #     '''
+    #     # 纵向爬取
+    #     recipe_links = response.xpath('//a[contains(@class, "recipe")]//@href').re('/recipe/\d+/')
+    #     if not recipe_links:
+    #         return None
+    #
+    #     for link in recipe_links:
+    #         if not r.sismember('visited_urlset', 'http://www.xiachufang.com' + link):
+    #             self.not_scrapied_numer += 1
+    #             self.log('this recipe has not been scrapied, link is %s' % link)
+    #             self.log('the new url number is  %s' % self.not_scrapied_numer)
+    #             yield Request('http://www.xiachufang.com%s' % link,
+    #                           callback=self.parse_item)
+    #         else:
+    #             self.scrapied_numer += 1
+    #             self.log('the total num crawled this time is  %s' % self.scrapied_numer)
+    #             # self.log('this recipe has been scrapied, link is %s' % link)
+    #             continue
+    #
+    #     # 横向爬取
+    #     try:
+    #         next_page = response.xpath('//a[@class="next"]//@href').extract()[0]
+    #         yield Request(urljoin(response.url, next_page), callback=self.parse_category)
+    #     except IndexError:
+    #         return None
+    
+    # ----------------------------------------------------------------------------------------------------------------------
     
     def parse_item(self, response):
         """ 解析菜谱详情并生成item
@@ -62,10 +99,13 @@ class XiachufangSpider(scrapy.Spider):
         @scrapes name image_url step_order recipe
         """
         
-        if response.status != 200:
+        # if response.status != 200:
+        #     return None
+        try:
+            recipe_name = response.xpath('//h1[@itemprop="name"]/text()').extract()[0].strip()
+        except IndexError:
             return None
-        
-        recipe_name = response.xpath('//h1[@itemprop="name"]/text()').extract()[0].strip()
+            # recipe_name = response.xpath('//h1[@itemprop="name"][1]/text()').extract()[0].strip()
         
         # ----------- parse the RecipeIngredient -----------
         
@@ -153,6 +193,12 @@ class XiachufangSpider(scrapy.Spider):
         
         item['recipe_ingredients'] = list_ingre
         item['steps'] = list_steps
+        
+        try:
+            item['tips'] = response.xpath('//div[@class="tip"]/text()').extract()
+        except Exception:
+            item['tips'] = ['暂无']
+        
         try:
             author_url = response.xpath('//div[@class="author"]/a/@href').extract()[0]
             yield Request(url='http://www.xiachufang.com' + author_url, meta={'item': item},

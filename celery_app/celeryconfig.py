@@ -15,7 +15,7 @@ CELERY_TIMEZONE = 'Asia/Shanghai'  # 指定时区，不指定默认为 'UTC'
 
 # import
 CELERY_IMPORTS = (
-    'celery_app.spider_task',
+    # 'celery_app.spider_task',
     'celery_app.sql_task',
     'celery_app.ip_task',
     'celery_app.hello'
@@ -32,10 +32,11 @@ CELERYBEAT_SCHEDULE = {
         'schedule': crontab(minute='*/10'),  # 每 10 分钟执行一次
         'args': ('v',),
     },
-    '定时启动spider': {
-        'task': 'celery_app.spider_task.start_spider',
-        'schedule': crontab(minute='*/10'),  # 每10分钟执行一次，但仅限于0点到1点
-    },
+    # '定时启动spider': {
+    #     'task': 'celery_app.spider_task.start_spider',
+    # 'schedule': crontab(hour=0, minute=23, day_of_week=4),  # 每10分钟执行一次，但仅限于0点到1点
+    # 'schedule': crontab(minute='*/10'),  # 每10分钟执行一次，但仅限于0点到1点
+    # },
     'hello test': {
         'task': 'celery_app.hello.hello',
         'schedule': crontab(),  # 每天早上 9 点 50 分执行一次

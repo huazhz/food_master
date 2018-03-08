@@ -29,6 +29,10 @@
 
     echo $LD_LIBRARY_PATH
     export LD_LIBRARY_PATH="/usr/local/lib/python3.6/dist-packages/.libs_cffi_backend"
+    
+    # 解决方法    
+    cp /usr/local/lib/python3.6/dist-packages/.libs_cffi_backend/libffi-d78936b1.so.6.0.4 /usr/lib/
+
     ```
 
 
@@ -38,4 +42,17 @@
 5. 更改utf8为utf8mb4，储存emoji
 6. Scrapy重启 
 
+7. 添加 爬取起始页参数
 
+8. 改变爬取策略，brutal force
+
+    
+    以fid为标识，自增爬取
+    redis: fid_flag
+    
+    
+5. 回调函数不运行
+
+        
+    加大深度优先
+    

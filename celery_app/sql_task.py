@@ -5,11 +5,6 @@
 import sys
 import os
 
-# no module name celery_dir
-# curPath = os.path.abspath(os.path.dirname(__file__))
-# rootPath = os.path.split(curPath)[0]
-# sys.path.append(rootPath)
-
 import os
 import sys
 import json
@@ -46,9 +41,10 @@ def save_2_mysql(v):
                                                   cover_img=dict_recipe.get('cover_img'),
                                                   rate_score=dict_recipe.get('rate_score'),
                                                   brief=dict_recipe.get('brief'),
-                                                  cook=cook_obj,
-                                                  fav_by=cook_obj)
+                                                  notice=dict_recipe.get('tips'),
+                                                  cook=cook_obj)
     recipe.save()
+    recipe.fav_by.add(cook_obj)
     
     for name in dict_recipe['category']:
         category, status = RecipeCategory.objects.get_or_create(name=name)

@@ -22,6 +22,9 @@ from front.models import Member, Recipe, RecipeStep, Ingredient, RecipeIngredien
 
 @app.task
 def save_list_2_mysql(v):
+    if not v:
+        print('消息丢失.')
+        return None
     print('------start to save recip_list to MySQL--------')
     dict_list = json.loads(v)
     created_member = dict_list.get('created_member', 'anonymous')
@@ -42,6 +45,9 @@ def save_list_2_mysql(v):
 
 @app.task
 def save_recipe_2_mysql(v):
+    if not v:
+        print('消息丢失.')
+        return None
     print('------start to save recipe to MySQL--------')
     dict_recipe = json.loads(v)
     cook_info = dict_recipe['cook']

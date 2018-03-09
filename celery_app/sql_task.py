@@ -2,14 +2,14 @@
 # -*- coding: utf-8 -*-
 
 
-import sys
-import os
-
 import os
 import sys
 import json
 
-sys.path.insert(0, '/Users/macbook/个人项目/food_master')
+# sys.path.insert(0, '/Users/macbook/个人项目/food_master')
+
+proj_path = os.path.dirname(os.path.dirname(__file__))
+sys.path.insert(0, proj_path)
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'food_web.settings'
 import django

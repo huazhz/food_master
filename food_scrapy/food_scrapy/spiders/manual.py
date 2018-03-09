@@ -41,7 +41,7 @@ class XiachufangSpider(scrapy.Spider):
         
         yield Request(new_url, callback=self.parse, dont_filter=True)
     
-    # ----------------------------------------------------------------------------------------------------------------------
+    # ------------------------------------------------------------------------------------------------------------------
     #
     # 原有逻辑，从顶部目录开始向下遍历
     #
@@ -57,7 +57,7 @@ class XiachufangSpider(scrapy.Spider):
     # for url in category_links:
     #     yield Request(('http://www.xiachufang.com' + url[:-1] + '?page=%s' % self.start_page),
     #                   callback=self.parse_category)
-    
+    #
     # def parse_category(self, response):
     #     '''
     #     在category级别进行横向抽取和纵向抽取
@@ -86,8 +86,8 @@ class XiachufangSpider(scrapy.Spider):
     #         yield Request(urljoin(response.url, next_page), callback=self.parse_category)
     #     except IndexError:
     #         return None
-    
-    # ----------------------------------------------------------------------------------------------------------------------
+    #
+    # ------------------------------------------------------------------------------------------------------------------
     
     def parse_recipe(self, response):
         """ 解析菜谱详情并生成item

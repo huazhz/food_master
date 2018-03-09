@@ -14,7 +14,7 @@ from scrapy.exceptions import DropItem
 class FoodScrapyPipeline(object):
     
     def process_item(self, item, spider):
-        ''' 分item存储数据到redis列表，再通过celery异步写入MySQL '''
+        ''' 分item存储数据，再异步写入MySQL '''
         
         # if isinstance(item, RecipeItem):
         if item.get('cook'):

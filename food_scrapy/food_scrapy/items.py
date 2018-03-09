@@ -22,4 +22,13 @@ class RecipeItem(scrapy.Item):
     tag = Field()
     steps = Field()
     url = Field()
-    tips = Field()
+    notice = Field()
+
+
+class RecepeListItem(scrapy.Item):
+    fid = Field()
+    name = Field()
+    recipe_fids = Field()
+    created_member = Field()
+    recipes = Field()
+    fav_by = Field()

@@ -7,9 +7,6 @@ from front.models import Recipe
 from front import rs
 
 
-
-
-
 # Create your views here.
 # I know, shut your mouth.
 def index(req):
@@ -26,20 +23,20 @@ def index(req):
                   .exclude(rate_score='暂无') \
                   .exclude(cover_img='暂无') \
                   .order_by('-rate_score')[:10]
-
-    return render(req,'front/index.html',locals())
+    
+    return render(req, 'front/index.html', locals())
 
 
 def generic(req):
     """ 首页 """
-
+    
     return render(req, 'front/recipe.html')
 
 
 def elements(req):
     """ 首页 """
-
-    return render(req,'front/elements.html')
+    
+    return render(req, 'front/elements.html')
 
 
 def search_result(req, key, page_num):
@@ -48,10 +45,10 @@ def search_result(req, key, page_num):
     paginator = Paginator(obj_list, 10)
     result = paginator.get_page(page_num)
     # return HttpResponse(result)
-    return render(req, 'front/list.html', context={'result':result,'key':key})
+    return render(req, 'front/list.html', context={'result': result, 'key': key})
 
 
-def recipe_details(req,id=None):
+def recipe_details(req, id=None):
     if not id:
         return Http404
     recipe = Recipe.objects.get(id=id)

@@ -180,7 +180,7 @@ class XiachufangSpider(scrapy.Spider):
         except IndexError:
             item['name'] = '暂无'
         try:
-            item['brief'] = response.xpath('//div[@itemprop="description"]/text()').extract()[0].strip()
+            item['brief'] = [x.strip() for x in response.xpath('//div[@itemprop="description"]/text()').extract()]
         except IndexError:
             item['brief'] = '暂无'
         

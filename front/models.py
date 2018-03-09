@@ -62,7 +62,7 @@ class Ingredient(models.Model):
     nutrition_knowledge = models.CharField('食材营养小知识', max_length=2048, default='暂无')
     suitable_people = models.CharField('使用人群', max_length=2048, default='暂无')
     cautions = models.CharField('饮食宜忌', max_length=2048, default='暂无')
-    tips = models.CharField('食材烹饪小窍门', max_length=2048, default='暂无')
+    tips = models.CharField('食材烹饪小窍门', max_length=4096, default='暂无')
     add_time = models.DateTimeField(auto_now_add=True)
     
     class Meta:

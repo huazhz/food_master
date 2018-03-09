@@ -27,8 +27,13 @@ CELERYBEAT_SCHEDULE = {
         'task': 'celery_app.ip_task.get_free_ip',
         'schedule': crontab(minute='*/3'),  # 每3分钟执行一次，但仅限于0点到1点
     },
-    '定时启动 sql-worker': {
-        'task': 'celery_app.sql_task.save_2_mysql',
+    '定时启动 sql-worker1': {
+        'task': 'celery_app.sql_task.save_recipe_2_mysql',
+        'schedule': crontab(minute='*/10'),  # 每 10 分钟执行一次
+        'args': ('v',)
+    },
+    '定时启动 sql-worker2': {
+        'task': 'celery_app.sql_task.save_list_2_mysql',
         'schedule': crontab(minute='*/10'),  # 每 10 分钟执行一次
         'args': ('v',),
     },

@@ -2,7 +2,7 @@
 import re
 import scrapy
 from urllib.parse import urljoin
-from ..items import RecipeItem
+from ..items import RecipeItem, RecepeListItem
 from scrapy.http import Request
 from celery_app import r
 
@@ -33,9 +33,9 @@ class XiachufangSpider(scrapy.Spider):
         if not r.sismember('visited_urlset', response.url):
             print('------------- this url has been scraped ---------------')
             if response.status == 200:
-                yield Request(response.url, callback=self.parse_item, dont_filter=True)
+                yield Request(response.url, callback=self.parse_recipe, dont_filter=True)
             if response.status == 302:
-                yield Request(response.url.replace('m.', ''), callback=self.parse_item, dont_filter=True)
+                yield Request(response.url.replace('m.', ''), callback=self.parse_recipe, dont_filter=True)
         else:
             print('------------- this url has been scraped ---------------')
         
@@ -73,7 +73,7 @@ class XiachufangSpider(scrapy.Spider):
     #             self.log('this recipe has not been scrapied, link is %s' % link)
     #             self.log('the new url number is  %s' % self.not_scrapied_numer)
     #             yield Request('http://www.xiachufang.com%s' % link,
-    #                           callback=self.parse_item)
+    #                           callback=self.parse_recipe)
     #         else:
     #             self.scrapied_numer += 1
     #             self.log('the total num crawled this time is  %s' % self.scrapied_numer)
@@ -89,7 +89,7 @@ class XiachufangSpider(scrapy.Spider):
     
     # ----------------------------------------------------------------------------------------------------------------------
     
-    def parse_item(self, response):
+    def parse_recipe(self, response):
         """ 解析菜谱详情并生成item
         @url http://www.xiachufang.com/recipe/1086136/
         @returns items 3
@@ -155,13 +155,6 @@ class XiachufangSpider(scrapy.Spider):
         item['url'] = response.url
         recipe_category = response.xpath('//div[@class="recipe-cats"]/a/text()').extract()
         
-        # recipe_menu_list = response.xpath('//img[@class="recipe-menu-cover"]/@alt').extract()
-        # recipe_menu_link_list = response.xpath('//a[contains(@class,"recipe-menu")]/@href').extract()
-        
-        # try:
-        #     item['recipe_menu_list'] = recipe_menu_list
-        # except Exception:
-        #     item['recipe_menu_list'] = []
         try:
             item['category'] = recipe_category
         except IndexError:
@@ -193,11 +186,7 @@ class XiachufangSpider(scrapy.Spider):
         
         item['recipe_ingredients'] = list_ingre
         item['steps'] = list_steps
-        
-        try:
-            item['tips'] = [x.strip() for x in response.xpath('//div[@class="tip"]/text()').extract()]
-        except Exception:
-            item['tips'] = ['暂无']
+        item['notice'] = [x.strip() for x in response.xpath('//div[@class="tip"]/text()').extract()]
         
         try:
             author_url = response.xpath('//div[@class="author"]/a/@href').extract()[0]
@@ -205,6 +194,13 @@ class XiachufangSpider(scrapy.Spider):
                           callback=self.parse_author)
         except IndexError:
             return None
+        
+        # recipe_menu_list = response.xpath('//img[@class="recipe-menu-cover"]/@alt').extract()
+        recipe_menu_link_list = response.xpath('//a[contains(@class,"recipe-menu")]/@href').extract()
+        
+        if recipe_menu_link_list:
+            for url in recipe_menu_link_list:
+                yield Request('http://www.xiachufang.com' + url, callback=self.parse_recipe_list)
     
     def parse_author(self, response):
         
@@ -236,4 +232,14 @@ class XiachufangSpider(scrapy.Spider):
                          password=password, md5_password=md5_password, is_fake=is_fake, join_ip=join_ip)
         item['cook'] = cook_dict
         
+        yield item
+    
+    def parse_recipe_list(self, response):
+        item = RecepeListItem()
+        item['fid'] = response.url.split('/')[-2]
+        item['recipe_fids'] = response.xpath('//a').re('/recipe/\d+/')
+        item['name'] = response.xpath('//h1/text()').extract()[0]
+        item['created_member'] = response.xpath('//a[@class="avatar-link"]//@alt').extract()[0]
+        item['recipes'] = response.xpath('//p[@class="name"]//a/text()').extract()
+        item['fav_by'] = '暂无'
         yield item

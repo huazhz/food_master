@@ -17,12 +17,32 @@ import django
 django.setup()
 
 from celery_app import r, app
-from front.models import Member, Recipe, RecipeStep, Ingredient, RecipeIngredient, RecipeCategory
+from front.models import Member, Recipe, RecipeStep, Ingredient, RecipeIngredient, RecipeCategory, MemberRecipeList
 
 
 @app.task
-def save_2_mysql(v):
-    print('------start to save data to MySQL--------')
+def save_list_2_mysql(v):
+    print('------start to save recip_list to MySQL--------')
+    dict_list = json.loads(v)
+    created_member = dict_list.get('created_member', 'anonymous')
+    created_member_obj, status = Member.objects.get_or_create(name=created_member)
+    list_obj, status = MemberRecipeList.objects.get_or_create(fid=dict_list.get('fid'),
+                                                              name=dict_list.get('name'),
+                                                              created_member=created_member_obj
+                                                              )
+    recipe_list = dict_list['recipes']
+    recipe_fids = dict_list['recipe_fids']
+    for rec, fid in zip(recipe_list, recipe_fids):
+        recipe_obj = Recipe.objects.filter(name=rec, fid=fid)
+        if recipe_obj:
+            list_obj.recipes.add(recipe_obj[0])
+        else:
+            pass
+
+
+@app.task
+def save_recipe_2_mysql(v):
+    print('------start to save recipe to MySQL--------')
     dict_recipe = json.loads(v)
     cook_info = dict_recipe['cook']
     print('this url is -----%s' % dict_recipe['url'])
@@ -41,7 +61,7 @@ def save_2_mysql(v):
                                                   cover_img=dict_recipe.get('cover_img'),
                                                   rate_score=dict_recipe.get('rate_score'),
                                                   brief=dict_recipe.get('brief'),
-                                                  notice=dict_recipe.get('tips'),
+                                                  notice=dict_recipe.get('notice'),
                                                   cook=cook_obj)
     recipe.save()
     recipe.fav_by.add(cook_obj)

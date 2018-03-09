@@ -8,14 +8,16 @@ from celery.schedules import crontab
 # BROKER_URL = 'redis://127.0.0.1:6379'
 BROKER_URL = 'pyamqp://guest@localhost//'
 CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379/0'
+
 # Timezone
-CELERY_TIMEZONE = 'Asia/Shanghai'  # 指定时区，不指定默认为 'UTC'
+CELERY_TIMEZONE = 'Asia/Shanghai'  # 坑，不生效，你大爷
 # CELERY_TIMEZONE='UTC'
 
+USE_TZ = True
 
 # import
 CELERY_IMPORTS = (
-    # 'celery_app.spider_task',
+    'celery_app.spider_task',
     'celery_app.sql_task',
     'celery_app.ip_task',
     'celery_app.hello'
@@ -25,25 +27,24 @@ CELERY_IMPORTS = (
 CELERYBEAT_SCHEDULE = {
     '获取免费ip': {
         'task': 'celery_app.ip_task.get_free_ip',
-        'schedule': crontab(minute='*/3'),  # 每3分钟执行一次，但仅限于0点到1点
+        'schedule': crontab(minute=40, hour=17 - 8),  # 每3分钟执行一次
     },
     '定时启动 sql-worker1': {
         'task': 'celery_app.sql_task.save_recipe_2_mysql',
-        'schedule': crontab(minute='*/10'),  # 每 10 分钟执行一次
+        'schedule': crontab(minute=40, hour=17 - 8),  # 每 10 分钟执行一次
         'args': ('v',)
     },
     '定时启动 sql-worker2': {
         'task': 'celery_app.sql_task.save_list_2_mysql',
-        'schedule': crontab(minute='*/10'),  # 每 10 分钟执行一次
+        'schedule': crontab(minute=40, hour=17 - 8),  # 每 10 分钟执行一次
         'args': ('v',),
     },
-    # '定时启动spider': {
-    #     'task': 'celery_app.spider_task.start_spider',
-    # 'schedule': crontab(hour=0, minute=23, day_of_week=4),  # 每10分钟执行一次，但仅限于0点到1点
-    # 'schedule': crontab(minute='*/10'),  # 每10分钟执行一次，但仅限于0点到1点
-    # },
+    '定时启动spider': {
+        'task': 'celery_app.spider_task.start_spider',
+        'schedule': crontab(minute=40, hour=17 - 8),  # 每10分钟执行一次
+    },
     'hello test': {
         'task': 'celery_app.hello.hello',
-        'schedule': crontab(),  # 每天早上 9 点 50 分执行一次
+        'schedule': crontab(minute=40, hour=17 - 8),  #
     }
 }

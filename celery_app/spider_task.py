@@ -26,11 +26,13 @@ import os, sys
 
 from celery_app import app
 
+proj_path = os.path.dirname(os.path.dirname(__file__))
+spider_path = proj_path + '/food_scrapy'
+
 
 # @app.task(name='celery_app.spider_task.start_spider')
 @app.task
 def start_spider():
-    # 此处填绝对路径即可
-    os.system('cd /home/www/food_master/food_scrapy/  && python begin.py')
+    os.system('cd %s/  && python begin.py' % spider_path)
     print('spider begins to crawl')
     return None

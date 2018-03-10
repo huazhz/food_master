@@ -1,27 +1,17 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''
-1. 检查先决条件
-2. 定义子程序要解决的问题
-3. 为子程序命名
-4. 决定如何测试子程序
-5. 在标准库中搜寻可用的功能
-6. 考虑错误处理
-7. 考虑效率问题
-8. 研究算法和数据类型
-9. 编写伪代码
-    1. 首先简要地用一句话来写下该子程序的目的，
-    2. 编写很高层次的伪代码
-    3. 考虑数据
-    4. 检查伪代码
-10. 在伪代码中试验一些想法，留下最好的想法
-'''
+''' 这个脚本用于启动 celery的worker和beat '''
 
 import os
 
-os.system('source .env/bin/activate && nohup celery -A celery_app worker --loglevel=info &')
-os.system('source .env/bin/activate && nohup celery -A celery_app beat --loglevel=info &')
+proj_path = os.path.dirname(__file__)
+celery_path = proj_path + '/.env/bin/celery'
+
+# 此处需要指定虚拟环境里的celery
+
+os.system('nohup %s -A celery_app worker --loglevel=info &' % celery_path)
+os.system('nohup %s -A celery_app beat --loglevel=info &' % celery_path)
 
 # for test
 # os.system('source venv/bin/activate && nohup celery -A celery_app worker --loglevel=info &')

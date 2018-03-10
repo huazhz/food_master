@@ -28,7 +28,7 @@ from celery_app import app
 
 proj_path = os.path.dirname(os.path.dirname(__file__))
 spider_path = proj_path + '/food_scrapy'
-python_path = proj_path + '.env/bin/python'
+python_path = proj_path + '/.env/bin/python'
 
 
 # @app.task(name='celery_app.spider_task.start_spider')

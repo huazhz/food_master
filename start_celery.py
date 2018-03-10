@@ -20,5 +20,5 @@
 
 import os
 
-os.system('source .env/bin/activate && nohup celery -A celery_app worker --loglevel=info &')
-os.system('source .env/bin/activate && nohup celery -A celery_app beat --loglevel=info &')
+os.system('nohup .env/bin/celery -A celery_app worker --loglevel=info &')
+os.system('nohup .env/bin/celery -A celery_app beat --loglevel=info &')

@@ -1,0 +1,271 @@
+[2018-03-10 12:22:38,796: INFO/MainProcess] beat: Starting...
+[2018-03-10 12:22:39,113: INFO/MainProcess] Connected to amqp://guest:**@127.0.0.1:5672//
+[2018-03-10 12:22:39,136: INFO/MainProcess] mingle: searching for neighbors
+[2018-03-10 12:22:40,168: INFO/MainProcess] mingle: all alone
+[2018-03-10 12:22:40,189: INFO/MainProcess] celery@192.168.3.101 ready.
+[2018-03-10 12:25:54,005: INFO/MainProcess] Received task: celery_app.sql_task.save_recipe_2_mysql[f949440c-be94-4639-b27d-e307dba6b324]  
+[2018-03-10 12:25:54,011: WARNING/ForkPoolWorker-1] ------start to save recipe to MySQL--------
+[2018-03-10 12:25:54,012: WARNING/ForkPoolWorker-1] this url is -----http://www.xiachufang.com/recipe/101797767/
+[2018-03-10 12:25:54,167: INFO/ForkPoolWorker-1] Task celery_app.sql_task.save_recipe_2_mysql[f949440c-be94-4639-b27d-e307dba6b324] succeeded in 0.1564608920016326s: None
+[2018-03-10 12:25:55,216: INFO/MainProcess] Received task: celery_app.sql_task.save_recipe_2_mysql[b54767cc-97eb-46d2-944a-38f478021763]  
+[2018-03-10 12:25:55,227: WARNING/ForkPoolWorker-2] ------start to save recipe to MySQL--------
+[2018-03-10 12:25:55,230: WARNING/ForkPoolWorker-2] this url is -----http://www.xiachufang.com/recipe/101797765/
+[2018-03-10 12:25:55,627: INFO/MainProcess] Received task: celery_app.sql_task.save_list_2_mysql[cb9bc562-19a0-4c18-9852-8d9ed1decc30]  
+[2018-03-10 12:25:55,630: WARNING/ForkPoolWorker-1] ------start to save recip_list to MySQL--------
+[2018-03-10 12:25:55,676: INFO/ForkPoolWorker-1] Task celery_app.sql_task.save_list_2_mysql[cb9bc562-19a0-4c18-9852-8d9ed1decc30] succeeded in 0.0460684909921838s: None
+[2018-03-10 12:25:55,682: INFO/ForkPoolWorker-2] Task celery_app.sql_task.save_recipe_2_mysql[b54767cc-97eb-46d2-944a-38f478021763] succeeded in 0.45620206400053576s: None
+[2018-03-10 12:25:56,144: INFO/MainProcess] Received task: celery_app.sql_task.save_list_2_mysql[55a4222c-94c4-4795-b727-dd79e2261402]  
+[2018-03-10 12:25:56,145: WARNING/ForkPoolWorker-2] ------start to save recip_list to MySQL--------
+[2018-03-10 12:25:56,381: INFO/MainProcess] Received task: celery_app.sql_task.save_list_2_mysql[848edb7f-4998-4cb4-a61a-75d2146c723c]  
+[2018-03-10 12:25:56,389: WARNING/ForkPoolWorker-1] ------start to save recip_list to MySQL--------
+[2018-03-10 12:25:56,421: INFO/ForkPoolWorker-2] Task celery_app.sql_task.save_list_2_mysql[55a4222c-94c4-4795-b727-dd79e2261402] succeeded in 0.27574861199536826s: None
+[2018-03-10 12:25:56,467: INFO/ForkPoolWorker-1] Task celery_app.sql_task.save_list_2_mysql[848edb7f-4998-4cb4-a61a-75d2146c723c] succeeded in 0.07829626600141637s: None
+[2018-03-10 12:25:59,342: INFO/MainProcess] Received task: celery_app.sql_task.save_list_2_mysql[808ec730-e659-4133-977b-dc2db227eb4c]  
+[2018-03-10 12:25:59,342: WARNING/ForkPoolWorker-2] ------start to save recip_list to MySQL--------
+[2018-03-10 12:25:59,381: INFO/ForkPoolWorker-2] Task celery_app.sql_task.save_list_2_mysql[808ec730-e659-4133-977b-dc2db227eb4c] succeeded in 0.03837639199628029s: None
+[2018-03-10 12:25:59,509: INFO/MainProcess] Received task: celery_app.sql_task.save_list_2_mysql[c48b1ed1-ac98-45b4-bf25-ae7ec79fe127]  
+[2018-03-10 12:25:59,511: WARNING/ForkPoolWorker-1] ------start to save recip_list to MySQL--------
+[2018-03-10 12:25:59,622: INFO/ForkPoolWorker-1] Task celery_app.sql_task.save_list_2_mysql[c48b1ed1-ac98-45b4-bf25-ae7ec79fe127] succeeded in 0.11198096700536553s: None
+celery beat v4.1.0 (latentcall) is starting.
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/2.7/bin/celery", line 11, in <module>
+    sys.exit(main())
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/__main__.py", line 14, in main
+    _main()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/celery.py", line 326, in main
+    cmd.execute_from_commandline(argv)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/celery.py", line 488, in execute_from_commandline
+    super(CeleryCommand, self).execute_from_commandline(argv)))
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/base.py", line 281, in execute_from_commandline
+    return self.handle_argv(self.prog_name, argv[1:])
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/celery.py", line 480, in handle_argv
+    return self.execute(command, argv)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/celery.py", line 412, in execute
+    ).run_from_argv(self.prog_name, argv[1:], command=argv[0])
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/base.py", line 285, in run_from_argv
+    sys.argv if argv is None else argv, command)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/base.py", line 368, in handle_argv
+    return self(*args, **options)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/base.py", line 244, in __call__
+    ret = self.run(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/beat.py", line 107, in run
+    return beat().run()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/apps/beat.py", line 77, in run
+    self.init_loader()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/apps/beat.py", line 126, in init_loader
+    self.app.loader.init_worker()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 116, in init_worker
+    self.import_default_modules()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 111, in import_default_modules
+    return [self.import_task_module(m) for m in self.default_modules]
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 97, in import_task_module
+    return self.import_from_cwd(module)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 106, in import_from_cwd
+    package=package,
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/utils/imports.py", line 101, in import_from_cwd
+    return imp(module, package=package)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 100, in import_module
+    return importlib.import_module(module, package=package)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/Users/macbook/个人项目/food_master/celery_app/sql_task.py", line 17, in <module>
+    django.setup()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/__init__.py", line 21, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/apps/registry.py", line 108, in populate
+    app_config.import_models(all_models)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/apps/config.py", line 197, in import_models
+    self.models_module = import_module(models_module_name)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/Users/macbook/个人项目/food_master/front/models.py", line 6
+SyntaxError: Non-ASCII character '\xe5' in file /Users/macbook/个人项目/food_master/front/models.py on line 6, but no encoding declared; see http://python.org/dev/peps/pep-0263/ for details
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/2.7/bin/celery", line 11, in <module>
+    sys.exit(main())
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/__main__.py", line 14, in main
+    _main()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/celery.py", line 326, in main
+    cmd.execute_from_commandline(argv)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/celery.py", line 488, in execute_from_commandline
+    super(CeleryCommand, self).execute_from_commandline(argv)))
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/base.py", line 281, in execute_from_commandline
+    return self.handle_argv(self.prog_name, argv[1:])
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/celery.py", line 480, in handle_argv
+    return self.execute(command, argv)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/celery.py", line 412, in execute
+    ).run_from_argv(self.prog_name, argv[1:], command=argv[0])
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/worker.py", line 221, in run_from_argv
+    return self(*args, **options)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/base.py", line 244, in __call__
+    ret = self.run(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/worker.py", line 255, in run
+    **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/worker/worker.py", line 94, in __init__
+    self.app.loader.init_worker()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 116, in init_worker
+    self.import_default_modules()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 111, in import_default_modules
+    return [self.import_task_module(m) for m in self.default_modules]
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 97, in import_task_module
+    return self.import_from_cwd(module)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 106, in import_from_cwd
+    package=package,
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/utils/imports.py", line 101, in import_from_cwd
+    return imp(module, package=package)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 100, in import_module
+    return importlib.import_module(module, package=package)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/Users/macbook/个人项目/food_master/celery_app/sql_task.py", line 17, in <module>
+    django.setup()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/__init__.py", line 21, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/apps/registry.py", line 108, in populate
+    app_config.import_models(all_models)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/apps/config.py", line 197, in import_models
+    self.models_module = import_module(models_module_name)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/Users/macbook/个人项目/food_master/front/models.py", line 6
+SyntaxError: Non-ASCII character '\xe5' in file /Users/macbook/个人项目/food_master/front/models.py on line 6, but no encoding declared; see http://python.org/dev/peps/pep-0263/ for details
+celery beat v4.1.0 (latentcall) is starting.
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/2.7/bin/celery", line 11, in <module>
+    sys.exit(main())
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/__main__.py", line 14, in main
+    _main()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/celery.py", line 326, in main
+    cmd.execute_from_commandline(argv)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/celery.py", line 488, in execute_from_commandline
+    super(CeleryCommand, self).execute_from_commandline(argv)))
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/base.py", line 281, in execute_from_commandline
+    return self.handle_argv(self.prog_name, argv[1:])
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/celery.py", line 480, in handle_argv
+    return self.execute(command, argv)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/celery.py", line 412, in execute
+    ).run_from_argv(self.prog_name, argv[1:], command=argv[0])
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/base.py", line 285, in run_from_argv
+    sys.argv if argv is None else argv, command)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/base.py", line 368, in handle_argv
+    return self(*args, **options)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/base.py", line 244, in __call__
+    ret = self.run(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/beat.py", line 107, in run
+    return beat().run()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/apps/beat.py", line 77, in run
+    self.init_loader()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/apps/beat.py", line 126, in init_loader
+    self.app.loader.init_worker()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 116, in init_worker
+    self.import_default_modules()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 111, in import_default_modules
+    return [self.import_task_module(m) for m in self.default_modules]
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 97, in import_task_module
+    return self.import_from_cwd(module)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 106, in import_from_cwd
+    package=package,
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/utils/imports.py", line 101, in import_from_cwd
+    return imp(module, package=package)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 100, in import_module
+    return importlib.import_module(module, package=package)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/Users/macbook/个人项目/food_master/celery_app/sql_task.py", line 17, in <module>
+    django.setup()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/__init__.py", line 21, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/apps/registry.py", line 108, in populate
+    app_config.import_models(all_models)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/apps/config.py", line 197, in import_models
+    self.models_module = import_module(models_module_name)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/Users/macbook/个人项目/food_master/front/models.py", line 6
+SyntaxError: Non-ASCII character '\xe5' in file /Users/macbook/个人项目/food_master/front/models.py on line 6, but no encoding declared; see http://python.org/dev/peps/pep-0263/ for details
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/2.7/bin/celery", line 11, in <module>
+    sys.exit(main())
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/__main__.py", line 14, in main
+    _main()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/celery.py", line 326, in main
+    cmd.execute_from_commandline(argv)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/celery.py", line 488, in execute_from_commandline
+    super(CeleryCommand, self).execute_from_commandline(argv)))
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/base.py", line 281, in execute_from_commandline
+    return self.handle_argv(self.prog_name, argv[1:])
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/celery.py", line 480, in handle_argv
+    return self.execute(command, argv)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/celery.py", line 412, in execute
+    ).run_from_argv(self.prog_name, argv[1:], command=argv[0])
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/worker.py", line 221, in run_from_argv
+    return self(*args, **options)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/base.py", line 244, in __call__
+    ret = self.run(*args, **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/bin/worker.py", line 255, in run
+    **kwargs)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/worker/worker.py", line 94, in __init__
+    self.app.loader.init_worker()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 116, in init_worker
+    self.import_default_modules()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 111, in import_default_modules
+    return [self.import_task_module(m) for m in self.default_modules]
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 97, in import_task_module
+    return self.import_from_cwd(module)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 106, in import_from_cwd
+    package=package,
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/utils/imports.py", line 101, in import_from_cwd
+    return imp(module, package=package)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/celery/loaders/base.py", line 100, in import_module
+    return importlib.import_module(module, package=package)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/Users/macbook/个人项目/food_master/celery_app/sql_task.py", line 17, in <module>
+    django.setup()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/__init__.py", line 21, in setup
+    apps.populate(settings.INSTALLED_APPS)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/apps/registry.py", line 108, in populate
+    app_config.import_models(all_models)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/django/apps/config.py", line 197, in import_models
+    self.models_module = import_module(models_module_name)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/importlib/__init__.py", line 37, in import_module
+    __import__(name)
+  File "/Users/macbook/个人项目/food_master/front/models.py", line 6
+SyntaxError: Non-ASCII character '\xe5' in file /Users/macbook/个人项目/food_master/front/models.py on line 6, but no encoding declared; see http://python.org/dev/peps/pep-0263/ for details
+[2018-03-10 14:10:03,403: INFO/MainProcess] Connected to amqp://guest:**@127.0.0.1:5672//
+[2018-03-10 14:10:03,420: INFO/MainProcess] mingle: searching for neighbors
+[2018-03-10 14:10:04,445: INFO/MainProcess] mingle: all alone
+[2018-03-10 14:10:04,461: INFO/MainProcess] celery@192.168.3.101 ready.
+
+worker: Hitting Ctrl+C again will terminate all running tasks!
+
+worker: Warm shutdown (MainProcess)
+ 
+ -------------- celery@192.168.3.101 v4.1.0 (latentcall)
+---- **** ----- 
+--- * ***  * -- Darwin-17.4.0-x86_64-i386-64bit 2018-03-10 14:10:03
+-- * - **** --- 
+- ** ---------- [config]
+- ** ---------- .> app:         tasks:0x1062bca90
+- ** ---------- .> transport:   amqp://guest:**@localhost:5672//
+- ** ---------- .> results:     redis://127.0.0.1:6379/0
+- *** --- * --- .> concurrency: 4 (prefork)
+-- ******* ---- .> task events: OFF (enable -E to monitor tasks in this worker)
+--- ***** ----- 
+ -------------- [queues]
+                .> celery           exchange=celery(direct) key=celery
+                
+
+[tasks]
+  . celery_app.hello.hello
+  . celery_app.ip_task.get_free_ip
+  . celery_app.spider_task.start_spider
+  . celery_app.sql_task.save_list_2_mysql
+  . celery_app.sql_task.save_recipe_2_mysql
+
+nohup: .env/bin/celery: No such file or directory
+nohup: .env/bin/celery: No such file or directory
+nohup: .env/bin/celery: No such file or directory
+nohup: .env/bin/celery: No such file or directory
+nohup: .env/bin/celery: No such file or directory
+nohup: .env/bin/celery: No such file or directory

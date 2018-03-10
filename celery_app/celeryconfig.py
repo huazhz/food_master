@@ -26,24 +26,24 @@ CELERY_IMPORTS = (
 CELERYBEAT_SCHEDULE = {
     '获取免费ip': {
         'task': 'celery_app.ip_task.get_free_ip',
-        'schedule': crontab(minute='*/3', hour=17),  # 每3分钟执行一次，但仅限于0点到1点
+        'schedule': crontab(minute='*/3', hour=4),  # 每3分钟执行一次，但仅限于0点到1点
     },
     '定时启动 sql-worker1': {
         'task': 'celery_app.sql_task.save_recipe_2_mysql',
-        'schedule': crontab(minute=7, hour=17),  # 在凌晨12点开启
+        'schedule': crontab(minute=0, hour=4),  # 在凌晨12点开启
         'args': ('v',)
     },
     '定时启动 sql-worker2': {
         'task': 'celery_app.sql_task.save_list_2_mysql',
-        'schedule': crontab(minute=7, hour=17),  # 在凌晨12点开启
+        'schedule': crontab(minute=0, hour=4),  # 在凌晨12点开启
         'args': ('v',),
     },
     '定时启动spider': {
         'task': 'celery_app.spider_task.start_spider',
-        'schedule': crontab(minute='*/10', hour=17),  # 爬虫在凌晨12点，每10分钟执行一次，每次执行540秒，到1点停止
+        'schedule': crontab(minute='*/10', hour=('4,5')),  # 爬虫在凌晨12点，每10分钟执行一次，每次执行540秒，到1点停止
     },
     'hello test': {
         'task': 'celery_app.hello.hello',
-        'schedule': crontab(minute=0, hour=16),  # 没什么用，测试用的
+        'schedule': crontab(),  # 没什么用，测试用的
     }
 }

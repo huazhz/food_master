@@ -14,7 +14,8 @@ class XiachufangSpider(scrapy.Spider):
     
     fid_begin_flag = r.get('fid_begin_flag').decode('utf8')  # 爬取起始点
     allowed_domains = ['xiachufang.com']
-    start_urls = ['http://www.xiachufang.com/recipe/%s/' % fid_begin_flag]
+    # start_urls = ['http://www.xiachufang.com/recipe/%s/' % fid_begin_flag]  # brutal force 策略
+    start_urls = ['http://www.xiachufang.com/category/']  # 遍历策略
     not_scrapied_numer = 0
     scrapied_numer = 0
     start_page = 1
@@ -25,11 +26,13 @@ class XiachufangSpider(scrapy.Spider):
         '''
         self.log(response.status)
         
+        # --------------------------------brutal force 策略 -------------------------------------------------------------
+
         # brutal force 策略
-        self.fid_begin_flag = int(self.fid_begin_flag) + 1
+        self.fid_begin_flag = int(self.fid_begin_flag) - 1
         r.set('fid_begin_flag', self.fid_begin_flag)
         new_url = 'http://www.xiachufang.com/recipe/%s/' % r.get('fid_begin_flag').decode('utf8')
-        
+
         if not r.sismember('visited_urlset', response.url):
             print('------------- this url has been scraped ---------------')
             if response.status == 200:
@@ -38,25 +41,23 @@ class XiachufangSpider(scrapy.Spider):
                 yield Request(response.url.replace('m.', ''), callback=self.parse_recipe, dont_filter=True)
         else:
             print('------------- this url has been scraped ---------------')
-        
+
         yield Request(new_url, callback=self.parse, dont_filter=True)
-    
-    # ------------------------------------------------------------------------------------------------------------------
+        
+    #     # ------------------------------- 原有逻辑，从顶部目录开始向下遍历 ------------------------------------------------------
     #
-    # 原有逻辑，从顶部目录开始向下遍历
+    #     recent_urls = response.xpath('//a//@hre').re('/explore/\w*/?')  # ['/explore/', '/explore/rising/', ...]
+    #     category_links = response.xpath('//a[(contains(@href, category))]/@href').re('/category/\d+/')
     #
-    # recent_urls = response.xpath('//a//@hre').re('/explore/\w*/?')  # ['/explore/', '/explore/rising/', ...]
-    # category_links = response.xpath('//a[(contains(@href, category))]/@href').re('/category/\d+/')
+    #     # 爬取最近页
+    #     for url in recent_urls:
+    #         yield Request('http://www.xiachufang.com' + url + '?page=%s' % self.start_page,
+    #                       callback=self.parse_category)
     #
-    # # 爬取最近页
-    # for url in recent_urls:
-    #     yield Request('http://www.xiachufang.com' + url + '?page=%s' % self.start_page,
-    #                   callback=self.parse_category)
-    #
-    # # 爬取所有页
-    # for url in category_links:
-    #     yield Request(('http://www.xiachufang.com' + url[:-1] + '?page=%s' % self.start_page),
-    #                   callback=self.parse_category)
+    #     # 爬取所有页
+    #     for url in category_links:
+    #         yield Request(('http://www.xiachufang.com' + url[:-1] + '?page=%s' % self.start_page),
+    #                       callback=self.parse_category)
     #
     # def parse_category(self, response):
     #     '''
@@ -86,7 +87,7 @@ class XiachufangSpider(scrapy.Spider):
     #         yield Request(urljoin(response.url, next_page), callback=self.parse_category)
     #     except IndexError:
     #         return None
-    #
+    
     # ------------------------------------------------------------------------------------------------------------------
     
     def parse_recipe(self, response):

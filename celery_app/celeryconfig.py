@@ -44,6 +44,6 @@ CELERYBEAT_SCHEDULE = {
     },
     'hello test': {
         'task': 'celery_app.hello.hello',
-        'schedule': crontab(minute=0, hour=16),  # 没什么用，测试用的
+        'schedule': crontab(),  # 没什么用，测试用的
     }
 }

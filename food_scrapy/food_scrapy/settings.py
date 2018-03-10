@@ -37,7 +37,7 @@ DEPTH_PRIORITY = -10
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
 
-DOWNLOAD_DELAY = 0.2
+DOWNLOAD_DELAY = 0.3
 
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16

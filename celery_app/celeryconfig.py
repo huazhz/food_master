@@ -40,7 +40,7 @@ CELERYBEAT_SCHEDULE = {
     },
     '定时启动spider': {
         'task': 'celery_app.spider_task.start_spider',
-        'schedule': crontab(minute='*/10', hour=('4,5')),  # 爬虫在凌晨12点，每10分钟执行一次，每次执行540秒，到1点停止
+        'schedule': crontab(minute='*/10', hour='0-2,5-9,12-23'),  # 爬虫除了中午12点和晚上6-8点，每10分钟执行一次，每次执行540秒，到1点停止
     },
     'hello test': {
         'task': 'celery_app.hello.hello',

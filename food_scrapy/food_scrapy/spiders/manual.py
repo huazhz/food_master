@@ -14,8 +14,8 @@ class XiachufangSpider(scrapy.Spider):
     
     fid_begin_flag = r.get('fid_begin_flag').decode('utf8')  # 爬取起始点
     allowed_domains = ['xiachufang.com']
-    # start_urls = ['http://www.xiachufang.com/recipe/%s/' % fid_begin_flag]  # brutal force 策略
-    start_urls = ['http://www.xiachufang.com/category/']  # 遍历策略
+    start_urls = ['http://www.xiachufang.com/recipe/%s/' % fid_begin_flag]  # brutal force 策略
+    # start_urls = ['http://www.xiachufang.com/category/']  # 遍历策略
     not_scrapied_numer = 0
     scrapied_numer = 0
     start_page = 1

@@ -24,10 +24,13 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index),
 
-    path('search/<str:key>/<int:page_num>', views.search_result),
-    path('recipe/<int:id>', views.recipe_details)
+path('category/<int:id>/', views.category),
+path('category/<int:id>/<int:page_num>/', views.category),
+path('search/<str:key>/', views.search_result),
+    path('search/<str:key>/<int:page_num>/', views.search_result),
+    path('recipe/<int:id>/', views.recipe_details)
 
 
 ]
-handler500 = common_utils.handle_500
+# handler500 = common_utils.handle_500
 handler404 = common_utils.handle_404

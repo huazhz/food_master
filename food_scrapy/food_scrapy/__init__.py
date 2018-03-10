@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 import sys, os
 
 # sys.path.append(r'/Users/macbook/个人项目/food_master/food_scrapy')

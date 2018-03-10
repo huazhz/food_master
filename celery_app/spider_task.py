@@ -34,6 +34,6 @@ python_path = proj_path + '/.env/bin/python'
 # @app.task(name='celery_app.spider_task.start_spider')
 @app.task
 def start_spider():
-    os.system('cd %s/  && %s begin.py' % (spider_path, python_path))
+    os.system('cd %s/  && %s start_spider.py' % (spider_path, python_path))
     print('spider begins to crawl')
     return None

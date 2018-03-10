@@ -16,9 +16,9 @@
 
 {% block content %}
     <div class="card card-shadowed">
-        <form class="lookup lookup-huge">
-            <input class="no-radius no-border" type="text" placeholder="搜索你想要做的菜...">
-        </form>
+        <div class="lookup lookup-huge">
+            <input class="no-radius no-border search-input" type="text" placeholder="搜索你想要做的菜...">
+        </div>
     </div>
 
     <div class="card">
@@ -27,7 +27,7 @@
             <div class="media media-single">
                 <a  href="/recipe/{{ x.id }}">
                     {% if x.cover_img != '暂无' %}
-                        <img src="{{ x.cover_img }}"  class="avatar avatar-xxxl">
+                        <img src="{{ x.cover_img }}"  class="avatar avatar-xxxl" alt="{{ x.name }}">
                     {% else %}
                         <span class="avatar avatar-xxxl">暂无</span>
                     {% endif %}
@@ -36,7 +36,6 @@
                 <div class="media-body">
                     <a  href="/recipe/{{ x.id }}">
                         <h4 class="title">{{ x.name }}</h4>
-                        <p>{{ x.brief }}</p>
                         <span>网友评分:{{ x.rate_score }}</span>
                     </a>
                 </div>

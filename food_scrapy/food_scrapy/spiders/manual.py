@@ -27,12 +27,12 @@ class XiachufangSpider(scrapy.Spider):
         self.log(response.status)
         
         # --------------------------------brutal force 策略 -------------------------------------------------------------
-
+        
         # brutal force 策略
         self.fid_begin_flag = int(self.fid_begin_flag) - 1
         r.set('fid_begin_flag', self.fid_begin_flag)
         new_url = 'http://www.xiachufang.com/recipe/%s/' % r.get('fid_begin_flag').decode('utf8')
-
+        
         if not r.sismember('visited_urlset', response.url):
             print('------------- this url has been scraped ---------------')
             if response.status == 200:
@@ -41,9 +41,9 @@ class XiachufangSpider(scrapy.Spider):
                 yield Request(response.url.replace('m.', ''), callback=self.parse_recipe, dont_filter=True)
         else:
             print('------------- this url has been scraped ---------------')
-
-        yield Request(new_url, callback=self.parse, dont_filter=True)
         
+        yield Request(new_url, callback=self.parse, dont_filter=True)
+    
     #     # ------------------------------- 原有逻辑，从顶部目录开始向下遍历 ------------------------------------------------------
     #
     #     recent_urls = response.xpath('//a//@hre').re('/explore/\w*/?')  # ['/explore/', '/explore/rising/', ...]
@@ -175,7 +175,7 @@ class XiachufangSpider(scrapy.Spider):
         try:
             item['rate_score'] = response.xpath('//span[@itemprop="ratingValue"]/text()').extract()[0]
         except IndexError:
-            item['rate_score'] = '暂无'
+            item['rate_score'] = '5'
         try:
             item['name'] = response.xpath('//h1[@itemprop="name"]/text()').extract()[0].strip()
         except IndexError:

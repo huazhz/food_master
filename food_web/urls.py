@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from front import views
+from utils import common_utils
+
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -26,3 +29,5 @@ urlpatterns = [
 
 
 ]
+handler500 = common_utils.handle_500
+handler404 = common_utils.handle_404

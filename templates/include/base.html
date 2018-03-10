@@ -51,7 +51,7 @@
                 </a>
             </div>
         </div>
-        <span class="topbar-brand"><img src="/static/img/logo.jpg" alt="logo-icon"></span>
+        <span class="topbar-brand"><a href="/"><img src="/static/img/logo.jpg" alt="菜谱大全"></a></span>
 
 
 
@@ -66,38 +66,14 @@
                     </a>
                 </li>
 
-{#                <li class="menu-item">#}
-{#                    <a class="menu-link" href="#">#}
-{#                        <span class="icon ti-layout"></span>#}
-{#                        <span class="title">分类</span>#}
-{#                        <span class="arrow"></span>#}
-{#                    </a>#}
-{#                    <ul class="menu-submenu">#}
-{#                        <li class="menu-item">#}
-{#                            <a class="menu-link" href="#">#}
-{#                                <span class="title">Blank page</span>#}
-{#                            </a>#}
-{#                        </li>#}
-{#                        <li class="menu-item">#}
-{#                            <a class="menu-link" href="#">#}
-{#                                <span class="title">Topbar</span>#}
-{#                            </a>#}
-{#                        </li>#}
-{#                        <li class="menu-item">#}
-{#                            <a class="menu-link" href="#">#}
-{#                                <span class="title">Sidebar</span>#}
-{#                            </a>#}
-{#                        </li>#}
-{#                    </ul>#}
-{#                </li>#}
 
             </ul>
         </nav>
     </div>
     <div class="topbar-right">
-        <form class="lookup lookup-circle lookup-right" target="index.html">
-            <input type="text" name="s">
-        </form>
+        <div class="lookup lookup-circle lookup-right">
+            <input type="text" class="search-input" name="s">
+        </div>
     </div>
 </header>
 
@@ -115,85 +91,86 @@
     <footer class="site-footer pt-50 pb-20">
           <div class="row gap-y">
             <div class="col-lg-5">
-              <h5 class="text-uppercase fs-14 ls-1">关于润厨房</h5>
-              <p class="text-justify"><strong>TheAdmin</strong> is a powerful, responsive, and high-performance admin template. It's based on Bootstrap and contains a lot of components to easily make an admin, dashboard. This template comes with a simple yet beautiful design which focused on ease of use for users. Efficiently expedite equity invested products rather than extensive outsourcing. Holisticly deliver principle centered imperatives after.</p>
+              <h5 class="text-uppercase fs-14 ls-1">关于菜谱大全</h5>
+              <p class="text-justify"><strong>菜谱大全</strong>
+                  是一个公开的免费的菜谱分享网页.
+              </p>
             </div>
 
-            <div class="col-6 col-md-4 col-lg-2 text-left1 text-lg-center1">
-              <h5 class="text-uppercase fs-14 ls-1">Company</h5>
-              <ul class="nav flex-column">
-                <li class="nav-item">
-                  <a class="nav-link" href="#">About us</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">How it works</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Terms of use</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Privacy policy</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Contact us</a>
-                </li>
-              </ul>
-            </div>
-
-            <div class="col-6 col-md-4 col-lg-2 text-left1 text-lg-center1">
-              <h5 class="text-uppercase fs-14 ls-1">Support</h5>
-              <ul class="nav flex-column">
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Help center</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Tutorials</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Forums</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Official blog</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Ask question</a>
-                </li>
-              </ul>
-            </div>
-
-            <div class="col-md-4 col-lg-3 text-left1 text-lg-center1">
-              <h5 class="text-uppercase fs-14 ls-1">Newsletter</h5>
-              <p><strong>Subscribe</strong> to our newsletter to receive news, updates, and special offers:</p>
-              <br>
-              <div class="form-group">
-                <input type="text" class="form-control" placeholder="Enter your email address">
-              </div>
-              <button class="btn btn-primary btn-block" type="button"><i class="fa fa-paper-plane"></i> Subscribe</button>
-            </div>
-
+{#            <div class="col-6 col-md-4 col-lg-2 text-left1 text-lg-center1">#}
+{#              <h5 class="text-uppercase fs-14 ls-1">Company</h5>#}
+{#              <ul class="nav flex-column">#}
+{#                <li class="nav-item">#}
+{#                  <a class="nav-link" href="#">About us</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                  <a class="nav-link" href="#">How it works</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                  <a class="nav-link" href="#">Terms of use</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                  <a class="nav-link" href="#">Privacy policy</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                  <a class="nav-link" href="#">Contact us</a>#}
+{#                </li>#}
+{#              </ul>#}
+{#            </div>#}
+{##}
+{#            <div class="col-6 col-md-4 col-lg-2 text-left1 text-lg-center1">#}
+{#              <h5 class="text-uppercase fs-14 ls-1">Support</h5>#}
+{#              <ul class="nav flex-column">#}
+{#                <li class="nav-item">#}
+{#                  <a class="nav-link" href="#">Help center</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                  <a class="nav-link" href="#">Tutorials</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                  <a class="nav-link" href="#">Forums</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                  <a class="nav-link" href="#">Official blog</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                  <a class="nav-link" href="#">Ask question</a>#}
+{#                </li>#}
+{#              </ul>#}
+{#            </div>#}
+{##}
+{#            <div class="col-md-4 col-lg-3 text-left1 text-lg-center1">#}
+{#              <h5 class="text-uppercase fs-14 ls-1">Newsletter</h5>#}
+{#              <p><strong>Subscribe</strong> to our newsletter to receive news, updates, and special offers:</p>#}
+{#              <br>#}
+{#              <div class="form-group">#}
+{#                <input type="text" class="form-control" placeholder="Enter your email address">#}
+{#              </div>#}
+{#              <button class="btn btn-primary btn-block" type="button"><i class="fa fa-paper-plane"></i> Subscribe</button>#}
+{#            </div>#}
+{##}
           </div>
-
           <hr>
-
           <div class="row">
             <div class="col-md-6 justify-content-center justify-content-md-start">
-              <p>Copyright © 2018 <a href="http://thetheme.io/theadmin">TheAdmin</a>. All rights reserved.</p>
+              <p>Copyright © 2018 <a href="/">菜谱大全</a>. All rights reserved.</p>
             </div>
 
             <div class="col-md-6">
-              <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Terms of use</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">Privacy policy</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="#">About</a>
-                </li>
-              </ul>
+{#              <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">#}
+{#                <li class="nav-item">#}
+{#                  <a class="nav-link" href="#">Terms of use</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                  <a class="nav-link" href="#">Privacy policy</a>#}
+{#                </li>#}
+{#                <li class="nav-item">#}
+{#                  <a class="nav-link" href="#">About</a>#}
+{#                </li>#}
+{#              </ul>#}
             </div>
           </div>
+
         </footer>
 </main>
 
@@ -201,7 +178,7 @@
 <script src="/static/js/core.min.js"></script>
 <script src="/static/js/app.min.js"></script>
 <script src="/static/js/script.min.js"></script>
-
+<script src="/static/js/style.js"></script>
 {% block footer_script %}
 
 {% endblock footer_script %}

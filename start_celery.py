@@ -5,9 +5,7 @@
 
 import os
 
-proj_path = os.path.dirname(__file__)
-celery_path = proj_path + '/.env/bin/celery'
-
+celery_path = '.env/bin/celery'
 # 此处需要指定虚拟环境里的celery
 
 os.system('nohup %s -A celery_app worker --loglevel=info &' % celery_path)

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-import re
+
 import scrapy
-from urllib.parse import urljoin
 from ..items import RecipeItem, RecepeListItem
 from scrapy.http import Request
 from celery_app import r
@@ -29,7 +28,7 @@ class XiachufangSpider(scrapy.Spider):
         # --------------------------------brutal force 策略 -------------------------------------------------------------
         
         # brutal force 策略
-        self.fid_begin_flag = int(self.fid_begin_flag) - 1
+        self.fid_begin_flag = int(self.fid_begin_flag) + 1
         r.set('fid_begin_flag', self.fid_begin_flag)
         new_url = 'http://www.xiachufang.com/recipe/%s/' % r.get('fid_begin_flag').decode('utf8')
         
@@ -100,12 +99,15 @@ class XiachufangSpider(scrapy.Spider):
         @scrapes name image_url step_order recipe
         """
         
+        item = RecipeItem()
+        
+        item['image_urls'] = []
         # if response.status != 200:
         #     return None
         try:
             recipe_name = response.xpath('//h1[@itemprop="name"]/text()').extract()[0].strip()
         except IndexError:
-            return None
+            return
             # recipe_name = response.xpath('//h1[@itemprop="name"][1]/text()').extract()[0].strip()
         
         # ----------- parse the RecipeIngredient -----------
@@ -145,13 +147,13 @@ class XiachufangSpider(scrapy.Spider):
             try:
                 dict_steps['image_url'] = s.xpath('img/@src').extract()[0] if s.xpath('img/@src').extract()[0] else \
                     response.xpath('//img[@class="recipe-menu-cover"]/@src').extract()[i - 1]
+                item['image_urls'].append(s.xpath('img/@src').extract()[0] if s.xpath('img/@src').extract()[0] else \
+                                              response.xpath('//img[@class="recipe-menu-cover"]/@src').extract()[i - 1])
             except IndexError:
                 dict_steps['image_url'] = '暂无'
             list_steps.append(dict_steps)
         
         # ----------- parse the recipe -----------
-        
-        item = RecipeItem()
         
         item['url'] = response.url
         recipe_category = response.xpath('//div[@class="recipe-cats"]/a/text()').extract()
@@ -166,6 +168,7 @@ class XiachufangSpider(scrapy.Spider):
             item['fid'] = '暂无'
         try:
             item['cover_img'] = response.xpath('//div/div/img/@src').extract()[0]
+            item['image_urls'].append((response.xpath('//div/div/img/@src').extract()[0]))
         except IndexError:
             item['cover_img'] = '暂无'
         try:
@@ -194,7 +197,7 @@ class XiachufangSpider(scrapy.Spider):
             yield Request(url='http://www.xiachufang.com' + author_url, meta={'item': item},
                           callback=self.parse_author)
         except IndexError:
-            return None
+            return
         
         # recipe_menu_list = response.xpath('//img[@class="recipe-menu-cover"]/@alt').extract()
         recipe_menu_link_list = response.xpath('//a[contains(@class,"recipe-menu")]/@href').extract()

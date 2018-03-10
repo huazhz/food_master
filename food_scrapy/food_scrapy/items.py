@@ -23,6 +23,8 @@ class RecipeItem(scrapy.Item):
     steps = Field()
     url = Field()
     notice = Field()
+    image_urls = Field()
+    images = Field()
 
 
 class RecepeListItem(scrapy.Item):

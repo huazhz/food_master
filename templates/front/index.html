@@ -2,7 +2,7 @@
 
 
 {% block title %}
-    贝斯特厨房
+    菜谱大全
 {% endblock %}
 
 {% block keywords %}
@@ -16,9 +16,9 @@
 
 {% block content %}
     <div class="card card-shadowed">
-        <form class="lookup lookup-huge">
-            <input class="no-radius no-border" type="text" placeholder="搜索你想要做的菜...">
-        </form>
+        <div class="lookup lookup-huge">
+            <input class="no-radius no-border search-input" type="text" placeholder="搜索你想要做的菜...">
+        </div>
     </div>
     <div class="row">
         <div class="col-lg-4">
@@ -30,15 +30,14 @@
                         {% for x in recipe1 %}
                             <div class="media media-single">
                                 <a  href="/recipe/{{ x.id }}">
-                                            <img src="{{ x.cover_img }}"  class="avatar avatar-xxxl">
+                                    <img src="{{ x.cover_img }}"  class="avatar avatar-xxxl" alt="{{ x.name }}">
+                                </a>
+                                <div class="media-body">
+                                    <a  href="/recipe/{{ x.id }}">
+                                        <h4 class="title">{{ x.name }}</h4>
+                                        <span>网友评分{{ x.rate_score }}</span>
                                     </a>
-                                    <div class="media-body">
-                                        <a  href="/recipe/{{ x.id }}">
-                                            <p class="title">{{ x.name }}</p>
-                                            <p>{{ x.brief }}</p>
-                                            <span>网友评分{{ x.rate_score }}</span>
-                                        </a>
-                                        </div>
+                                </div>
 
                             </div>
                         {% endfor %}
@@ -55,18 +54,17 @@
 
                 <div class="card-body">
                     <div class="media-list media-list-divided media-list-hover">
-                       {% for x in recipe2 %}
+                        {% for x in recipe2 %}
                             <div class="media media-single">
                                 <a  href="/recipe/{{ x.id }}">
-                                            <img src="{{ x.cover_img }}"  class="avatar avatar-xxxl">
+                                    <img src="{{ x.cover_img }}"  class="avatar avatar-xxxl" alt="{{ x.name }}">
+                                </a>
+                                <div class="media-body">
+                                    <a  href="/recipe/{{ x.id }}">
+                                        <h4 class="title">{{ x.name }}</h4>
+                                        <span>网友评分:{{ x.rate_score }}</span>
                                     </a>
-                                    <div class="media-body">
-                                        <a  href="/recipe/{{ x.id }}">
-                                            <h4 class="title">{{ x.name }}</h4>
-                                            <p>{{ x.brief }}</p>
-                                            <span>网友评分:{{ x.rate_score }}</span>
-                                        </a>
-                                        </div>
+                                </div>
 
                             </div>
                         {% endfor %}
@@ -83,18 +81,17 @@
 
                 <div class="card-body">
                     <div class="media-list media-list-divided media-list-hover">
-                       {% for x in recipe3 %}
+                        {% for x in recipe3 %}
                             <div class="media media-single">
                                 <a  href="/recipe/{{ x.id }}">
-                                            <img src="{{ x.cover_img }}"  class="avatar avatar-xxxl">
+                                    <img src="{{ x.cover_img }}"  class="avatar avatar-xxxl" alt="{{ x.name }}">
+                                </a>
+                                <div class="media-body">
+                                    <a  href="/recipe/{{ x.id }}">
+                                        <h4 class="title">{{ x.name }}</h4>
+                                        <span>网友评分{{ x.rate_score }}</span>
                                     </a>
-                                    <div class="media-body">
-                                        <a  href="/recipe/{{ x.id }}">
-                                            <p class="title">{{ x.name }}</p>
-                                            <p>{{ x.brief }}</p>
-                                            <span>网友评分{{ x.rate_score }}</span>
-                                        </a>
-                                        </div>
+                                </div>
 
                             </div>
                         {% endfor %}

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import Http404, HttpResponse
 from django.db.models import Q
 from django.core.paginator import Paginator
-from front.models import Recipe
+from front.models import Recipe, RecipeIngredient
 
 from front import rs
 
@@ -50,9 +50,12 @@ def search_result(req, key, page_num):
 
 def recipe_details(req, id=None):
     if not id:
-        return Http404
-    recipe = Recipe.objects.get(id=id)
+        return Http404('')
+    recipe = Recipe.objects.filter(id=id).first()
+    if not recipe:
+        raise Http404('s')
     category = recipe.category.all()
+    recipe_ingredient = RecipeIngredient.objects.filter(recipe__id=id)
     first_cate = category[0] if category else None
     recipe_steps = recipe.recipestep_set.all()
     return render(req, 'front/recipe.html', locals())

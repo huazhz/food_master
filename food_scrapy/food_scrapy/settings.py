@@ -22,7 +22,7 @@ NEWSPIDER_MODULE = 'food_scrapy.spiders'
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 128
+CONCURRENT_REQUESTS = 64
 
 # 下载器在取消一个请求之前需要等待的时间
 DOWNLOAD_TIMEOUT = 10
@@ -40,7 +40,7 @@ DEPTH_PRIORITY = -10
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
 
-# DOWNLOAD_DELAY = 0.3
+DOWNLOAD_DELAY = 0.2
 
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
@@ -68,7 +68,7 @@ COOKIES_ENABLED = False
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
     'food_scrapy.middlewares.FoodScrapyDownloaderMiddleware': 543,
-    # 'food_scrapy.middlewares.RandomProxy': 540,
+    'food_scrapy.middlewares.RandomProxy': 540,
     # 'food_scrapy.middlewares.RandomUserAgent': 541,
 }
 

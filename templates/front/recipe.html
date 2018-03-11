@@ -27,7 +27,7 @@
                     <li class="breadcrumb-item"><a href="/">首页</a></li>
                     {% if first_cate %}
                         <li class="breadcrumb-item">
-                            <a href="/category/{{ first_cate.id }}">
+                            <a href="/category/{{ first_cate.id }}/">
                                 {{ first_cate.name }}
                             </a>
                         </li>
@@ -70,7 +70,7 @@
                     <div class="row">
                         {% for x in category %}
                             <div class="col-md-2">
-                                <a class="card card-body card-hover-shadow" href="/category/{{ x.id }}">
+                                <a class="card card-body card-hover-shadow" href="/category/{{ x.id }}/">
                                     <div class="flexbox align-items-center">
                                         <div>
                                             <h6 class="mb-0">{{ x.name }}</h6>

@@ -108,7 +108,6 @@ class XiachufangSpider(scrapy.Spider):
             recipe_name = response.xpath('//h1[@itemprop="name"]/text()').extract()[0].strip()
         except IndexError:
             return
-            # recipe_name = response.xpath('//h1[@itemprop="name"][1]/text()').extract()[0].strip()
         
         # ----------- parse the RecipeIngredient -----------
         

@@ -165,6 +165,12 @@ class XiachufangSpider(scrapy.Spider):
             item['fid'] = response.url.split('/')[-2]
         except IndexError:
             item['fid'] = '暂无'
+        
+        try:
+            item['stars'] = response.xpath('//span[@class="number"]/text()').extract()[0]
+        except IndexError:
+            item['stars'] = 0
+        
         try:
             item['cover_img'] = response.xpath('//div/div/img/@src').extract()[0]
             item['image_urls'].append((response.xpath('//div/div/img/@src').extract()[0]))

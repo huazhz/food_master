@@ -17,22 +17,23 @@ from twisted.internet.error import TimeoutError, TCPTimedOutError
 
 class XiachufangpathSpider(scrapy.Spider):
     name = 'xiachufangpatch'
-    handle_httpstatus_list = [404]
+    handle_httpstatus_list = [404, 502]
     fid_begin_flag = r.get('fid_begin_flag').decode('utf8')  # 爬取起始点
     allowed_domains = ['xiachufang.com']
-    start_urls = ['http://m.xiachufang.com/recipe/%s/' % fid_begin_flag]  # brutal force 策略
+    start_urls = ['http://m.xiachufang.com/recipe/%s/' % fid_begin_flag]
     
     def parse(self, response):
+        
         item = PatchItem()
         try:
             stars = response.xpath('//div[@class="cooked"]//span').re('(\d+) 人做过')[0]
         except IndexError:
             stars = 0
-        brief = response.xpath('//p[contains(@class,"recipe-desc")]/text()').extract() or ['暂无']
+        
         fid = self.fid_begin_flag
         item['fid'] = fid
         item['stars'] = stars
-        item['brief'] = brief
+        
         v = json.dumps(dict(item))
         patch_xiachufang.delay(v)
         
@@ -44,6 +45,7 @@ class XiachufangpathSpider(scrapy.Spider):
         if failure.check(TimeoutError):
             print('-----------------Timeout Error ---------------')
 
+
 @app.task(name='food_scrapy.spiders.xiachufangpatch.patch_xiachufang')
 def patch_xiachufang(v):
     print('start to patch the spider')
@@ -54,10 +56,10 @@ def patch_xiachufang(v):
         recipe_obj = Recipe.objects.get(fid=fid)
         print('get the object')
         recipe_obj.stars = infos.get('stars')
-        recipe_obj.brief = infos.get('brief')
+        
         recipe_obj.save()
-        if recipe_obj.stars == infos.get('stars'):
-            print('succeed')
+        if recipe_obj.stars == infos.get('stars') and recipe_obj.stars != 0:
+            print('succeed updated stars number')
     
     except ObjectDoesNotExist:
         pass

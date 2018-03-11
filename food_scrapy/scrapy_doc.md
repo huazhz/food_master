@@ -1,7 +1,7 @@
 1. 爬到多少个item就自动停止
 
    ```shell
-   $ scrapy crawl manual -s CLOSESPIDER_ITEMCOUNT=90
+   $ scrapy crawl xiachufang -s CLOSESPIDER_ITEMCOUNT=90
    ```
 
    ​
@@ -43,7 +43,6 @@
 
     done
 
-     
 
 6. Scrapy重启 
 
@@ -69,9 +68,22 @@
 
 10. 爬虫被重定向了
 
-    解决思路：
+   解决思路：
 
-    1. 带上cookie
-    2. 直接爬手机版
+   1. 带上cookie
+   2. 直接爬手机版
+
+11. Scrapy下载图片
+
+    默认图片名为hash值，需要重写get_media_request方法
+
+12. 给原有spider打patch 
+
+    ```shell
+    celery -A food_scrapy.food_scrapy.spiders.xiachufangpatch  worker --loglevel=info
+    ```
 
     ​
+
+
+

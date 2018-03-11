@@ -23,6 +23,8 @@ class RecipeItem(scrapy.Item):
     steps = Field()
     url = Field()
     notice = Field()
+    image_urls = Field()
+    images = Field()
 
 
 class RecepeListItem(scrapy.Item):
@@ -32,3 +34,9 @@ class RecepeListItem(scrapy.Item):
     created_member = Field()
     recipes = Field()
     fav_by = Field()
+
+
+class PatchItem(scrapy.Item):
+    fid = Field()
+    stars = Field()
+    brief = Field()

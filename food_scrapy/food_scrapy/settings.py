@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import os
+import random
+from celery_app.ip_task import get_ips
 
 # Scrapy settings for food_scrapy project
 #
@@ -79,8 +82,15 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'food_scrapy.pipelines.FoodScrapyPipeline': 300,
-    # 'scrapy.pipelines.images.ImagesPipeline': 301,
+    # 'food_scrapy.pipelines.MyImagePipeline': 30,
 }
+
+# 图片下载路径
+
+project_dir = os.path.abspath(os.path.dirname(__file__))  # 获取当前爬虫项目的绝对路径
+IMAGES_STORE = os.path.join(project_dir, 'crawledimages')  # 组装新的图片路径
+IMAGE_URLS_FIELD = 'image_urls'
+IMAGE_RESULT_FIELD = 'images'
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
@@ -115,7 +125,7 @@ CLOSESPIDER_TIMEOUT = 540
 # USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-import random
+
 
 USER_AGENT = random.choice([
     "Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20100101 Firefox/5.0",
@@ -131,7 +141,5 @@ USER_AGENT = random.choice([
     "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2",
     "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.36 Safari/535.7",
 ])
-
-from celery_app.ip_task import get_ips
 
 IPLIST = get_ips()

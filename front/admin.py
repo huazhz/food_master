@@ -13,7 +13,7 @@ class MemberAdmin(admin.ModelAdmin):
 
 
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('fid', 'name', 'cover_img', 'rate_score', 'brief', 'add_time')
+    list_display = ('fid', 'name', 'cover_img', 'rate_score', 'brief', 'add_time', 'stars')
     search_fields = ('fid', 'name',)
 
 

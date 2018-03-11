@@ -25,6 +25,7 @@ class RecipeItem(scrapy.Item):
     notice = Field()
     image_urls = Field()
     images = Field()
+    stars = Field()
 
 
 class RecepeListItem(scrapy.Item):

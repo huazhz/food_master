@@ -68,6 +68,7 @@ def save_recipe_2_mysql(v):
                                                   rate_score=dict_recipe.get('rate_score'),
                                                   brief=dict_recipe.get('brief'),
                                                   notice=dict_recipe.get('notice'),
+                                                  stars=dict_recipe.get('stars'),
                                                   cook=cook_obj)
     recipe.save()
     recipe.fav_by.add(cook_obj)

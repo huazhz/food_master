@@ -22,7 +22,7 @@ NEWSPIDER_MODULE = 'food_scrapy.spiders'
 ROBOTSTXT_OBEY = False
 
 # Configure maximum concurrent requests performed by Scrapy (default: 16)
-CONCURRENT_REQUESTS = 64
+CONCURRENT_REQUESTS = 128
 
 # 下载器在取消一个请求之前需要等待的时间
 DOWNLOAD_TIMEOUT = 10
@@ -40,11 +40,11 @@ DEPTH_PRIORITY = -10
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
 
-DOWNLOAD_DELAY = 0.3
+# DOWNLOAD_DELAY = 0.3
 
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
-CONCURRENT_REQUESTS_PER_IP = 16
+CONCURRENT_REQUESTS_PER_IP = 32
 
 # Disable cookies (enabled by default)
 COOKIES_ENABLED = False
@@ -68,7 +68,7 @@ COOKIES_ENABLED = False
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
     'food_scrapy.middlewares.FoodScrapyDownloaderMiddleware': 543,
-    'food_scrapy.middlewares.RandomProxy': 540,
+    # 'food_scrapy.middlewares.RandomProxy': 540,
     # 'food_scrapy.middlewares.RandomUserAgent': 541,
 }
 
@@ -114,7 +114,7 @@ IMAGE_RESULT_FIELD = 'images'
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 # 540秒后自动停止
-CLOSESPIDER_TIMEOUT = 540
+# CLOSESPIDER_TIMEOUT = 540
 
 # 爬到10个item后停止
 # CLOSESPIDER_ITEMCOUNT = 100
@@ -128,7 +128,7 @@ CLOSESPIDER_TIMEOUT = 540
 
 
 USER_AGENT = random.choice([
-    "Mozilla/5.0 (Windows NT 5.1; rv:5.0) Gecko/20100101 Firefox/5.0",
+    "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1",
     "Mozilla/5.0 (Linux; U; Android 2.3.6; en-us; Nexus S Build/GRK39F) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
     "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/532.5 (KHTML, like Gecko) Chrome/4.0.249.0 Safari/532.5",
     "Mozilla/5.0 (Windows; U; Windows NT 5.2; en-US) AppleWebKit/532.9 (KHTML, like Gecko) Chrome/5.0.310.0 Safari/532.9",

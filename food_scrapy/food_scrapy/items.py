@@ -37,5 +37,6 @@ class RecepeListItem(scrapy.Item):
 
 
 class PatchItem(scrapy.Item):
+    fid = Field()
     stars = Field()
     brief = Field()

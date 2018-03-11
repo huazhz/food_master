@@ -2,10 +2,17 @@
 
 ''' 这个爬虫用于为下厨房爬虫新增的字段'''
 
+import json
 import scrapy
-from celery_app import r
+from celery_app import r, app
 from ..items import PatchItem
+from front.models import Recipe
 from scrapy import Request
+from django.core.exceptions import ObjectDoesNotExist
+
+from scrapy.spidermiddlewares.httperror import HttpError
+from twisted.internet.error import DNSLookupError
+from twisted.internet.error import TimeoutError, TCPTimedOutError
 
 
 class XiachufangpathSpider(scrapy.Spider):
@@ -22,10 +29,35 @@ class XiachufangpathSpider(scrapy.Spider):
         except IndexError:
             stars = 0
         brief = response.xpath('//p[contains(@class,"recipe-desc")]/text()').extract() or ['暂无']
+        fid = self.fid_begin_flag
+        item['fid'] = fid
         item['stars'] = stars
         item['brief'] = brief
-        yield item
+        v = json.dumps(dict(item))
+        patch_xiachufang.delay(v)
         
         self.fid_begin_flag = int(self.fid_begin_flag) - 1
-        next_recipe = 'http://m.xiachufang.com/recipe/%s/' % self.fid_begin_flag
-        yield Request(next_recipe, callback=self.parse)
+        next_recipe_url = 'http://m.xiachufang.com/recipe/%s/' % self.fid_begin_flag
+        yield Request(next_recipe_url, errback=self.errback_patch, callback=self.parse)
+    
+    def errback_patch(self, failure):
+        if failure.check(TimeoutError):
+            print('-----------------Timeout Error ---------------')
+
+@app.task(name='food_scrapy.spiders.xiachufangpatch.patch_xiachufang')
+def patch_xiachufang(v):
+    print('start to patch the spider')
+    infos = json.loads(v)
+    fid = infos.get('fid')
+    print('the fid is %s' % fid)
+    try:
+        recipe_obj = Recipe.objects.get(fid=fid)
+        print('get the object')
+        recipe_obj.stars = infos.get('stars')
+        recipe_obj.brief = infos.get('brief')
+        recipe_obj.save()
+        if recipe_obj.stars == infos.get('stars'):
+            print('succeed')
+    
+    except ObjectDoesNotExist:
+        pass

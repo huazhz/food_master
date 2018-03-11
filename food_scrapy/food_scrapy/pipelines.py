@@ -7,7 +7,7 @@
 
 
 import json
-from scrapy.contrib.pipeline.images import ImagesPipeline
+from scrapy.pipelines.images import ImagesPipeline
 from scrapy import Request
 from celery_app.sql_task import save_recipe_2_mysql, save_list_2_mysql
 from scrapy.exceptions import DropItem

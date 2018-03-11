@@ -77,4 +77,13 @@
 
     默认图片名为hash值，需要重写get_media_request方法
 
+12. 给原有spider打patch 
+
+    ```shell
+    celery -A food_scrapy.food_scrapy.spiders.xiachufangpatch  worker --loglevel=info
+    ```
+
     ​
+
+
+

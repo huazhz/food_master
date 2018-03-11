@@ -20,8 +20,6 @@ from celery_app import r, app
 from front.models import Member, Recipe, RecipeStep, Ingredient, RecipeIngredient, RecipeCategory, MemberRecipeList
 
 
-
-
 @app.task
 def save_list_2_mysql(v):
     if not v:

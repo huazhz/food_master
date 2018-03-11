@@ -28,7 +28,8 @@ class Recipe(models.Model):
     name = models.CharField('名称', max_length=128, null=False, db_index=True)
     cover_img = models.CharField('封面图片', max_length=255, null=False)
     rate_score = models.CharField('综合评分', max_length=8, default='5')
-    brief = models.CharField('简介', max_length=2048, null=False)
+    stars = models.IntegerField('点赞数', max_length=16, default=0, null=False)
+    brief = models.CharField('简介', max_length=2048, null=False, default='暂无')
     cook = models.ForeignKey(to=Member, null=True, on_delete=models.DO_NOTHING,
                              db_constraint=False, related_name='created_recipe')
     # 因为食谱和原料有一个用量的关联关系，所以用到了through这个参数。
@@ -36,7 +37,7 @@ class Recipe(models.Model):
                                          through_fields=('recipe', 'ingredient'))
     category = models.ManyToManyField(to='RecipeCategory')
     fav_by = models.ManyToManyField(to='Member', db_constraint=False,
-                               related_name='collected_recipe')
+                                    related_name='collected_recipe')
     notice = models.CharField('小贴士', max_length=255, default='暂无')
     tag = models.ManyToManyField(to='RecipeTag', db_constraint=False)
     extra = models.CharField('预留字段', max_length=16, default='暂无')
@@ -165,7 +166,7 @@ class MemberRecipeList(models.Model):
                                        related_name='created_recipe_list')
     recipes = models.ManyToManyField(to='Recipe', related_name='included_in_list', db_constraint=False)
     fav_by = models.ManyToManyField(to='Member', db_constraint=False,
-                               related_name='collected_lists')
+                                    related_name='collected_lists')
     last_modify_time = models.DateTimeField(auto_now_add=True)
     add_time = models.DateTimeField(auto_now_add=True)
     

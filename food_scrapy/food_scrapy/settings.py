@@ -82,7 +82,7 @@ DOWNLOADER_MIDDLEWARES = {
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
     'food_scrapy.pipelines.FoodScrapyPipeline': 300,
-    'scrapy.pipelines.images.ImagesPipeline': 301,
+    'food_scrapy.pipelines.MyImagePipeline': 30,
 }
 
 # 图片下载路径

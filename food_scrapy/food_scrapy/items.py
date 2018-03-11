@@ -34,3 +34,8 @@ class RecepeListItem(scrapy.Item):
     created_member = Field()
     recipes = Field()
     fav_by = Field()
+
+
+class PatchItem(scrapy.Item):
+    stars = Field()
+    brief = Field()

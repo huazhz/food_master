@@ -7,6 +7,8 @@
 
 
 import json
+from scrapy.contrib.pipeline.images import ImagesPipeline
+from scrapy import Request
 from celery_app.sql_task import save_recipe_2_mysql, save_list_2_mysql
 from scrapy.exceptions import DropItem
 
@@ -28,3 +30,14 @@ class FoodScrapyPipeline(object):
         
         else:
             raise DropItem('the item is not available')
+
+
+class MyImagePipeline(ImagesPipeline):
+    
+    def get_media_requests(self, item, info):
+        return [Request(x) for x in item.get(self.images_urls_field, [])]
+    
+    def file_path(self, request, response=None, info=None):
+        item = request.meta['item']  # Like this you can use all from item, not just url.
+        image_guid = '%s.jpg' % item['fid']
+        return 'full/%s' % (image_guid)

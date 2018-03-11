@@ -8,7 +8,7 @@ from celery_app import r
 
 class XiachufangSpider(scrapy.Spider):
     ''' this is a xiachufang spider, it mainly scrapes the recipe. '''
-    name = 'manual'
+    name = 'xiachufang'
     handle_httpstatus_list = [404]
     
     fid_begin_flag = r.get('fid_begin_flag').decode('utf8')  # 爬取起始点

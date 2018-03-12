@@ -44,7 +44,7 @@ def percentage(consumed_bytes, total_bytes):
     """
     if total_bytes:
         rate = int(100 * (float(consumed_bytes) / float(total_bytes)))
-        print('\r{0}% '.format(rate))
+        print('\r{0:3}%  uploaded'.format(rate))
         sys.stdout.flush()
 
 
@@ -52,7 +52,7 @@ from front.models import Recipe
 
 recipes = Recipe.objects.all()
 
-for recipe in recipes[1834:]:
+for recipe in recipes[1925:]:
     cover_img_url = recipe.cover_img
     cover_res = requests.get(cover_img_url)
     cover_data = Image.open(BytesIO(cover_res.content))
@@ -61,9 +61,9 @@ for recipe in recipes[1834:]:
     print(cname)
     cdata = cover_res.content
     bucket.put_object(cname, cdata, progress_callback=percentage)
-    if not os.path.exists('./OSS_PICS'):
-        os.mkdir('./OSS_PICS')
-    cover_data.save('./OSS_PICS/i%sf%scover.%s' % cname_obj)
+    # if not os.path.exists('./OSS_PICS'):
+    #     os.mkdir('./OSS_PICS')
+    # cover_data.save('./OSS_PICS/i%sf%scover.%s' % cname_obj)
     
     for order, step in enumerate(recipe.recipestep_set.all(), 1):
         step_img = step.image_url
@@ -77,5 +77,5 @@ for recipe in recipes[1834:]:
             print(sname)
             sdata = step_res.content
             bucket.put_object(sname, sdata, progress_callback=percentage)
-            step_data.save('./OSS_PICS/i%sf%ss%s.%s' % sname_obj)
+            # step_data.save('./OSS_PICS/i%sf%ss%s.%s' % sname_obj)
             time.sleep(0.5)

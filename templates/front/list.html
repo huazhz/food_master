@@ -59,7 +59,7 @@
                         </a>
                     </li>
                 {% endif %}
-                {% for x in result.page_nearby_range %}
+                {% for x in page_nearby_range %}
                     {% if x == result.number %}
                         <li class="page-item active"><a class="page-link" href="#">{{ result.number }}</a></li>
                     {% else %}

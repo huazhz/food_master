@@ -33,9 +33,10 @@ def make_dir(path):
         os.mkdir(path)
 
 
-def got_img(img_url):
+def get_img_body_and_type(img_url):
     '''
-    get the image body and type
+    获取图片的二进制数据和图片的类型
+    返回一个包含上面信息的元组
     '''
     img_res = requests.get(img_url)
     try:
@@ -76,7 +77,7 @@ def cdn_crawler():
     
     for recipe in recipes[x:]:
         cover_img_url = recipe.cover_img
-        cover_info = got_img(cover_img_url)
+        cover_info = get_img_body_and_type(cover_img_url)
         nameformat = 'i%sf%scover.%s'
         save_and_upload(cover_info, recipe.id, recipe.fid, dir_path, nameformat)
         
@@ -84,7 +85,7 @@ def cdn_crawler():
         for order, step in enumerate(steps, 1):
             step_img = step.image_url
             if step_img != '暂无':
-                step_info = got_img(step_img)
+                step_info = get_img_body_and_type(step_img)
                 nameformat = 'i%sf%ss%s.%s'
                 save_and_upload(step_info, recipe.id, recipe.fid, dir_path, nameformat, order)
             else:

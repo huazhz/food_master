@@ -52,9 +52,9 @@ def process_img(info, id, fid, dir, nameformat, order=None):
     if info:
         data = info[0]
         _type = info[1]
-        cname_elements = (id, fid, order, _type) \
+        name_elements = (id, fid, order, _type) \
             if order else (id, fid, _type)
-        imgname = nameformat % (cname_elements)
+        imgname = nameformat % name_elements
         filepath = dir + imgname
         data.save(filepath)
         upload_to_oss.delay(filepath)

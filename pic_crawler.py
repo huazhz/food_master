@@ -10,6 +10,7 @@ import time
 import requests
 from PIL import Image
 from io import BytesIO
+from oss_task import upload_to_oss
 
 access_key_id = os.environ.get('access_key_id')
 access_key_secret = os.environ.get('access_key_secret')
@@ -52,7 +53,7 @@ from front.models import Recipe
 
 recipes = Recipe.objects.all()
 
-for recipe in recipes[1925:]:
+for recipe in recipes[3683:]:
     cover_img_url = recipe.cover_img
     cover_res = requests.get(cover_img_url)
     cover_data = Image.open(BytesIO(cover_res.content))
@@ -60,10 +61,12 @@ for recipe in recipes[1925:]:
     cname = 'i%sf%scover.%s' % (cname_obj)
     print(cname)
     cdata = cover_res.content
-    bucket.put_object(cname, cdata, progress_callback=percentage)
+    # bucket.put_object(cname, cdata, progress_callback=percentage)
     # if not os.path.exists('./OSS_PICS'):
     #     os.mkdir('./OSS_PICS')
-    # cover_data.save('./OSS_PICS/i%sf%scover.%s' % cname_obj)
+    filepath1 = './OSS_PICS/i%sf%scover.%s' % cname_obj
+    cover_data.save(filepath1)
+    upload_to_oss.delay(filepath1)
     
     for order, step in enumerate(recipe.recipestep_set.all(), 1):
         step_img = step.image_url
@@ -76,6 +79,8 @@ for recipe in recipes[1925:]:
             sname = 'i%sf%ss%s.%s' % sname_obj
             print(sname)
             sdata = step_res.content
-            bucket.put_object(sname, sdata, progress_callback=percentage)
-            # step_data.save('./OSS_PICS/i%sf%ss%s.%s' % sname_obj)
-            time.sleep(0.5)
+            # bucket.put_object(sname, sdata, progress_callback=percentage)
+            filepath2 = './OSS_PICS/i%sf%ss%s.%s' % sname_obj
+            step_data.save(filepath2)
+            upload_to_oss.delay(filepath2)
+            # time.sleep(0.1)

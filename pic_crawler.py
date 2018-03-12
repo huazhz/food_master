@@ -54,8 +54,6 @@ def cdn_crawler():
         cname_obj = (recipe.id, recipe.fid, cover_data.format.lower())
         cname = 'i%sf%scover.%s' % (cname_obj)
         print(cname)
-        cdata = cover_res.content
-        # bucket.put_object(cname, cdata, progress_callback=percentage)
         # if not os.path.exists('./OSS_PICS'):
         #     os.mkdir('./OSS_PICS')
         filepath1 = './OSS_PICS/i%sf%scover.%s' % cname_obj
@@ -76,12 +74,9 @@ def cdn_crawler():
                 sname_obj = (recipe.id, recipe.fid, order, step_data.format.lower())
                 sname = 'i%sf%ss%s.%s' % sname_obj
                 print(sname)
-                sdata = step_res.content
-                # bucket.put_object(sname, sdata, progress_callback=percentage)
                 filepath2 = './OSS_PICS/i%sf%ss%s.%s' % sname_obj
                 step_data.save(filepath2)
                 upload_to_oss.delay(filepath2)
-                # time.sleep(0.1)
         r.set('ossid', recipe.id)
     return None
 

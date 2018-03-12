@@ -6,6 +6,7 @@ import os
 import sys
 import time
 import requests
+import imghdr
 from PIL import Image
 from io import BytesIO
 
@@ -23,14 +24,14 @@ from front.models import Recipe
 
 recipes = Recipe.objects.all()
 
-for recipe in recipes[41:100]:
+for recipe in recipes[95:]:
     
     cover_pic = recipe.cover_img
     res1 = requests.get(cover_pic)
     cover_pic = Image.open(BytesIO(res1.content))
     if not os.path.exists('./OSS_PICS'):
         os.mkdir('./OSS_PICS')
-    cover_pic.save('./OSS_PICS/id_%s_fid_%s_coverimg_%s.jpg' % (recipe.id, recipe.fid, recipe.name,))
+    cover_pic.save('./OSS_PICS/i%sf%scover.%s' % (recipe.id, recipe.fid, cover_pic.format.lower()))
     
     for order, step in enumerate(recipe.recipestep_set.all(), 1):
         step_img = step.image_url
@@ -40,5 +41,6 @@ for recipe in recipes[41:100]:
             print('----- step image %s -----' % step.image_url)
             res = requests.get(step.image_url)
             step_pic = Image.open(BytesIO(res.content))
-            step_pic.save('./OSS_PICS/id_%s_fid_%s_%s_step%s.jpg' % (recipe.id, recipe.fid, recipe.name, order))
+            print(step_pic.format)
+            step_pic.save('./OSS_PICS/i%sf%ss%s.%s' % (recipe.id, recipe.fid, order, step_pic.format.lower()))
             time.sleep(0.2)

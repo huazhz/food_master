@@ -53,6 +53,8 @@ from front.models import Recipe
 
 recipes = Recipe.objects.all()
 
+# 4563
+
 for recipe in recipes[3683:]:
     cover_img_url = recipe.cover_img
     cover_res = requests.get(cover_img_url)

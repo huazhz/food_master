@@ -10,7 +10,6 @@ import time
 import requests
 from PIL import Image
 from io import BytesIO
-from front.models import Recipe
 
 access_key_id = os.environ.get('access_key_id')
 access_key_secret = os.environ.get('access_key_secret')
@@ -48,6 +47,8 @@ def percentage(consumed_bytes, total_bytes):
         print('\r{0}% '.format(rate))
         sys.stdout.flush()
 
+
+from front.models import Recipe
 
 recipes = Recipe.objects.all()
 

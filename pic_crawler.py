@@ -46,7 +46,11 @@ def cdn_crawler():
     for recipe in recipes[x:]:
         cover_img_url = recipe.cover_img
         cover_res = requests.get(cover_img_url)
-        cover_data = Image.open(BytesIO(cover_res.content))
+        try:
+            cover_data = Image.open(BytesIO(cover_res.content))
+        except OSError:
+            r.sadd('OSError_urls', recipe.cover_img)
+            continue
         cname_obj = (recipe.id, recipe.fid, cover_data.format.lower())
         cname = 'i%sf%scover.%s' % (cname_obj)
         print(cname)
@@ -64,7 +68,11 @@ def cdn_crawler():
                 continue
             else:
                 step_res = requests.get(step.image_url)
-                step_data = Image.open(BytesIO(step_res.content))
+                try:
+                    step_data = Image.open(BytesIO(step_res.content))
+                except OSError:
+                    r.sadd('OSError_urls', step_img)
+                    continue
                 sname_obj = (recipe.id, recipe.fid, order, step_data.format.lower())
                 sname = 'i%sf%ss%s.%s' % sname_obj
                 print(sname)

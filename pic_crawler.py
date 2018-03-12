@@ -5,28 +5,11 @@
 
 import os
 import sys
-import oss2
-import time
 import requests
 from PIL import Image
 from io import BytesIO
-
-access_key_id = os.environ.get('access_key_id')
-access_key_secret = os.environ.get('access_key_secret')
-bucket_name = os.environ.get('bucket_name')
-endpoint = os.environ.get('endpoint')  #
-
-# test the environ
-print(access_key_id)
-print(access_key_secret)
-print(bucket_name)
-print(endpoint)
-
-# 确认上面的参数都填写正确
-for param in (access_key_id, access_key_secret, bucket_name, endpoint):
-    assert '<' not in param, '请设置参数：' + param
-
-bucket = oss2.Bucket(oss2.Auth(access_key_id, access_key_secret), endpoint, bucket_name)
+from celery_app import r
+from oss_task import upload_to_oss
 
 # setup Django environment
 proj_path = os.path.dirname(__file__)
@@ -36,34 +19,27 @@ import django
 
 django.setup()
 
-
-def percentage(consumed_bytes, total_bytes):
-    """进度条回调函数，计算当前完成的百分比
-    :param consumed_bytes: 已经上传/下载的数据量
-    :param total_bytes: 总数据量
-    """
-    if total_bytes:
-        rate = int(100 * (float(consumed_bytes) / float(total_bytes)))
-        print('\r{0:3}%  uploaded'.format(rate))
-        sys.stdout.flush()
-
-
 from front.models import Recipe
 
 recipes = Recipe.objects.all()
 
-for recipe in recipes[1925:]:
+for recipe in recipes[3703:]:
     cover_img_url = recipe.cover_img
     cover_res = requests.get(cover_img_url)
     cover_data = Image.open(BytesIO(cover_res.content))
     cname_obj = (recipe.id, recipe.fid, cover_data.format.lower())
     cname = 'i%sf%scover.%s' % (cname_obj)
     print(cname)
+    r.set('ossid', recipe.id)
     cdata = cover_res.content
-    bucket.put_object(cname, cdata, progress_callback=percentage)
-    # if not os.path.exists('./OSS_PICS'):
-    #     os.mkdir('./OSS_PICS')
-    # cover_data.save('./OSS_PICS/i%sf%scover.%s' % cname_obj)
+    if not os.path.exists('./OSS_PICS'):
+        os.mkdir('./OSS_PICS')
+    filepath = './OSS_PICS/i%sf%scover.%s' % cname_obj
+    try:
+        cover_data.save(filepath)
+        upload_to_oss.delay(filepath)
+    except IOError:
+        r.sadd('IOError_urls', cover_img_url)
     
     for order, step in enumerate(recipe.recipestep_set.all(), 1):
         step_img = step.image_url
@@ -76,6 +52,10 @@ for recipe in recipes[1925:]:
             sname = 'i%sf%ss%s.%s' % sname_obj
             print(sname)
             sdata = step_res.content
-            bucket.put_object(sname, sdata, progress_callback=percentage)
-            # step_data.save('./OSS_PICS/i%sf%ss%s.%s' % sname_obj)
-            time.sleep(0.5)
+            step_data.save('./OSS_PICS/i%sf%ss%s.%s' % sname_obj)
+            filepath = './OSS_PICS/i%sf%ss%s.%s' % sname_obj
+            try:
+                cover_data.save(filepath)
+                upload_to_oss.delay(filepath)
+            except IOError:
+                r.sadd('IOError_urls', step_img)

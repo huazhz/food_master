@@ -5,8 +5,6 @@
 
 import os
 import sys
-import oss2
-import time
 import requests
 from PIL import Image
 from io import BytesIO
@@ -25,7 +23,7 @@ from front.models import Recipe
 
 def make_dir(path):
     '''
-    make dir for pics
+    为图片创建文件夹
     '''
     if os.path.exists(path):
         pass
@@ -49,7 +47,10 @@ def get_img_body_and_type(img_url):
 
 
 def save_and_upload(info, id, fid, _dir, nameformat, order=None):
-    ''' 保存图片并调用异步上传任务 '''
+    '''
+    保存图片
+    调用异步上传任务
+    '''
     if info:
         data = info[0]
         _type = info[1]
@@ -66,8 +67,8 @@ def save_and_upload(info, id, fid, _dir, nameformat, order=None):
 
 def cdn_crawler():
     '''
-    爬取图片保存到本地，再异步上传到OSS
-    :return:
+    爬取图片保存到本地
+    异步上传到OSS
     '''
     dir_path = './OSS_PICS/'
     make_dir(dir_path)

@@ -3,7 +3,7 @@ from django.http import Http404, HttpResponse
 from django.db.models import Q
 from django.core.paginator import Paginator
 from front.models import Recipe, RecipeIngredient, RecipeCategory
-
+from utils import common_utils
 from front import rs
 
 
@@ -49,8 +49,9 @@ def search_result(req, key, page_num=1):
         .order_by('-rate_score')
     paginator = Paginator(obj_list, 10)
     result = paginator.get_page(page_num)
-    # return HttpResponse(result)
-    return render(req, 'front/list.html', context={'result': result, 'key': key})
+    page_nearby_range = common_utils.get_nearby_pages(result)
+    return render(req, 'front/list.html', context={'result': result, 'key': key,
+                                                   'page_nearby_range':page_nearby_range})
 
 
 def recipe_details(req, id=None):

@@ -62,9 +62,7 @@ def cdn_crawler():
         
         for order, step in enumerate(recipe.recipestep_set.all(), 1):
             step_img = step.image_url
-            if step_img == '暂无':
-                continue
-            else:
+            if step_img != '暂无':
                 step_res = requests.get(step.image_url)
                 try:
                     step_data = Image.open(BytesIO(step_res.content))
@@ -77,6 +75,9 @@ def cdn_crawler():
                 filepath2 = './OSS_PICS/i%sf%ss%s.%s' % sname_obj
                 step_data.save(filepath2)
                 upload_to_oss.delay(filepath2)
+            else:
+                continue
+        
         r.set('ossid', recipe.id)
     return None
 

@@ -20,19 +20,6 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'food_web.settings'
 import django
 
 django.setup()
-
-
-def percentage(consumed_bytes, total_bytes):
-    """进度条回调函数，计算当前完成的百分比
-    :param consumed_bytes: 已经上传/下载的数据量
-    :param total_bytes: 总数据量
-    """
-    if total_bytes:
-        rate = int(100 * (float(consumed_bytes) / float(total_bytes)))
-        print('\r{0:3}%  uploaded'.format(rate))
-        sys.stdout.flush()
-
-
 from front.models import Recipe
 
 
@@ -60,6 +47,22 @@ def got_img(img_url):
         return 0
 
 
+def process_img(info, id, fid, dir, nameformat, order=None):
+    ''' 保存图片并调用异步上传任务 '''
+    if info:
+        data = info[0]
+        _type = info[1]
+        cname_elements = (id, fid, order, _type) \
+            if order else (id, fid, _type)
+        imgname = nameformat % (cname_elements)
+        filepath = dir + imgname
+        data.save(filepath)
+        upload_to_oss.delay(filepath)
+        print(imgname)
+    else:
+        pass
+
+
 def cdn_crawler():
     '''
     爬取图片保存到本地，再异步上传到OSS
@@ -74,29 +77,16 @@ def cdn_crawler():
     for recipe in recipes[x:]:
         cover_img_url = recipe.cover_img
         cover_info = got_img(cover_img_url)
-        if cover_info:
-            cname_elements = (recipe.id, recipe.fid, cover_info[1])
-            cname = 'i%sf%scover.%s' % (cname_elements)
-            filepath1 = dir_path + cname
-            cover_info[0].save(filepath1)
-            upload_to_oss.delay(filepath1)
-            print(cname)
-        else:
-            continue
+        nameformat = 'i%sf%scover.%s'
+        process_img(cover_info, recipe.id, recipe.fid, dir_path, nameformat)
         
         steps = recipe.recipestep_set.all()
-        
         for order, step in enumerate(steps, 1):
             step_img = step.image_url
             if step_img != '暂无':
                 step_info = got_img(step_img)
-                if step_info:
-                    sname_obj = (recipe.id, recipe.fid, order, step_info[1])
-                    sname = 'i%sf%ss%s.%s' % sname_obj
-                    filepath2 = dir_path + sname
-                    step_info[0].save(filepath2)
-                    upload_to_oss.delay(filepath2)
-                    print(sname)
+                nameformat = 'i%sf%ss%s.%s'
+                process_img(step_info, recipe.id, recipe.fid, dir_path, nameformat, order)
             else:
                 continue
         r.set('ossid', recipe.id)

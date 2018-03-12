@@ -5,6 +5,7 @@
 
 import os
 
+
 # 此处需要指定虚拟环境里的celery
 celery_path = '.env/bin/celery'
 

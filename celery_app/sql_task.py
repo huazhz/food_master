@@ -6,7 +6,7 @@ import os
 import sys
 import json
 
-# sys.path.insert(0, '/Users/macbook/个人项目/food_master')
+# sys.path.insert(0, '/home/www/food_master/')
 
 proj_path = os.path.dirname(os.path.dirname(__file__))
 sys.path.insert(0, proj_path)

@@ -30,12 +30,12 @@ CELERYBEAT_SCHEDULE = {
     },
     '定时启动 sql-worker1': {
         'task': 'celery_app.sql_task.save_recipe_2_mysql',
-        'schedule': crontab(minute=0, hour=16),  # 在凌晨12点开启
+        'schedule': crontab(minute=0, hour=4),  # 在凌晨12点开启
         'args': ('v',)
     },
     '定时启动 sql-worker2': {
         'task': 'celery_app.sql_task.save_list_2_mysql',
-        'schedule': crontab(minute=0, hour=16),  # 在凌晨12点开启
+        'schedule': crontab(minute=0, hour=4),  # 在凌晨12点开启
         'args': ('v',),
     },
     '定时启动spider': {

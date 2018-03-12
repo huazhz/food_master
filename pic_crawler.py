@@ -55,11 +55,11 @@ def save_and_upload(info, id, fid, _dir, nameformat, order=None):
         _type = info[1]
         name_elements = (id, fid, order, _type) \
             if order else (id, fid, _type)
-        imgname = nameformat % name_elements
-        filepath = _dir + imgname
+        img_name = nameformat % name_elements
+        filepath = _dir + img_name
         data.save(filepath)
         upload_to_oss.delay(filepath)
-        print(imgname)
+        print(img_name)
     else:
         pass
 

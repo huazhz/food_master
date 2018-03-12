@@ -77,17 +77,17 @@ def cdn_crawler():
     
     for recipe in recipes[x:]:
         cover_img_url = recipe.cover_img
-        cover_info = get_img_body_and_type(cover_img_url)
+        cover_img_info = get_img_body_and_type(cover_img_url)
         nameformat = 'i%sf%scover.%s'
-        save_and_upload(cover_info, recipe.id, recipe.fid, dir_path, nameformat)
+        save_and_upload(cover_img_info, recipe.id, recipe.fid, dir_path, nameformat)
         
         steps = recipe.recipestep_set.all()
         for order, step in enumerate(steps, 1):
-            step_img = step.image_url
-            if step_img != '暂无':
-                step_info = get_img_body_and_type(step_img)
+            step_img_url = step.image_url
+            if step_img_url != '暂无':
+                step_img_info = get_img_body_and_type(step_img_url)
                 nameformat = 'i%sf%ss%s.%s'
-                save_and_upload(step_info, recipe.id, recipe.fid, dir_path, nameformat, order)
+                save_and_upload(step_img_info, recipe.id, recipe.fid, dir_path, nameformat, order)
             else:
                 continue
         r.set('ossid', recipe.id)

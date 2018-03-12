@@ -47,7 +47,7 @@ def got_img(img_url):
         return 0
 
 
-def process_img(info, id, fid, dir, nameformat, order=None):
+def save_and_upload(info, id, fid, _dir, nameformat, order=None):
     ''' 保存图片并调用异步上传任务 '''
     if info:
         data = info[0]
@@ -55,7 +55,7 @@ def process_img(info, id, fid, dir, nameformat, order=None):
         name_elements = (id, fid, order, _type) \
             if order else (id, fid, _type)
         imgname = nameformat % name_elements
-        filepath = dir + imgname
+        filepath = _dir + imgname
         data.save(filepath)
         upload_to_oss.delay(filepath)
         print(imgname)
@@ -78,7 +78,7 @@ def cdn_crawler():
         cover_img_url = recipe.cover_img
         cover_info = got_img(cover_img_url)
         nameformat = 'i%sf%scover.%s'
-        process_img(cover_info, recipe.id, recipe.fid, dir_path, nameformat)
+        save_and_upload(cover_info, recipe.id, recipe.fid, dir_path, nameformat)
         
         steps = recipe.recipestep_set.all()
         for order, step in enumerate(steps, 1):
@@ -86,7 +86,7 @@ def cdn_crawler():
             if step_img != '暂无':
                 step_info = got_img(step_img)
                 nameformat = 'i%sf%ss%s.%s'
-                process_img(step_info, recipe.id, recipe.fid, dir_path, nameformat, order)
+                save_and_upload(step_info, recipe.id, recipe.fid, dir_path, nameformat, order)
             else:
                 continue
         r.set('ossid', recipe.id)

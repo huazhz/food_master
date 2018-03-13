@@ -10,6 +10,7 @@ from PIL import Image
 from io import BytesIO
 from celery_app import r
 from oss_task import upload_to_oss
+from multiprocessing import Process
 
 # setup Django environment
 proj_path = os.path.dirname(__file__)
@@ -66,9 +67,6 @@ def save_and_upload(info, id, fid, _dir, nameformat, order=None):
         pass
 
 
-from multiprocessing import Process
-
-
 def cdn_crawler(start, end):
     '''
     爬取图片保存到本地
@@ -106,6 +104,6 @@ if __name__ == '__main__':
     print('Parent Process %s is running' % (os.getpid()))
     
     for i in range(4):
-        p = Process(target=cdn_crawler, args=(11006 + i * 50 + 1, 11006 + (i + 1) * 50))
+        p = Process(target=cdn_crawler, args=(20400 + i * 125, 20400 + (i + 1) * 5))
         p.start()
     p.join()

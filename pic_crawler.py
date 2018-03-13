@@ -59,6 +59,7 @@ def save_and_upload(info, id, fid, _dir, nameformat, order=None):
         img_name = nameformat % name_elements
         filepath = _dir + img_name
         data.save(filepath)
+        assert os.path.exists(filepath) == True, 'file does not exists !!!'
         upload_to_oss.delay(filepath)
         print(img_name)
     else:
@@ -105,6 +106,6 @@ if __name__ == '__main__':
     print('Parent Process %s is running' % (os.getpid()))
     
     for i in range(4):
-        p = Process(target=cdn_crawler, args=(10777 + i * 5, 10777 + (i + 1) * 5))
+        p = Process(target=cdn_crawler, args=(11006 + i * 50 + 1, 11006 + (i + 1) * 50))
         p.start()
     p.join()

@@ -65,7 +65,10 @@ def save_and_upload(info, id, fid, _dir, nameformat, order=None):
         pass
 
 
-def cdn_crawler():
+from multiprocessing import Process
+
+
+def cdn_crawler(start, end):
     '''
     爬取图片保存到本地
     异步上传到OSS
@@ -74,9 +77,11 @@ def cdn_crawler():
     make_dir(dir_path)
     
     recipes = Recipe.objects.all()
-    x = int(input('enter the start id: '))
+    # start = int(input('enter the start id: '))
+    # end = int(input('enter the end id: '))
     
-    for recipe in recipes[x:]:
+    for recipe in recipes[start:end]:
+        print('Child Process %s is running' % (os.getpid()))
         cover_img_url = recipe.cover_img
         cover_img_info = get_img_body_and_type(cover_img_url)
         nameformat = 'i%sf%scover.%s'
@@ -92,8 +97,14 @@ def cdn_crawler():
             else:
                 continue
         r.set('ossid', recipe.id)
+    
     return None
 
 
 if __name__ == '__main__':
-    cdn_crawler()
+    print('Parent Process %s is running' % (os.getpid()))
+    
+    for i in range(4):
+        p = Process(target=cdn_crawler, args=(10777 + i * 5, 10777 + (i + 1) * 5))
+        p.start()
+    p.join()

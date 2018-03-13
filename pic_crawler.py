@@ -104,6 +104,6 @@ if __name__ == '__main__':
     print('Parent Process %s is running' % (os.getpid()))
     
     for i in range(4):
-        p = Process(target=cdn_crawler, args=(20400 + i * 125, 20400 + (i + 1) * 5))
+        p = Process(target=cdn_crawler, args=(30000 + i * 1733, 30000 + (i + 1) * 1733))
         p.start()
     p.join()

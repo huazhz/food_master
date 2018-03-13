@@ -35,23 +35,23 @@ def generic(req):
 
 def category(req, id, page_num=1):
     """ 分类列表 """
-    obj_list = Recipe.objects.filter(category__id=id)\
+    obj_list = Recipe.objects.filter(category__id=id) \
         .order_by('-rate_score')
     paginator = Paginator(obj_list, 10)
     result = paginator.get_page(page_num)
-
-    return render(req, 'front/list.html',context={'result': result, 'key': id})
+    
+    return render(req, 'front/list.html', context={'result': result, 'key': id})
 
 
 def search_result(req, key, page_num=1):
     """ 搜索列表展示页"""
-    obj_list = Recipe.objects.filter(name__contains=key)\
+    obj_list = Recipe.objects.filter(name__contains=key) \
         .order_by('-rate_score')
     paginator = Paginator(obj_list, 10)
     result = paginator.get_page(page_num)
     page_nearby_range = common_utils.get_nearby_pages(result)
     return render(req, 'front/list.html', context={'result': result, 'key': key,
-                                                   'page_nearby_range':page_nearby_range})
+                                                   'page_nearby_range': page_nearby_range})
 
 
 def recipe_details(req, id=None):
@@ -65,3 +65,7 @@ def recipe_details(req, id=None):
     first_cate = category[0] if category else None
     recipe_steps = recipe.recipestep_set.all()
     return render(req, 'front/recipe.html', locals())
+
+
+def sitemap(req):
+    return render(req, 'front/sitemap.txt')

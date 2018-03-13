@@ -28,7 +28,8 @@ urlpatterns = [
     path('category/<int:id>/<int:page_num>/', views.category),
     path('search/<str:key>/', views.search_result),
     path('search/<str:key>/<int:page_num>/', views.search_result),
-    path('recipe/<int:id>/', views.recipe_details)
+    path('recipe/<int:id>/', views.recipe_details),
+    path('sitemap/', views.sitemap)
 
 
 ]

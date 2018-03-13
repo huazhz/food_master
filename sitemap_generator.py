@@ -20,12 +20,20 @@ from front.models import Recipe
 
 recipes = Recipe.objects.all()
 
-with open('sitemap.xml', 'a') as f:
+## xml edition
+
+# with open('sitemap.xml', 'a') as f:
+#     for i in range(len(recipes)):
+#         f.write('''\n    <url>
+#         <loc>http://www.bestcaipu.com/recipe/%s/</loc>
+#         <lastmod>2018-03-12T02:30:22+00:00</lastmod>
+#         <priority>0.80</priority>
+#     </url>''' % (i + 1))
+#
+#     f.write('\n</urlset>')
+
+
+# txt edition
+with open('sitemap.txt', 'a') as f:
     for i in range(len(recipes)):
-        f.write('''\n    <url>
-        <loc>http://www.bestcaipu.com/recipe/%s/</loc>
-        <lastmod>2018-03-12T02:30:22+00:00</lastmod>
-        <priority>0.80</priority>
-    </url>''' % (i + 1))
-    
-    f.write('\n</urlset>')
+        f.write('''https://www.bestcaipu.com/recipe/%s/\n''' % (i + 1))

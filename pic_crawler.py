@@ -5,28 +5,12 @@
 
 import os
 import sys
-import oss2
-import time
 import requests
 from PIL import Image
 from io import BytesIO
-
-access_key_id = os.environ.get('access_key_id')
-access_key_secret = os.environ.get('access_key_secret')
-bucket_name = os.environ.get('bucket_name')
-endpoint = os.environ.get('endpoint')  #
-
-# test the environ
-print(access_key_id)
-print(access_key_secret)
-print(bucket_name)
-print(endpoint)
-
-# 确认上面的参数都填写正确
-for param in (access_key_id, access_key_secret, bucket_name, endpoint):
-    assert '<' not in param, '请设置参数：' + param
-
-bucket = oss2.Bucket(oss2.Auth(access_key_id, access_key_secret), endpoint, bucket_name)
+from celery_app import r
+from oss_task import upload_to_oss
+from multiprocessing import Process
 
 # setup Django environment
 proj_path = os.path.dirname(__file__)
@@ -35,47 +19,91 @@ os.environ['DJANGO_SETTINGS_MODULE'] = 'food_web.settings'
 import django
 
 django.setup()
-
-
-def percentage(consumed_bytes, total_bytes):
-    """进度条回调函数，计算当前完成的百分比
-    :param consumed_bytes: 已经上传/下载的数据量
-    :param total_bytes: 总数据量
-    """
-    if total_bytes:
-        rate = int(100 * (float(consumed_bytes) / float(total_bytes)))
-        print('\r{0:3}%  uploaded'.format(rate))
-        sys.stdout.flush()
-
-
 from front.models import Recipe
 
-recipes = Recipe.objects.all()
 
-for recipe in recipes[1925:]:
-    cover_img_url = recipe.cover_img
-    cover_res = requests.get(cover_img_url)
-    cover_data = Image.open(BytesIO(cover_res.content))
-    cname_obj = (recipe.id, recipe.fid, cover_data.format.lower())
-    cname = 'i%sf%scover.%s' % (cname_obj)
-    print(cname)
-    cdata = cover_res.content
-    bucket.put_object(cname, cdata, progress_callback=percentage)
-    # if not os.path.exists('./OSS_PICS'):
-    #     os.mkdir('./OSS_PICS')
-    # cover_data.save('./OSS_PICS/i%sf%scover.%s' % cname_obj)
+def make_dir(path):
+    '''
+    为图片创建文件夹
+    '''
+    if os.path.exists(path):
+        pass
+    else:
+        os.mkdir(path)
+
+
+def get_img_body_and_type(img_url):
+    '''
+    获取图片的二进制数据和图片的类型
+    返回一个包含上面信息的元组
+    '''
+    img_res = requests.get(img_url)
+    try:
+        img_data = Image.open(BytesIO(img_res.content))
+        img_type = img_data.format.lower()
+        return (img_data, img_type)
+    except OSError:
+        r.sadd('OSError_urls', img_url)
+        return 0
+
+
+def save_and_upload(info, id, fid, _dir, nameformat, order=None):
+    '''
+    保存图片
+    调用异步上传任务
+    '''
+    if info:
+        data = info[0]
+        _type = info[1]
+        name_elements = (id, fid, order, _type) \
+            if order else (id, fid, _type)
+        img_name = nameformat % name_elements
+        filepath = _dir + img_name
+        data.save(filepath)
+        assert os.path.exists(filepath) == True, 'file does not exists !!!'
+        upload_to_oss.delay(filepath)
+        print(img_name)
+    else:
+        pass
+
+
+def cdn_crawler(start, end):
+    '''
+    爬取图片保存到本地
+    异步上传到OSS
+    '''
+    dir_path = './OSS_PICS/'
+    make_dir(dir_path)
     
-    for order, step in enumerate(recipe.recipestep_set.all(), 1):
-        step_img = step.image_url
-        if step_img == '暂无':
-            continue
-        else:
-            step_res = requests.get(step.image_url)
-            step_data = Image.open(BytesIO(step_res.content))
-            sname_obj = (recipe.id, recipe.fid, order, step_data.format.lower())
-            sname = 'i%sf%ss%s.%s' % sname_obj
-            print(sname)
-            sdata = step_res.content
-            bucket.put_object(sname, sdata, progress_callback=percentage)
-            # step_data.save('./OSS_PICS/i%sf%ss%s.%s' % sname_obj)
-            time.sleep(0.5)
+    recipes = Recipe.objects.all()
+    # start = int(input('enter the start id: '))
+    # end = int(input('enter the end id: '))
+    
+    for recipe in recipes[start:end]:
+        print('Child Process %s is running' % (os.getpid()))
+        cover_img_url = recipe.cover_img
+        cover_img_info = get_img_body_and_type(cover_img_url)
+        nameformat = 'i%sf%scover.%s'
+        save_and_upload(cover_img_info, recipe.id, recipe.fid, dir_path, nameformat)
+        
+        steps = recipe.recipestep_set.all()
+        for order, step in enumerate(steps, 1):
+            step_img_url = step.image_url
+            if step_img_url != '暂无':
+                step_img_info = get_img_body_and_type(step_img_url)
+                nameformat = 'i%sf%ss%s.%s'
+                save_and_upload(step_img_info, recipe.id, recipe.fid, dir_path, nameformat, order)
+            else:
+                continue
+        r.set('ossid', recipe.id)
+    
+    return None
+
+
+if __name__ == '__main__':
+    print('Parent Process %s is running' % (os.getpid()))
+    
+    for i in range(4):
+        p = Process(target=cdn_crawler, args=(30000 + i * 1733, 30000 + (i + 1) * 1733))
+        p.start()
+    p.join()

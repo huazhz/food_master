@@ -68,4 +68,6 @@ def recipe_details(req, id=None):
 
 
 def sitemap(req):
+    # with open('./templates/front/sitemap.txt') as f:
+    #     return HttpResponse(f.readlines())
     return render(req, 'front/sitemap.txt')

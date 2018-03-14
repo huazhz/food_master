@@ -13,7 +13,7 @@ class MemberAdmin(admin.ModelAdmin):
 
 
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('fid', 'name', 'cover_img', 'rate_score', 'brief', 'add_time', 'stars')
+    list_display = ('id', 'fid', 'name', 'cover_img', 'rate_score', 'brief', 'add_time', 'stars')
     search_fields = ('fid', 'name',)
 
 
@@ -32,7 +32,7 @@ class NutritionAdmin(admin.ModelAdmin):
 
 class RecipeStepAdmin(admin.ModelAdmin):
     search_fields = ('recipe__name',)
-    list_display = ('step_detail', 'image_url', 'add_time', 'recipe')
+    list_display = ('id', 'step_detail', 'image_url', 'add_time', 'recipe')
 
 
 class RecipeTagAdmin(admin.ModelAdmin):

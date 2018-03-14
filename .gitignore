@@ -14,7 +14,7 @@ front/__pycache__/
 _trial_temp
 
 # setting 
-# food_web/settings.py
+food_web/settings.py
 
 # C extensions
 *.so

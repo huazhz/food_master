@@ -6,6 +6,12 @@ __pycache__/
 #settings
 food_web/settings.py
 
+# *.pid
+*.pid
+
+# nohup output
+nohup.out
+
 # __pycache__/
 food_web/__pycache__/
 front/__pycache__/

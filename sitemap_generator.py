@@ -37,3 +37,5 @@ recipes = Recipe.objects.all()
 with open('sitemap.txt', 'a') as f:
     for i in range(len(recipes)):
         f.write('''https://www.bestcaipu.com/recipe/%s/\n''' % (i + 1))
+    
+    f.write('\n</urlset>')

@@ -1,19 +1,41 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-'''
-1. 检查先决条件
-2. 定义子程序要解决的问题
-3. 为子程序命名
-4. 决定如何测试子程序
-5. 在标准库中搜寻可用的功能
-6. 考虑错误处理
-7. 考虑效率问题
-8. 研究算法和数据类型
-9. 编写伪代码
-    1. 首先简要地用一句话来写下该子程序的目的，
-    2. 编写很高层次的伪代码
-    3. 考虑数据
-    4. 检查伪代码
-10. 在伪代码中试验一些想法，留下最好的想法
-'''
+''' sitemap生成脚本 '''
+import os
+import sys
+import json
+
+# sys.path.insert(0, '/Users/macbook/个人项目/food_master')
+
+proj_path = os.path.dirname(__file__)
+sys.path.insert(0, proj_path)
+
+os.environ['DJANGO_SETTINGS_MODULE'] = 'food_web.settings'
+import django
+
+django.setup()
+
+from front.models import Recipe
+
+recipes = Recipe.objects.all()
+
+nameformat = 'https://image.bestcaipu.com/i%sf%scover.%s'
+nameformat1 = 'https://image.bestcaipu.com/i%sf%ss%s.%s'
+
+# nameformat % (rec.id, rec.fid, 'jpeg')
+
+for rec in recipes:
+    rec.cover_img = nameformat % (rec.id, rec.fid, 'jpeg')
+    rec.save()
+    print(rec.cover_img)
+    
+    steps = rec.recipestep_set.all()
+    for order, step in enumerate(steps, 1):
+        step.image_url = nameformat1 % (rec.id, rec.fid, order, 'jpeg')
+        step.save()
+        print(step.image_url)
+        # print('--- step ---')
+    print('-------- recipe -----------')
+
+# print('https://image.bestcaipu.com/i%sf%ss%s.%s' % (1, 2, 3, 'jpeg'))

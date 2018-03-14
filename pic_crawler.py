@@ -61,7 +61,8 @@ def save_and_upload(info, id, fid, _dir, nameformat, order=None):
         filepath = _dir + img_name
         data.save(filepath)
         assert os.path.exists(filepath) == True, 'file does not exists !!!'
-        upload_to_oss.delay(filepath)
+        
+        # upload_to_oss.delay(filepath)
         print(img_name)
     else:
         pass
@@ -80,19 +81,29 @@ def cdn_crawler(start, end):
     # end = int(input('enter the end id: '))
     
     for recipe in recipes[start:end]:
-        print('Child Process %s is running' % (os.getpid()))
+        # print('*' * ((recipe.id - 10000) // 50))
+        # print('Child Process %s is running' % (os.getpid()))
         cover_img_url = recipe.cover_img
-        cover_img_info = get_img_body_and_type(cover_img_url)
-        nameformat = 'i%sf%scover.%s'
-        save_and_upload(cover_img_info, recipe.id, recipe.fid, dir_path, nameformat)
+        if cover_img_url != '暂无':
+            cover_img_info = get_img_body_and_type(cover_img_url)
+            if cover_img_info:
+                nameformat = 'i%sf%scover.%s'
+                recipe.cover_img = 'https://image.bestcaipu.com/i%sf%scover.%s' % (
+                    recipe.id, recipe.fid, cover_img_info[1])
+                recipe.save()
+                save_and_upload(cover_img_info, recipe.id, recipe.fid, dir_path, nameformat)
         
         steps = recipe.recipestep_set.all()
         for order, step in enumerate(steps, 1):
             step_img_url = step.image_url
             if step_img_url != '暂无':
                 step_img_info = get_img_body_and_type(step_img_url)
-                nameformat = 'i%sf%ss%s.%s'
-                save_and_upload(step_img_info, recipe.id, recipe.fid, dir_path, nameformat, order)
+                if step_img_info:
+                    nameformat = 'i%sf%ss%s.%s'
+                    step.image_url = 'https://image.bestcaipu.com/i%sf%ss%s.%s' % (
+                        recipe.id, recipe.fid, order, step_img_info[1])
+                    step.save()
+                    save_and_upload(step_img_info, recipe.id, recipe.fid, dir_path, nameformat, order)
             else:
                 continue
         r.set('ossid', recipe.id)
@@ -103,7 +114,7 @@ def cdn_crawler(start, end):
 if __name__ == '__main__':
     print('Parent Process %s is running' % (os.getpid()))
     
-    for i in range(4):
-        p = Process(target=cdn_crawler, args=(30000 + i * 1733, 30000 + (i + 1) * 1733))
+    for i in range(10):
+        p = Process(target=cdn_crawler, args=(11700 + i * 30, 11700 + (i + 1) * 30))
         p.start()
     p.join()

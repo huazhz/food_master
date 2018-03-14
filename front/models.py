@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models.functions import Now
 
 
 class Member(models.Model):
@@ -26,10 +25,10 @@ class Recipe(models.Model):
     """ 菜谱 """
     fid = models.CharField('外部id', max_length=64, null=True)
     name = models.CharField('名称', max_length=128, null=False, db_index=True)
-    cover_img = models.CharField('封面图片', max_length=255, null=False)
+    cover_img = models.CharField('封面图片', max_length=32, null=False)
     rate_score = models.CharField('综合评分', max_length=8, default='5')
     stars = models.IntegerField('点赞数', max_length=16, default=0, null=False)
-    brief = models.CharField('简介', max_length=2048, null=False, default='暂无')
+
     cook = models.ForeignKey(to=Member, null=True, on_delete=models.DO_NOTHING,
                              db_constraint=False, related_name='created_recipe')
     # 因为食谱和原料有一个用量的关联关系，所以用到了through这个参数。
@@ -38,9 +37,10 @@ class Recipe(models.Model):
     category = models.ManyToManyField(to='RecipeCategory')
     fav_by = models.ManyToManyField(to='Member', db_constraint=False,
                                     related_name='collected_recipe')
-    notice = models.CharField('小贴士', max_length=255, default='暂无')
+
     tag = models.ManyToManyField(to='RecipeTag', db_constraint=False)
-    extra = models.CharField('预留字段', max_length=16, default='暂无')
+    extra = models.ForeignKey(to='RecipeExtra',null=True, on_delete=models.DO_NOTHING,
+                             db_constraint=False, related_name='recipe')
     add_time = models.DateTimeField(auto_now_add=True)
     
     class Meta:
@@ -49,6 +49,10 @@ class Recipe(models.Model):
     
     def __str__(self):
         return self.name
+
+class RecipeExtra(models.Model):
+    brief = models.CharField('简介', max_length=2048, null=False, default='暂无')
+    notice = models.CharField('小贴士', max_length=255, default='暂无')
 
 
 class Ingredient(models.Model):

@@ -39,9 +39,9 @@ class Recipe(models.Model):
                                     related_name='collected_recipe')
     
     tag = models.ManyToManyField(to='RecipeTag', db_constraint=False)
-    extra = models.CharField('预留字段', max_length=16, default='暂无')
-    long_text = models.ForeignKey(to='LongText', null=True, on_delete=models.DO_NOTHING,
-                                  db_constraint=False, related_name='recipe')
+    # extra = models.CharField('预留字段', max_length=16, default='暂无')
+    details = models.ForeignKey(to='Details', null=True, on_delete=models.DO_NOTHING,
+                                db_constraint=False, related_name='recipe')
     add_time = models.DateTimeField(auto_now_add=True)
     
     class Meta:
@@ -52,7 +52,7 @@ class Recipe(models.Model):
         return self.name
 
 
-class LongText(models.Model):
+class Details(models.Model):
     brief = models.CharField('简介', max_length=2048, null=False, default='暂无')
     notice = models.CharField('小贴士', max_length=255, default='暂无')
 

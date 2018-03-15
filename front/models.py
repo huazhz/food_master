@@ -39,7 +39,6 @@ class Recipe(models.Model):
                                     related_name='collected_recipe')
     
     tag = models.ManyToManyField(to='RecipeTag', db_constraint=False)
-    # extra = models.CharField('预留字段', max_length=16, default='暂无')
     details = models.ForeignKey(to='RecipeDetails', null=True, on_delete=models.DO_NOTHING,
                                 db_constraint=False, related_name='recipe')
     add_time = models.DateTimeField(auto_now_add=True)

@@ -9,7 +9,7 @@ import requests
 from PIL import Image
 from io import BytesIO
 from celery_app import r
-from oss_task import upload_to_oss
+# from oss_task import upload_to_oss
 from multiprocessing import Process
 
 # setup Django environment

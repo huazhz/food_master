@@ -40,7 +40,7 @@ DEPTH_PRIORITY = -10
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
 
-DOWNLOAD_DELAY = 0.2
+DOWNLOAD_DELAY = 3
 
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
@@ -68,7 +68,7 @@ COOKIES_ENABLED = False
 # See https://doc.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
     'food_scrapy.middlewares.FoodScrapyDownloaderMiddleware': 543,
-    'food_scrapy.middlewares.RandomProxy': 540,
+    # 'food_scrapy.middlewares.RandomProxy': 540,
     # 'food_scrapy.middlewares.RandomUserAgent': 541,
 }
 
@@ -117,17 +117,17 @@ IMAGE_RESULT_FIELD = 'images'
 # CLOSESPIDER_TIMEOUT = 540
 
 # 爬到10个item后停止
-# CLOSESPIDER_ITEMCOUNT = 100
+CLOSESPIDER_ITEMCOUNT = 1
 
 # 爬到10个页面后停止
 # CLOSESPIDER_PAGECOUNT=10
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-# USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'
+USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_3) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.132 Safari/537.36'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 
 
-USER_AGENT = random.choice([
+USER_AGENTS = [
     "Mozilla/5.0 (iPhone; CPU iPhone OS 10_3 like Mac OS X) AppleWebKit/602.1.50 (KHTML, like Gecko) CriOS/56.0.2924.75 Mobile/14E5239e Safari/602.1",
     "Mozilla/5.0 (Linux; U; Android 2.3.6; en-us; Nexus S Build/GRK39F) AppleWebKit/533.1 (KHTML, like Gecko) Version/4.0 Mobile Safari/533.1",
     "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-US) AppleWebKit/532.5 (KHTML, like Gecko) Chrome/4.0.249.0 Safari/532.5",
@@ -140,6 +140,7 @@ USER_AGENT = random.choice([
     "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.1 (KHTML, like Gecko) Chrome/13.0.782.24 Safari/535.1",
     "Mozilla/5.0 (Windows NT 6.0) AppleWebKit/535.2 (KHTML, like Gecko) Chrome/15.0.874.120 Safari/535.2",
     "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/535.7 (KHTML, like Gecko) Chrome/16.0.912.36 Safari/535.7",
-])
+]
 
-IPLIST = get_ips()
+# IPLIST = get_ips()
+IPLIST = ['http://60.176.239.140:6666']

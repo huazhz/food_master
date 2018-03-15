@@ -5,8 +5,6 @@
 从代理网站抓免费试用ip，每5分钟换一次
 '''
 
-
-
 import json
 import requests
 from celery_app import r, app
@@ -37,9 +35,12 @@ def get_free_ip():
             r.rpush('ip_list', proxy)
     while r.llen('ip_list') > 5:
         r.ltrim('ip_list', -5, -1)
+    print(s)
     return s
 
+
 get_free_ip()
+
 
 def get_ips():
     ips = [i.decode('utf-8') for i in r.lrange('ip_list', -5, -1)]

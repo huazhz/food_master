@@ -5,8 +5,7 @@
 import os
 import sys
 import json
-
-# sys.path.insert(0, '/home/www/food_master/')
+from celery_app.img_crawler import cdn_crawler
 
 proj_path = os.path.dirname(os.path.dirname(__file__))
 sys.path.insert(0, proj_path)
@@ -17,7 +16,8 @@ import django
 django.setup()
 
 from celery_app import r, app
-from front.models import Member, Recipe, RecipeStep, Ingredient, RecipeIngredient, RecipeCategory, MemberRecipeList
+from front.models import Member, Recipe, RecipeStep, Ingredient, \
+    RecipeIngredient, RecipeCategory, MemberRecipeList
 
 
 @app.task
@@ -55,7 +55,7 @@ def save_recipe_2_mysql(v):
     cook_obj, status = Member.objects.get_or_create(name=cook_info.get('name'),
                                                     gender=cook_info.get('gender'),
                                                     email=cook_info.get('email'),
-                                                    mobile=cook_info.get('email'),
+                                                    mobile=cook_info.get('mobile'),
                                                     password=cook_info.get('password'),
                                                     md5_password=cook_info.get('md5_password'),
                                                     is_fake=cook_info.get('is_fake'),
@@ -66,8 +66,6 @@ def save_recipe_2_mysql(v):
                                                   name=dict_recipe.get('name'),
                                                   cover_img=dict_recipe.get('cover_img'),
                                                   rate_score=dict_recipe.get('rate_score'),
-                                                  brief=dict_recipe.get('brief'),
-                                                  notice=dict_recipe.get('notice'),
                                                   stars=dict_recipe.get('stars'),
                                                   cook=cook_obj)
     recipe.save()
@@ -92,4 +90,6 @@ def save_recipe_2_mysql(v):
                                          rate_score=dict_recipe.get('rate_score'))[0],
             ingredient=Ingredient.objects.filter(name=i['ingredient'])[0],
             usage=i.get('usage'))
+    r.rpush('recipeid', recipe.id)  # 待爬取图片时使用
+    cdn_crawler.delay(recipe.id)
     r.sadd('visited_urlset', dict_recipe['url'])

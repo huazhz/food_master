@@ -27,7 +27,7 @@ class Recipe(models.Model):
     name = models.CharField('名称', max_length=128, null=False, db_index=True)
     cover_img = models.CharField('封面图片', max_length=255, null=False)
     rate_score = models.CharField('综合评分', max_length=8, default='5')
-    stars = models.IntegerField('点赞数', max_length=16, default=0, null=False)
+    stars = models.IntegerField('点赞数', default=0, null=False)
     
     cook = models.ForeignKey(to=Member, null=True, on_delete=models.DO_NOTHING,
                              db_constraint=False, related_name='created_recipe')

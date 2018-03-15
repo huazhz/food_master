@@ -18,19 +18,16 @@ from django.urls import path
 from front import views
 from utils import common_utils
 
-
-
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', views.index),
-
+    path('', views.index, name='index'),
+    
     path('category/<int:id>/', views.category),
     path('category/<int:id>/<int:page_num>/', views.category),
     path('search/<str:key>/', views.search_result),
     path('search/<str:key>/<int:page_num>/', views.search_result),
     path('recipe/<int:id>/', views.recipe_details),
     path('sitemap/', views.sitemap)
-
 
 ]
 handler500 = common_utils.handle_500

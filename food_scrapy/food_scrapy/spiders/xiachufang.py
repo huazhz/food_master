@@ -9,15 +9,22 @@ from celery_app import r
 class XiachufangSpider(scrapy.Spider):
     ''' this is a xiachufang spider, it mainly scrapes the recipe. '''
     name = 'xiachufang'
-    handle_httpstatus_list = [404]
+    handle_httpstatus_list = [404, 502]
     
     fid_begin_flag = r.get('fid_begin_flag').decode('utf8')  # 爬取起始点
     allowed_domains = ['xiachufang.com']
-    start_urls = ['http://www.xiachufang.com/recipe/%s/' % fid_begin_flag]  # brutal force 策略
+    
     # start_urls = ['http://www.xiachufang.com/category/']  # 遍历策略
-    not_scrapied_numer = 0
-    scrapied_numer = 0
-    start_page = 1
+    # not_scrapied_numer = 0
+    # scrapied_numer = 0
+    # start_page = 1
+    #
+    def start_requests(self):
+        meta = {'dont_redirect': True, "handle_httpstatus_list": [302, 301]}
+        start_url = 'http://www.xiachufang.com/recipe/%s/' % self.fid_begin_flag  # brutal force 策略
+        yield Request(url=start_url,
+                      meta=meta,
+                      callback=self.parse)
     
     def parse(self, response):
         '''
@@ -188,14 +195,14 @@ class XiachufangSpider(scrapy.Spider):
             item['name'] = response.xpath('//h1[@itemprop="name"]/text()').extract()[0].strip()
         except IndexError:
             item['name'] = '暂无'
-        try:
-            item['brief'] = [x.strip() for x in response.xpath('//div[@itemprop="description"]/text()').extract()]
-        except IndexError:
-            item['brief'] = '暂无'
+        # try:
+        #     item['brief'] = [x.strip() for x in response.xpath('//div[@itemprop="description"]/text()').extract()]
+        # except IndexError:
+        #     item['brief'] = '暂无'
         
         item['recipe_ingredients'] = list_ingre
         item['steps'] = list_steps
-        item['notice'] = [x.strip() for x in response.xpath('//div[@class="tip"]/text()').extract()]
+        # item['notice'] = [x.strip() for x in response.xpath('//div[@class="tip"]/text()').extract()]
         
         try:
             author_url = response.xpath('//div[@class="author"]/a/@href').extract()[0]
@@ -204,7 +211,6 @@ class XiachufangSpider(scrapy.Spider):
         except IndexError:
             return
         
-        # recipe_menu_list = response.xpath('//img[@class="recipe-menu-cover"]/@alt').extract()
         recipe_menu_link_list = response.xpath('//a[contains(@class,"recipe-menu")]/@href').extract()
         
         if recipe_menu_link_list:

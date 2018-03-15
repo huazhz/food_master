@@ -117,7 +117,9 @@ class RandomUserAgent(object):
     
     def process_request(self, request, spider):
         # 在 process_request中设置User-Agent的值
-        request.headers.setdefault('USER_AGENT', random.choice(self.agents))
+        ua = random.choice(self.agents)
+        print(ua)
+        request.headers.setdefault('USER_AGENT', ua)
 
 
 class RandomProxy(object):
@@ -132,5 +134,5 @@ class RandomProxy(object):
     
     def process_request(self, request, spider):
         proxy = random.choice(self.iplist)
+        print('---------%s-------' % proxy)
         request.meta['proxy'] = proxy
-

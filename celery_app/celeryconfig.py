@@ -19,7 +19,8 @@ CELERY_IMPORTS = (
     'celery_app.spider_task',
     'celery_app.sql_task',
     'celery_app.ip_task',
-    'celery_app.hello'
+    'celery_app.hello',
+    'celery_app.img_crawler',
 )
 
 # schedules
@@ -27,6 +28,10 @@ CELERYBEAT_SCHEDULE = {
     '获取免费ip': {
         'task': 'celery_app.ip_task.get_free_ip',
         'schedule': crontab(minute='*/3'),  # 每3分钟执行一次，但仅限于0点到1点
+    },
+    'img_crawler': {
+        'task': 'celery_app.img_crawler.cdn_crawler',
+        'schedule': crontab(),  # 每3分钟执行一次，但仅限于0点到1点
     },
     '定时启动 sql-worker1': {
         'task': 'celery_app.sql_task.save_recipe_2_mysql',

@@ -31,7 +31,8 @@ CELERYBEAT_SCHEDULE = {
     },
     'img_crawler': {
         'task': 'celery_app.img_crawler.cdn_crawler',
-        'schedule': crontab(),  # 每3分钟执行一次，但仅限于0点到1点
+        'schedule': crontab(minute='*/10'),  # 每3分钟执行一次，但仅限于0点到1点
+        'args': ('v'),
     },
     '定时启动 sql-worker1': {
         'task': 'celery_app.sql_task.save_recipe_2_mysql',

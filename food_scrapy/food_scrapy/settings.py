@@ -40,7 +40,7 @@ DEPTH_PRIORITY = -10
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
 
-DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 5
 
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
@@ -117,7 +117,7 @@ IMAGE_RESULT_FIELD = 'images'
 # CLOSESPIDER_TIMEOUT = 540
 
 # 爬到10个item后停止
-CLOSESPIDER_ITEMCOUNT = 1
+CLOSESPIDER_ITEMCOUNT = 100
 
 # 爬到10个页面后停止
 # CLOSESPIDER_PAGECOUNT=10

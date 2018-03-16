@@ -4,25 +4,18 @@
 <html lang="en">
 <head>
     <title>{% block title %}
-
     {% endblock title %}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-
     <meta name="keywords" content="{% block keywords %}
-
 {% endblock %}">
     <meta name="description" content="{% block description %}
-
 {% endblock %}">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,300i" rel="stylesheet">
-
     <link href="/static/css/core.min.css" rel="stylesheet">
     <link href="/static/css/app.min.css" rel="stylesheet">
     <link href="/static/css/style.min.css" rel="stylesheet">
     {% block css %}
-
     {% endblock css %}
     <link rel="apple-touch-icon" href="/static/img/favicon.png">
     <link rel="icon" href="/static/img/favicon.png">
@@ -35,11 +28,17 @@
             s.parentNode.insertBefore(hm, s);
         })();
     </script>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-115900927-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'UA-115900927-1');
+</script>
 </head>
-
 <body data-provide="pace">
-
 <div class="preloader"></div>
 {#    <aside class="sidebar"></aside>#}
 <header class="topbar topbar-expand-lg">
@@ -64,8 +63,6 @@
             </div>
         </div>
         <span class="topbar-brand"><a href="/"><img src="/static/img/logo.jpg" alt="菜谱大全"></a></span>
-
-
         <nav class="topbar-navigation">
             <ul class="menu">
 
@@ -75,8 +72,6 @@
                         <span class="title">首页</span>
                     </a>
                 </li>
-
-
             </ul>
         </nav>
     </div>
@@ -86,17 +81,10 @@
         </div>
     </div>
 </header>
-
 <main>
-
-    {#      <aside class="aside"></aside>#}
-
-
     <div class="main-content">
         {% block content %}
-
         {% endblock content %}
-
     </div>
     <footer class="site-footer pt-50 pb-20">
         <div class="row gap-y">
@@ -165,9 +153,7 @@
             <div class="col-md-6 justify-content-center justify-content-md-start">
                 <p>Copyright © 2018 <a href="/">菜谱大全</a>. All rights reserved. <a href="http://www.miitbeian.gov.cn/">蜀ICP备15003720号-1 </a>
                 </p>
-
             </div>
-
             <div class="col-md-6">
                 {#              <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">#}
                 {#                <li class="nav-item">#}
@@ -182,17 +168,13 @@
                 {#              </ul>#}
             </div>
         </div>
-
     </footer>
 </main>
-
-
 <script src="/static/js/core.min.js"></script>
 <script src="/static/js/app.min.js"></script>
 <script src="/static/js/script.min.js"></script>
 <script src="/static/js/style.min.js"></script>
 {% block footer_script %}
-
 {% endblock footer_script %}
 </body>
 </html>

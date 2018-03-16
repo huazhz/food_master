@@ -1,20 +1,14 @@
 {% extends '../include/base.html' %}
 {% load cache %}
-
-
 {% block title %}
     菜谱大全
 {% endblock %}
-
 {% block keywords %}
     菜谱,美食,菜谱大全
 {% endblock %}
-
 {% block description %}
     菜谱大全提供最全面的菜谱,还可学会如何做川菜,东北菜,冀菜,豫菜,鄂菜,本帮菜,客家菜,赣菜,京菜,清真菜.
 {% endblock %}
-
-
 {% block content %}
     <div class="card card-shadowed">
         <div class="lookup lookup-huge">
@@ -25,7 +19,6 @@
         <div class="col-lg-4">
             <div class="card">
                 <h4 class="card-title"><strong>最受欢迎的家常菜</strong></h4>
-
                 <div class="card-body">
                     <div class="media-list media-list-divided media-list-hover">
                         {% cache 500 recipe1 %}
@@ -44,7 +37,6 @@
                                 </div>
                             {% endfor %}
                         {% endcache %}
-
                     </div>
                 </div>
             </div>
@@ -52,7 +44,6 @@
         <div class="col-lg-4">
             <div class="card">
                 <h4 class="card-title"><strong>最受欢迎的快手菜</strong></h4>
-
                 <div class="card-body">
                     <div class="media-list media-list-divided media-list-hover">
                         {% cache 500 recipe2 %}
@@ -71,8 +62,6 @@
                                 </div>
                             {% endfor %}
                         {% endcache %}
-
-
                     </div>
                 </div>
             </div>
@@ -80,7 +69,6 @@
         <div class="col-lg-4">
             <div class="card">
                 <h4 class="card-title"><strong>最受欢迎的下饭菜</strong></h4>
-
                 <div class="card-body">
                     <div class="media-list media-list-divided media-list-hover">
                         {% cache 500 recipe3 %}
@@ -99,8 +87,6 @@
                                 </div>
                             {% endfor %}
                         {% endcache %}
-
-
                     </div>
                 </div>
             </div>

@@ -1,4 +1,5 @@
 {% extends '../include/base.html' %}
+{% load cache %}
 
 
 {% block title %}
@@ -27,22 +28,22 @@
 
                 <div class="card-body">
                     <div class="media-list media-list-divided media-list-hover">
-                        {% for x in recipe1 %}
-                            <div class="media media-single">
-                                <a  href="/recipe/{{ x.id }}/">
-                                    <img src="{{ x.cover_img }}"  class="avatar avatar-xxl" alt="{{ x.name }}">
-                                </a>
-                                <div class="media-body">
-                                    <a  href="/recipe/{{ x.id }}/">
-                                        <h4 class="title">{{ x.name }}</h4>
-                                        <span>网友评分{{ x.rate_score }}</span>
+                        {% cache 500 recipe1 %}
+                            {% for x in recipe1 %}
+                                <div class="media media-single">
+                                    <a href="/recipe/{{ x.id }}/">
+                                        <img src="{{ x.cover_img }}" class="avatar avatar-xxl" alt="{{ x.name }}">
                                     </a>
+                                    <div class="media-body">
+                                        <a href="/recipe/{{ x.id }}/">
+                                            <h4 class="title">{{ x.name }}</h4>
+                                            <span>网友评分{{ x.rate_score }}</span>
+                                        </a>
+                                    </div>
+
                                 </div>
-
-                            </div>
-                        {% endfor %}
-
-
+                            {% endfor %}
+                        {% endcache %}
 
                     </div>
                 </div>
@@ -54,21 +55,22 @@
 
                 <div class="card-body">
                     <div class="media-list media-list-divided media-list-hover">
-                        {% for x in recipe2 %}
-                            <div class="media media-single">
-                                <a  href="/recipe/{{ x.id }}/">
-                                    <img src="{{ x.cover_img }}"  class="avatar avatar-xxl" alt="{{ x.name }}">
-                                </a>
-                                <div class="media-body">
-                                    <a  href="/recipe/{{ x.id }}/">
-                                        <h4 class="title">{{ x.name }}</h4>
-                                        <span>网友评分:{{ x.rate_score }}</span>
+                        {% cache 500 recipe2 %}
+                            {% for x in recipe2 %}
+                                <div class="media media-single">
+                                    <a href="/recipe/{{ x.id }}/">
+                                        <img src="{{ x.cover_img }}" class="avatar avatar-xxl" alt="{{ x.name }}">
                                     </a>
+                                    <div class="media-body">
+                                        <a href="/recipe/{{ x.id }}/">
+                                            <h4 class="title">{{ x.name }}</h4>
+                                            <span>网友评分:{{ x.rate_score }}</span>
+                                        </a>
+                                    </div>
+
                                 </div>
-
-                            </div>
-                        {% endfor %}
-
+                            {% endfor %}
+                        {% endcache %}
 
 
                     </div>
@@ -81,21 +83,22 @@
 
                 <div class="card-body">
                     <div class="media-list media-list-divided media-list-hover">
-                        {% for x in recipe3 %}
-                            <div class="media media-single">
-                                <a  href="/recipe/{{ x.id }}/">
-                                    <img src="{{ x.cover_img }}"  class="avatar avatar-xxl" alt="{{ x.name }}">
-                                </a>
-                                <div class="media-body">
-                                    <a  href="/recipe/{{ x.id }}/">
-                                        <h4 class="title">{{ x.name }}</h4>
-                                        <span>网友评分{{ x.rate_score }}</span>
+                        {% cache 500 recipe3 %}
+                            {% for x in recipe3 %}
+                                <div class="media media-single">
+                                    <a href="/recipe/{{ x.id }}/">
+                                        <img src="{{ x.cover_img }}" class="avatar avatar-xxl" alt="{{ x.name }}">
                                     </a>
+                                    <div class="media-body">
+                                        <a href="/recipe/{{ x.id }}/">
+                                            <h4 class="title">{{ x.name }}</h4>
+                                            <span>网友评分{{ x.rate_score }}</span>
+                                        </a>
+                                    </div>
+
                                 </div>
-
-                            </div>
-                        {% endfor %}
-
+                            {% endfor %}
+                        {% endcache %}
 
 
                     </div>

@@ -5,10 +5,13 @@ from django.core.paginator import Paginator
 from front.models import Recipe, RecipeIngredient, RecipeCategory
 from utils import common_utils
 from front import rs
+from django.views.decorators.cache import cache_page
 
 
 # Create your views here.
 # I know, shut your mouth.
+
+@cache_page(60 * 15)
 def index(req):
     """ 首页 """
     recipe1 = Recipe.objects.filter(category__name='家常菜') \
@@ -43,7 +46,7 @@ def category(req, id, page_num=1):
     return render(req, 'front/list.html', context={'result': result, 'key': id,
                                                    'page_nearby_range': page_nearby_range})
 
-
+@cache_page(10)
 def search_result(req, key, page_num=1):
     """ 搜索列表展示页"""
     obj_list = Recipe.objects.filter(name__contains=key) \

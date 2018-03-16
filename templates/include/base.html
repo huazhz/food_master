@@ -1,18 +1,19 @@
 {% load staticfiles %}
+{% load cache %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>{% block title %}
+    <title>{% block title %}
 
     {% endblock title %}</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 
-<meta name="keywords" content="{% block keywords %}
+    <meta name="keywords" content="{% block keywords %}
 
 {% endblock %}">
-<meta name="description" content="{% block description %}
+    <meta name="description" content="{% block description %}
 
 {% endblock %}">
     <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,300i" rel="stylesheet">
@@ -25,15 +26,15 @@
     {% endblock css %}
     <link rel="apple-touch-icon" href="/static/img/favicon.png">
     <link rel="icon" href="/static/img/favicon.png">
-<script>
-var _hmt = _hmt || [];
-(function() {
-  var hm = document.createElement("script");
-  hm.src = "https://hm.baidu.com/hm.js?781d5a483cf2da53058819821e63fc60";
-  var s = document.getElementsByTagName("script")[0];
-  s.parentNode.insertBefore(hm, s);
-})();
-</script>
+    <script>
+        var _hmt = _hmt || [];
+        (function () {
+            var hm = document.createElement("script");
+            hm.src = "https://hm.baidu.com/hm.js?781d5a483cf2da53058819821e63fc60";
+            var s = document.getElementsByTagName("script")[0];
+            s.parentNode.insertBefore(hm, s);
+        })();
+    </script>
 
 </head>
 
@@ -46,24 +47,23 @@ var _hmt = _hmt || [];
         <div class="dropdown topbar-menu-toggler">
               <span class="topbar-btn" data-toggle="dropdown" aria-expanded="false">
                   <i class="ti-layout-grid3-alt fs-16"></i></span>
-            <div class="dropdown-menu dropdown-grid" x-placement="top-start" style="position: absolute; top: -294px; left: 0px; will-change: top, left;">
+            <div class="dropdown-menu dropdown-grid" x-placement="top-start"
+                 style="position: absolute; top: -294px; left: 0px; will-change: top, left;">
                 <a class="dropdown-item" href="/">
                     <span class="ion-ios-home-outline fs-18"></span>
                     <span class="title">首页</span>
                 </a>
                 <a class="dropdown-item" href="#">
-                    <span  class="ion-ios-list-outline fs-18"></span>
+                    <span class="ion-ios-list-outline fs-18"></span>
                     <span class="title">菜单</span>
                 </a>
                 <a class="dropdown-item" href="/">
-                    <span  class="ion-ios-flask-outline fs-18"></span>
+                    <span class="ion-ios-flask-outline fs-18"></span>
                     <span class="title">开发中</span>
                 </a>
             </div>
         </div>
         <span class="topbar-brand"><a href="/"><img src="/static/img/logo.jpg" alt="菜谱大全"></a></span>
-
-
 
 
         <nav class="topbar-navigation">
@@ -99,90 +99,91 @@ var _hmt = _hmt || [];
 
     </div>
     <footer class="site-footer pt-50 pb-20">
-          <div class="row gap-y">
+        <div class="row gap-y">
             <div class="col-lg-5">
-              <h5 class="text-uppercase fs-14 ls-1">关于菜谱大全</h5>
-              <p class="text-justify"><strong>菜谱大全</strong>
-                  是一个公开的免费的菜谱分享网页.
-              </p>
+                <h5 class="text-uppercase fs-14 ls-1">关于菜谱大全</h5>
+                <p class="text-justify"><strong>菜谱大全</strong>
+                    是一个公开的免费的菜谱分享网页.
+                </p>
             </div>
 
-{#            <div class="col-6 col-md-4 col-lg-2 text-left1 text-lg-center1">#}
-{#              <h5 class="text-uppercase fs-14 ls-1">Company</h5>#}
-{#              <ul class="nav flex-column">#}
-{#                <li class="nav-item">#}
-{#                  <a class="nav-link" href="#">About us</a>#}
-{#                </li>#}
-{#                <li class="nav-item">#}
-{#                  <a class="nav-link" href="#">How it works</a>#}
-{#                </li>#}
-{#                <li class="nav-item">#}
-{#                  <a class="nav-link" href="#">Terms of use</a>#}
-{#                </li>#}
-{#                <li class="nav-item">#}
-{#                  <a class="nav-link" href="#">Privacy policy</a>#}
-{#                </li>#}
-{#                <li class="nav-item">#}
-{#                  <a class="nav-link" href="#">Contact us</a>#}
-{#                </li>#}
-{#              </ul>#}
-{#            </div>#}
-{##}
-{#            <div class="col-6 col-md-4 col-lg-2 text-left1 text-lg-center1">#}
-{#              <h5 class="text-uppercase fs-14 ls-1">Support</h5>#}
-{#              <ul class="nav flex-column">#}
-{#                <li class="nav-item">#}
-{#                  <a class="nav-link" href="#">Help center</a>#}
-{#                </li>#}
-{#                <li class="nav-item">#}
-{#                  <a class="nav-link" href="#">Tutorials</a>#}
-{#                </li>#}
-{#                <li class="nav-item">#}
-{#                  <a class="nav-link" href="#">Forums</a>#}
-{#                </li>#}
-{#                <li class="nav-item">#}
-{#                  <a class="nav-link" href="#">Official blog</a>#}
-{#                </li>#}
-{#                <li class="nav-item">#}
-{#                  <a class="nav-link" href="#">Ask question</a>#}
-{#                </li>#}
-{#              </ul>#}
-{#            </div>#}
-{##}
-{#            <div class="col-md-4 col-lg-3 text-left1 text-lg-center1">#}
-{#              <h5 class="text-uppercase fs-14 ls-1">Newsletter</h5>#}
-{#              <p><strong>Subscribe</strong> to our newsletter to receive news, updates, and special offers:</p>#}
-{#              <br>#}
-{#              <div class="form-group">#}
-{#                <input type="text" class="form-control" placeholder="Enter your email address">#}
-{#              </div>#}
-{#              <button class="btn btn-primary btn-block" type="button"><i class="fa fa-paper-plane"></i> Subscribe</button>#}
-{#            </div>#}
-{##}
-          </div>
-          <hr>
-          <div class="row">
+            {#            <div class="col-6 col-md-4 col-lg-2 text-left1 text-lg-center1">#}
+            {#              <h5 class="text-uppercase fs-14 ls-1">Company</h5>#}
+            {#              <ul class="nav flex-column">#}
+            {#                <li class="nav-item">#}
+            {#                  <a class="nav-link" href="#">About us</a>#}
+            {#                </li>#}
+            {#                <li class="nav-item">#}
+            {#                  <a class="nav-link" href="#">How it works</a>#}
+            {#                </li>#}
+            {#                <li class="nav-item">#}
+            {#                  <a class="nav-link" href="#">Terms of use</a>#}
+            {#                </li>#}
+            {#                <li class="nav-item">#}
+            {#                  <a class="nav-link" href="#">Privacy policy</a>#}
+            {#                </li>#}
+            {#                <li class="nav-item">#}
+            {#                  <a class="nav-link" href="#">Contact us</a>#}
+            {#                </li>#}
+            {#              </ul>#}
+            {#            </div>#}
+            {##}
+            {#            <div class="col-6 col-md-4 col-lg-2 text-left1 text-lg-center1">#}
+            {#              <h5 class="text-uppercase fs-14 ls-1">Support</h5>#}
+            {#              <ul class="nav flex-column">#}
+            {#                <li class="nav-item">#}
+            {#                  <a class="nav-link" href="#">Help center</a>#}
+            {#                </li>#}
+            {#                <li class="nav-item">#}
+            {#                  <a class="nav-link" href="#">Tutorials</a>#}
+            {#                </li>#}
+            {#                <li class="nav-item">#}
+            {#                  <a class="nav-link" href="#">Forums</a>#}
+            {#                </li>#}
+            {#                <li class="nav-item">#}
+            {#                  <a class="nav-link" href="#">Official blog</a>#}
+            {#                </li>#}
+            {#                <li class="nav-item">#}
+            {#                  <a class="nav-link" href="#">Ask question</a>#}
+            {#                </li>#}
+            {#              </ul>#}
+            {#            </div>#}
+            {##}
+            {#            <div class="col-md-4 col-lg-3 text-left1 text-lg-center1">#}
+            {#              <h5 class="text-uppercase fs-14 ls-1">Newsletter</h5>#}
+            {#              <p><strong>Subscribe</strong> to our newsletter to receive news, updates, and special offers:</p>#}
+            {#              <br>#}
+            {#              <div class="form-group">#}
+            {#                <input type="text" class="form-control" placeholder="Enter your email address">#}
+            {#              </div>#}
+            {#              <button class="btn btn-primary btn-block" type="button"><i class="fa fa-paper-plane"></i> Subscribe</button>#}
+            {#            </div>#}
+            {##}
+        </div>
+        <hr>
+        <div class="row">
             <div class="col-md-6 justify-content-center justify-content-md-start">
-                <p>Copyright © 2018  <a href="/">菜谱大全</a>.  All rights reserved. <a href="http://www.miitbeian.gov.cn/">蜀ICP备15003720号-1 </a></p>
+                <p>Copyright © 2018 <a href="/">菜谱大全</a>. All rights reserved. <a href="http://www.miitbeian.gov.cn/">蜀ICP备15003720号-1 </a>
+                </p>
 
             </div>
 
             <div class="col-md-6">
-{#              <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">#}
-{#                <li class="nav-item">#}
-{#                  <a class="nav-link" href="#">Terms of use</a>#}
-{#                </li>#}
-{#                <li class="nav-item">#}
-{#                  <a class="nav-link" href="#">Privacy policy</a>#}
-{#                </li>#}
-{#                <li class="nav-item">#}
-{#                  <a class="nav-link" href="#">About</a>#}
-{#                </li>#}
-{#              </ul>#}
+                {#              <ul class="nav nav-primary nav-dotted nav-dot-separated justify-content-center justify-content-md-end">#}
+                {#                <li class="nav-item">#}
+                {#                  <a class="nav-link" href="#">Terms of use</a>#}
+                {#                </li>#}
+                {#                <li class="nav-item">#}
+                {#                  <a class="nav-link" href="#">Privacy policy</a>#}
+                {#                </li>#}
+                {#                <li class="nav-item">#}
+                {#                  <a class="nav-link" href="#">About</a>#}
+                {#                </li>#}
+                {#              </ul>#}
             </div>
-          </div>
+        </div>
 
-        </footer>
+    </footer>
 </main>
 
 

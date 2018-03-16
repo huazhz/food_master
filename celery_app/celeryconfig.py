@@ -16,7 +16,7 @@ USE_TZ = True
 
 # import
 CELERY_IMPORTS = (
-    # 'celery_app.spider_task',
+    'celery_app.spider_task',
     'celery_app.sql_task',
     'celery_app.ip_task',
     'celery_app.hello',
@@ -44,10 +44,10 @@ CELERYBEAT_SCHEDULE = {
         'schedule': crontab(minute=0, hour=4),
         'args': ('v',),
     },
-    # '定时启动spider': {
-    #     'task': 'celery_app.spider_task.start_spider',
-    #     'schedule': crontab(minute='*/10', hour='0-2,5-9,12-23'),  # 爬虫除了中午12点和晚上6-8点，每10分钟执行一次，每次执行540秒
-    # },
+    '定时启动spider': {
+        'task': 'celery_app.spider_task.start_spider',
+        'schedule': crontab(minute='*/10', hour='0-2,5-9,12-23'),  # 爬虫除了中午12点和晚上6-8点，每10分钟执行一次，每次执行540秒
+    },
     'hello test': {
         'task': 'celery_app.hello.hello',
         'schedule': crontab(),  # 没什么用，测试用的

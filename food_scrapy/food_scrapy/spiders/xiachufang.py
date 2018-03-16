@@ -46,7 +46,7 @@ class XiachufangSpider(scrapy.Spider):
             if response.status == 302:
                 yield Request(response.url.replace('m.', ''), callback=self.parse_recipe, dont_filter=True)
         else:
-            print('------------- this url has been scraped ---------------')
+            pass
         
         yield Request(new_url, callback=self.parse, dont_filter=True)
     

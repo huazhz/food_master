@@ -9,6 +9,9 @@ food_web/settings.py
 # *.pid
 *.pid
 
+# 未成功上传oss的图片文件
+oss_pics/
+
 # nohup output
 nohup.out
 

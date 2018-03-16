@@ -45,8 +45,8 @@ def category(req, id, page_num=1):
     paginator = Paginator(obj_list, 10)
     result = paginator.get_page(page_num)
     page_nearby_range = common_utils.get_nearby_pages(result)
-    return render(req, 'front/list.html', context={'result': result, 'key': id,
-                                                   'page_nearby_range': page_nearby_range})
+    return render(req, 'front/category.html', context={'result': result, 'key': id,
+                                                       'page_nearby_range': page_nearby_range})
 
 
 @cache_page(60)

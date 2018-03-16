@@ -1,3 +1,5 @@
+import os
+import json
 from django.shortcuts import render
 from django.http import Http404, HttpResponse
 from django.db.models import Q
@@ -79,3 +81,15 @@ def sitemap(req):
     # with open('./templates/front/sitemap.txt') as f:
     #     return HttpResponse(f.readlines())
     return render(req, 'front/sitemap.txt')
+
+
+def webhook(req):
+    print('webhook is running!')
+    
+    sh_file = '/home/www/food_master/webhook.sh'
+    os.system(sh_file)
+    
+    # path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    # os.system('cd %s ** git pull' % path)
+    data = {'status': 'ok', 'message': 'webhook is running!'}
+    return HttpResponse(json.dumps(data), content_type="application/json")

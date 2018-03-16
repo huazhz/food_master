@@ -88,8 +88,5 @@ def webhook(req):
     
     sh_file = '/home/www/food_master/webhook.sh'
     os.system(sh_file)
-    
-    # path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    # os.system('cd %s ** git pull' % path)
     data = {'status': 'ok', 'message': 'webhook is running!'}
     return HttpResponse(json.dumps(data), content_type="application/json")

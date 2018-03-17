@@ -1,3 +1,5 @@
+import os
+import json
 from django.shortcuts import render
 from django.http import Http404, HttpResponse
 from django.db.models import Q
@@ -46,7 +48,7 @@ def category(req, id, page_num=1):
     result = paginator.get_page(page_num)
     page_nearby_range = common_utils.get_nearby_pages(result)
     return render(req, 'front/list.html', context={'result': result, 'key': id,
-                                                   'page_nearby_range': page_nearby_range})
+                                                       'page_nearby_range': page_nearby_range})
 
 
 @cache_page(60)
@@ -79,3 +81,13 @@ def sitemap(req):
     # with open('./templates/front/sitemap.txt') as f:
     #     return HttpResponse(f.readlines())
     return render(req, 'front/sitemap.txt')
+
+
+def webhook(req):
+    print('webhook is running!')
+    
+    sh_file = '/home/www/food_master/webhook.sh'
+    os.system(('cd /home/www/food_master/ && ./webhook.sh'))
+    msg = os.popen(sh_file).read()
+    data = {'status': 'ok', 'message': msg}
+    return HttpResponse(json.dumps(data), content_type="application/json")

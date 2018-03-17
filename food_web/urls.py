@@ -23,7 +23,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     
-    # path('category/<int:id>/', views.category),
+    path('category/<int:id>/', views.category),
     path('category/<int:id>/<int:page_num>/$', views.category_recipes),
     path('category/<int:id>/<int:order_num>/<int:page_num>/', views.category_recipes),
     path('search/<str:key>/', views.search_result),

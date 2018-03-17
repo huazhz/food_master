@@ -39,23 +39,23 @@ def generic(req):
     return render(req, 'front/recipe.html')
 
 
-# @cache_page(60 * 15)
-# def category(req, id, page_num=1):
-#     """ 分类列表 """
-#     obj_list = Recipe.objects.filter(category__id=id) \
-#                    .order_by('-rate_score')[:30]
-#     cat = RecipeCategory.objects.get(id=id)
-#     cat_list = RecipeCategory.objects.all()[:30]
-#     paginator = Paginator(obj_list, 10)
-#     result = paginator.get_page(page_num)
-#     page_nearby_range = common_utils.get_nearby_pages(result)
-#     return render(req, 'front/category.html',
-#                   context={'result': result, 'key': id, 'cat': cat, 'cat_list': cat_list, 'obj_list': obj_list,
-#                            'page_nearby_range': page_nearby_range})
+@cache_page(60 * 15)
+def category(req, id, page_num=1):
+    """ 分类列表 """
+    obj_list = Recipe.objects.filter(category__id=id) \
+                   .order_by('-rate_score')[:30]
+    cat = RecipeCategory.objects.get(id=id)
+    cat_list = RecipeCategory.objects.all()[:30]
+    paginator = Paginator(obj_list, 10)
+    result = paginator.get_page(page_num)
+    page_nearby_range = common_utils.get_nearby_pages(result)
+    return render(req, 'front/category.html',
+                  context={'result': result, 'key': id, 'cat': cat, 'cat_list': cat_list, 'obj_list': obj_list,
+                           'page_nearby_range': page_nearby_range})
 
 
 @cache_page(60 * 15)
-def category_recipes(req, id, order_num=1, page_num=1):
+def category_recipes(req, id, order_num=None, page_num=1):
     """ 分类列表 """
     ordict = {
         1: '-stars',

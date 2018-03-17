@@ -1,10 +1,175 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+
+
+
+{% extends '../include/base.html' %}
+
+
+{% block title %}
+    菜谱大全
+{% endblock %}
+
+{% block keywords %}
+    {{ key }},{{ first_cate.name }},菜谱大全
+{% endblock %}
+
+{% block description %}
+    菜谱大全网提供最全面的{{ recipe.name }}做法,还可学会如何做{{ first_cate.name }}类的菜谱.
+{% endblock %}
+
+
+{% block content %}
+
+
+    <div class="row">
+
+        <div class="col-lg-2">
+            <aside class="aside aside-lg aside-expand-md">
+
+                <ul class="nav nav-tabs nav-justified nav-tabs-info">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-toggle="tab" href="#tab-contacts">全部分类</a>
+                    </li>
+                </ul>
+
+                <div class="aside-body p-0 ps-container ps-theme-default ps-active-y"
+                     data-ps-id="1d378efa-2c2c-077c-a205-ea53e3f77a98">
+
+                    <div class="tab-content">
+                        <div class="tab-pane fade active show" id="tab-contacts">
+                            <div class="media-list media-list-hover">
+                                {% for ob in cat_list %}
+
+                                    <div class="media items-center">
+                                        <span class="avatar avatar-sm media-inverse bg-primary">{{ ob.name }}</span>
+                                        <a class="title" href="/category/{{ ob.id }}">{{ ob.name }}</a>
+                                    </div>
+
+                                {% endfor %}
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;">
+                        <div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div>
+                    </div>
+                    <div class="ps-scrollbar-y-rail" style="top: 0px; height: 877px; right: 2px;">
+                        <div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 630px;"></div>
+                    </div>
+                </div>
+
+                <button class="aside-toggler"></button>
+            </aside>
+        </div>
+
+        <div class="col-lg-10">
+
+            <header class="header">
+                <div class="header-title">
+                    <div class="left">
+                        {#                <h2 class="header-title"><strong>Page</strong> header#}
+                        <h4 class="subtitle">当前分类： {{ cat.name }}</h4>
+                        {#                </h2>#}
+                    </div>
+
+
+                </div>
+
+                <div class="header-action">
+                    <ul class="nav nav-tabs" role="tablist">
+                        <li class="nav-item">
+                            <a class="nav-link active show" data-toggle="tab" href="/category/{{ cat.id }}/1/1" role="tab"
+                               aria-selected="true">按热度排名</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" data-toggle="tab" href="/category/{{ cat.id }}/2/1" role="tab"
+                               aria-selected="false">按时间排名
+
+                            </a>
+                        </li>
+                        <li class="nav-item d-none d-sm-block">
+                            <a class="nav-link" data-toggle="tab" href="/category/{{ cat.id }}/3/1" role="tab"
+                               aria-selected="false">按收藏数排名
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </header>
+
+            <div class="row">
+
+                <div class="col-lg-5 col-lg-offset-3">
+
+
+                    {% for rec in obj_list|slice:"0:10" %}
+
+                        <div class="media media-single">
+                            <a href="/recipe/27348/">
+                                <img src={{ rec.cover_img }}
+                                             class="avatar avatar-xxl"
+                                alt="【健康三餐】自制草莓油醋沙拉汁（无色素）">
+                            </a>
+                            <div class="media-body">
+                                <a href="/recipe/27348/">
+                                    <h4 class="title">{{ rec.name }}）</h4>
+                                    <span>网友评分:9.4</span>
+                                </a>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-lg-5  col-lg-offset-6">
+
+                    {% for rec in obj_list|slice:"10:20" %}
+                        <div class="media media-single">
+                            <a href="/recipe/27348/">
+                                <img src={{ rec.cover_img }}
+                                             class="avatar avatar-xxl"
+                                alt={{ rec.name }}">
+                            </a>
+                            <div class="media-body">
+                                <a href="/recipe/27348/">
+                                    <h4 class="title">{{ rec.name }}</h4>
+                                    <span>网友评分:9.4</span>
+                                </a>
+                            </div>
+
+                        </div>
+                    {% endfor %}
+
+                </div>
+
+
+                {#                <div class="col-lg-4  col-lg-offset-8">#}
+                {##}
+                {#                    {% for rec in obj_list|slice:"20:30" %}#}
+                {#                        <div class="media media-single">#}
+                {#                            <a href="/recipe/27348/">#}
+                {#                                <img src={{ rec.cover_img }}#}
+                {#                                             class="avatar avatar-xxl"#}
+                {#                                alt={{ rec.name }}">#}
+                {#                            </a>#}
+                {#                            <div class="media-body">#}
+                {#                                <a href="/recipe/27348/">#}
+                {#                                    <h4 class="title">{{ rec.name }}</h4>#}
+                {#                                    <span>网友评分:9.4</span>#}
+                {#                                </a>#}
+                {#                            </div>#}
+                {##}
+                {#                        </div>#}
+                {#                    {% endfor %}#}
+                {##}
+                {##}
+                {#                </div>#}
+
+
+            </div>
+        </div>
+
+    </div>
+
+
+{% endblock %}

@@ -32,7 +32,11 @@
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-115900927-1"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+
         gtag('js', new Date());
         gtag('set', {'user_id': 'USER_ID'});
         gtag('config', 'UA-115900927-1');
@@ -70,6 +74,12 @@
                     <a class="menu-link" href="/">
                         <span class="icon ti-home"></span>
                         <span class="title">首页</span>
+                    </a>
+                </li>
+                <li class="menu-item active">
+                    <a class="menu-link" href="/category/1">
+                        <span class="icon"></span>
+                        <span class="title">菜单目录</span>
                     </a>
                 </li>
             </ul>

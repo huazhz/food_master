@@ -25,7 +25,7 @@ front/__pycache__/
 # ?
 _trial_temp
 
-.env/bin/activate
+#.env/bin/activate
 
 # setting 
 food_web/settings.py

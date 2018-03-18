@@ -33,22 +33,26 @@ def index(req):
     return render(req, 'front/index.html', locals())
 
 
-def generic(req):
-    """ 首页 """
-    
-    return render(req, 'front/recipe.html')
-
-
 @cache_page(60 * 15)
 def category(req, id, page_num=1):
     """ 分类列表 """
-    obj_list = Recipe.objects.filter(category__id=id) \
-        .order_by('-rate_score')
-    paginator = Paginator(obj_list, 10)
+    obj_list1 = Recipe.objects.filter(category__id=id) \
+                   .order_by('-rate_score')[:30]
+    obj_list2 = Recipe.objects.filter(category__id=id) \
+                   .order_by('-add_time')[:30]
+    obj_list3 = Recipe.objects.filter(category__id=id) \
+                   .order_by('-name')[:30]
+    cat = RecipeCategory.objects.get(id=id)
+    cat_list = RecipeCategory.objects.all()[:30]
+    paginator = Paginator(obj_list3, 10)
     result = paginator.get_page(page_num)
     page_nearby_range = common_utils.get_nearby_pages(result)
-    return render(req, 'front/list.html', context={'result': result, 'key': id,
-                                                       'page_nearby_range': page_nearby_range})
+    return render(req, 'front/category.html',
+                  context={'result': result, 'key': id, 'cat': cat, 'cat_list': cat_list,
+                           'obj_list1': obj_list1,
+                           'obj_list2': obj_list2,
+                           'obj_list3': obj_list3,
+                           'page_nearby_range': page_nearby_range})
 
 
 @cache_page(60)

@@ -15,7 +15,7 @@ django.setup()
 
 from front.models import Recipe
 
-recipes = Recipe.objects.all()
+recipes = Recipe.objects.order_by('-stars')
 
 ## xml edition
 
@@ -30,9 +30,13 @@ recipes = Recipe.objects.all()
 #     f.write('\n</urlset>')
 
 
-# txt edition
+for r in recipes:
+    print(r.stars)
+
+# start 最高的100道
 with open('sitemap.txt', 'a') as f:
-    for i in range(len(recipes)):
-        f.write('''https://www.bestcaipu.com/recipe/%s/\n''' % (i + 1))
+    for r in recipes[:100]:
+        print(r.stars)
+        f.write('''https://www.bestcaipu.com/recipe/%s/\n''' % (r.id))
     
-    f.write('\n</urlset>')
+    # f.write('\n</urlset>')

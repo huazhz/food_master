@@ -8,8 +8,4 @@ cd  /home/www/food_master
 git pull origin master
 
 
-# just test the webhook works
-
-# add another test
-
-# another test
+# fucking test

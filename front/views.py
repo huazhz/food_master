@@ -37,11 +37,11 @@ def index(req):
 def category(req, id, page_num=1):
     """ 分类列表 """
     obj_list1 = Recipe.objects.filter(category__id=id) \
-                    .order_by('-rate_score')
+        .order_by('-rate_score')
     obj_list2 = Recipe.objects.filter(category__id=id) \
-                    .order_by('-add_time')
+        .order_by('-add_time')
     obj_list3 = Recipe.objects.filter(category__id=id) \
-                    .order_by('-name')
+        .order_by('-name')
     cat = RecipeCategory.objects.get(id=id)
     cat_list = RecipeCategory.objects.all()[:30]
     paginator1 = Paginator(obj_list1, 20)

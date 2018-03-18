@@ -21,7 +21,7 @@
 
         <ul class="nav nav-tabs nav-justified nav-tabs-info">
             <li class="nav-item">
-                <a class="nav-link active" data-toggle="tab" href="#tab-contacts">全部分类</a>
+                <a class="nav-link active" data-toggle="tab" href="#tab-contacts">相似菜单</a>
             </li>
         </ul>
 
@@ -85,6 +85,15 @@
                     <li class="nav-item d-none d-sm-block">
                         <a class="nav-link" data-toggle="tab" href="#tab-settings" role="tab">按名字</a>
                     </li>
+
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                    　　　　　　　　
+                    <h1> {{ cat.name }} </h1>
+
+
                 </ul>
             </div>
         </header>
@@ -328,7 +337,8 @@
                         <ul class="pagination justify-content-center">
                             {% if obj_list3.has_previous %}
                                 <li class="page-item">
-                                    <a class="page-link" href="/category/{{ key }}/{{ obj_list3.previous_page_number }}/">
+                                    <a class="page-link"
+                                       href="/category/{{ key }}/{{ obj_list3.previous_page_number }}/">
                                         <span class="ti-arrow-left"></span>
                                     </a>
                                 </li>

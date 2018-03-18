@@ -35,7 +35,7 @@
 
                             <div class="media items-center">
                                 <span class="avatar avatar-sm media-inverse bg-primary">{{ ob.name }}</span>
-                                <a class="title" href="/category/{{ ob.id }}">{{ ob.name }}</a>
+                                <a class="title" href="/menu/{{ ob.id }}">{{ ob.name }}</a>
                             </div>
 
                         {% endfor %}
@@ -155,7 +155,7 @@
                         <ul class="pagination justify-content-center">
                             {% if result1.has_previous %}
                                 <li class="page-item">
-                                    <a class="page-link" href="/category/{{ key }}/{{ result1.previous_page_number }}/">
+                                    <a class="page-link" href="/menu/{{ key }}/{{ result1.previous_page_number }}/">
                                         <span class="ti-arrow-left"></span>
                                     </a>
                                 </li>
@@ -172,7 +172,7 @@
                                     </li>
                                 {% else %}
                                     <li class="page-item"><a class="page-link"
-                                                             href="/category/{{ key }}/{{ x }}/">{{ x }}</a></li>
+                                                             href="/menu/{{ key }}/{{ x }}/">{{ x }}</a></li>
 
                                 {% endif %}
                             {% empty %}
@@ -181,7 +181,7 @@
 
                             {% if result1.has_next %}
                                 <li class="page-item">
-                                    <a class="page-link" href="/category/{{ key }}/{{ result1.next_page_number }}/">
+                                    <a class="page-link" href="/menu/{{ key }}/{{ result1.next_page_number }}/">
                                         <span class="ti-arrow-right"></span>
                                     </a>
                                 </li>
@@ -246,7 +246,7 @@
                         <ul class="pagination justify-content-center">
                             {% if result2.has_previous %}
                                 <li class="page-item">
-                                    <a class="page-link" href="/category/{{ key }}/{{ result2.previous_page_number }}/">
+                                    <a class="page-link" href="/menu/{{ key }}/{{ result2.previous_page_number }}/">
                                         <span class="ti-arrow-left"></span>
                                     </a>
                                 </li>
@@ -263,7 +263,7 @@
                                     </li>
                                 {% else %}
                                     <li class="page-item"><a class="page-link"
-                                                             href="/category/{{ key }}/{{ x }}/">{{ x }}</a></li>
+                                                             href="/menu/{{ key }}/{{ x }}/">{{ x }}</a></li>
 
                                 {% endif %}
                             {% empty %}
@@ -272,7 +272,7 @@
 
                             {% if result2.has_next %}
                                 <li class="page-item">
-                                    <a class="page-link" href="/category/{{ key }}/{{ result2.next_page_number }}/">
+                                    <a class="page-link" href="/menu/{{ key }}/{{ result2.next_page_number }}/">
                                         <span class="ti-arrow-right"></span>
                                     </a>
                                 </li>
@@ -338,7 +338,7 @@
                             {% if obj_list3.has_previous %}
                                 <li class="page-item">
                                     <a class="page-link"
-                                       href="/category/{{ key }}/{{ obj_list3.previous_page_number }}/">
+                                       href="/menu/{{ key }}/{{ obj_list3.previous_page_number }}/">
                                         <span class="ti-arrow-left"></span>
                                     </a>
                                 </li>
@@ -355,7 +355,7 @@
                                     </li>
                                 {% else %}
                                     <li class="page-item"><a class="page-link"
-                                                             href="/category/{{ key }}/{{ x }}/">{{ x }}</a></li>
+                                                             href="/menu/{{ key }}/{{ x }}/">{{ x }}</a></li>
 
                                 {% endif %}
                             {% empty %}
@@ -364,7 +364,7 @@
 
                             {% if result3.has_next %}
                                 <li class="page-item">
-                                    <a class="page-link" href="/category/{{ key }}/{{ result3.next_page_number }}/">
+                                    <a class="page-link" href="/menu/{{ key }}/{{ result3.next_page_number }}/">
                                         <span class="ti-arrow-right"></span>
                                     </a>
                                 </li>

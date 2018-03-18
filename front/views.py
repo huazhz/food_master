@@ -1,5 +1,6 @@
 import os
 import json
+import logging
 from django.shortcuts import render
 from django.http import Http404, HttpResponse
 from django.db.models import Q
@@ -8,7 +9,11 @@ from front.models import Recipe, RecipeIngredient, RecipeCategory
 from utils import common_utils
 from front import rs
 from django.views.decorators.cache import cache_page
+
 from django.core.cache import cache
+
+logger = logging.getLogger("default")
+logger.info("This is an error msg")
 
 
 # Create your views here.
@@ -17,6 +22,10 @@ from django.core.cache import cache
 @cache_page(15)
 def index(req):
     """ 首页 """
+    
+    
+    logger.info('fuck you!')
+    
     recipe1 = Recipe.objects.filter(category__name='家常菜') \
                   .exclude(rate_score='暂无') \
                   .exclude(cover_img='暂无') \
@@ -34,8 +43,11 @@ def index(req):
 
 
 @cache_page(60 * 15)
-def category(req, id, page_num=1):
+def menu(req, id, page_num=1):
     """ 分类列表 """
+    
+    logger.debug('-----------------------')
+    
     obj_list1 = Recipe.objects.filter(category__id=id) \
         .order_by('-rate_score')
     obj_list2 = Recipe.objects.filter(category__id=id) \
@@ -51,7 +63,7 @@ def category(req, id, page_num=1):
     result2 = paginator2.get_page(page_num)
     result3 = paginator3.get_page(page_num)
     page_nearby_range = common_utils.get_nearby_pages(result1)
-    return render(req, 'front/category.html',
+    return render(req, 'front/menu.html',
                   context={
                       'result1': result1,
                       'result2': result2,

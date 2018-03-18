@@ -44,6 +44,7 @@ class RecipeTagAdmin(admin.ModelAdmin):
 
 
 class RecipeCategoryAdmin(admin.ModelAdmin):
+    search_fields = ('name')
     list_display = ('name', 'category_type', 'add_time')
 
 

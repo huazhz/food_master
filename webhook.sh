@@ -4,4 +4,4 @@
 echo "git pull"
 
 cd  /home/www/food_master
-git push origin master
+git pull origin master

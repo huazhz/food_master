@@ -1,439 +1,329 @@
 {% extends '../include/base.html' %}
 
-
-{% block title %}
-    菜谱大全
-{% endblock %}
-
-{% block keywords %}
-    {{ key }},{{ first_cate.name }},菜谱大全
-{% endblock %}
-
-{% block description %}
-    菜谱大全网提供最全面的{{ recipe.name }}做法,还可学会如何做{{ first_cate.name }}类的菜谱.
-{% endblock %}
-
+{#{% block title %}#}
+{#    菜谱大全#}
+{#{% endblock %}#}
+{##}
+{#{% block keywords %}#}
+{#    菜谱大全#}
+{#{% endblock %}#}
 
 {% block content %}
 
+    <header class="header">
+        <div class="header-info">
+            <div class="left">
+                <h2 class="header-title"><strong>全部分类</strong>
+                    <small class="subtitle">在这里，查找你想要的一切菜谱吧！</small>
+                </h2>
+            </div>
+
+            <div class="right">
+                <form class="lookup lookup-circle lookup-lg lookup-right" target="index.html">
+                    <input type="text" name="s">
+                </form>
+            </div>
+        </div>
+    </header>
+
+
     <div class="row">
 
-        <div class="col-lg-2">
-
+        <div class="col-md-4">
             <div class="card">
-                <h2 class="card-title"><strong>相似的菜谱</strong></h2>
+                <h2 class="card-title"><strong>家常菜</strong></h2>
 
                 <div class="media-list media-list-hover media-list-divided">
-
-
                     <a class="media media-single" href="#">
-                        <span class="title">Canada</span>
-                        {#                        <span class="badge badge-pill badge-primary">9</span>#}
-                    </a>
-                    <a class="media media-single" href="#">
-                        <span class="title">Canada</span>
-                        {#                        <span class="badge badge-pill badge-primary">9</span>#}
-                    </a>
-                    <a class="media media-single" href="#">
-                        <span class="title">Canada</span>
-                        {#                        <span class="badge badge-pill badge-primary">9</span>#}
-                    </a>
-                    <a class="media media-single" href="#">
-                        <span class="title">Canada</span>
-                        {#                        <span class="badge badge-pill badge-primary">9</span>#}
-                    </a>
-                    <a class="media media-single" href="#">
-                        <span class="title">Canada</span>
-                        {#                        <span class="badge badge-pill badge-primary">9</span>#}
-                    </a>
-                    <a class="media media-single" href="#">
-                        <span class="title">Canada</span>
-                        {#                        <span class="badge badge-pill badge-primary">9</span>#}
-                    </a>
-                    <a class="media media-single" href="#">
-                        <span class="title">Canada</span>
-                        {#                        <span class="badge badge-pill badge-primary">9</span>#}
-                    </a>
-                    <a class="media media-single" href="#">
-                        <span class="title">Canada</span>
-                        {#                        <span class="badge badge-pill badge-primary">9</span>#}
-                    </a>
-                    <a class="media media-single" href="#">
-                        <span class="title">Canada</span>
-                        {#                        <span class="badge badge-pill badge-primary">9</span>#}
-                    </a>
-                    <a class="media media-single" href="#">
-                        <span class="title">Canada</span>
-                        {#                        <span class="badge badge-pill badge-primary">9</span>#}
-                    </a>
-                    <a class="media media-single" href="#">
-                        <span class="title">Canada</span>
-                        {#                        <span class="badge badge-pill badge-primary">9</span>#}
-                    </a>
-                    <a class="media media-single" href="#">
-                        <span class="title">Canada</span>
-                        {#                        <span class="badge badge-pill badge-primary">9</span>#}
-                    </a>
-                    <a class="media media-single" href="#">
-                        <span class="title">Canada</span>
-                        {#                        <span class="badge badge-pill badge-primary">9</span>#}
+                        <span class="avatar avatar-sm bg-primary"><i class="fa fa-user"></i></span>
+                        <span class="title">New user registered in website.</span>
                     </a>
 
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-success"><i class="fa fa-usd"></i></span>
+                        <span class="title">New payment has made through PayPal.</span>
+                    </a>
 
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-danger"><i class="fa fa-area-chart"></i></span>
+                        <span class="title">CPU usage went above 80%.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-yellow"><i class="fa fa-star"></i></span>
+                        <span class="title">New rating has received.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-warning"><i class="fa fa-battery-quarter"></i></span>
+                        <span class="title">Only %25 battery is available.</span>
+                    </a>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-10">
+        <div class="col-md-4">
+            <div class="card">
+                <h2 class="card-title"><strong>早餐</strong></h2>
 
-            <div class="row">
+                <div class="media-list media-list-hover media-list-divided">
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-primary"><i class="fa fa-user"></i></span>
+                        <span class="title">New user registered in website.</span>
+                    </a>
 
-                <div class="col-lg-12">
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-success"><i class="fa fa-usd"></i></span>
+                        <span class="title">New payment has made through PayPal.</span>
+                    </a>
 
-                    <header class="header">
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-danger"><i class="fa fa-area-chart"></i></span>
+                        <span class="title">CPU usage went above 80%.</span>
+                    </a>
 
-                        <div class="header-action">
-                            <ul class="nav nav-tabs" role="tablist">
-                                <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#tab-profile" role="tab">按评分</a>
-                                </li>
-                                <li class="nav-item">
-                                    <a class="nav-link " data-toggle="tab" href="#tab-messages" role="tab">按时间
-                                    </a>
-                                </li>
-                                <li class="nav-item d-none d-sm-block">
-                                    <a class="nav-link" data-toggle="tab" href="#tab-settings" role="tab">按名字</a>
-                                </li>
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-yellow"><i class="fa fa-star"></i></span>
+                        <span class="title">New rating has received.</span>
+                    </a>
 
-                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                &nbsp;
-                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
-                                &nbsp;
-                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
-                                　　　　　　　　
-                                <h1> {{ cat.name }} </h1>
-
-
-                            </ul>
-                        </div>
-                    </header>
-
-                </div>
-                <div class="row">
-
-                    <div class="tab-content card card-body">
-
-                        <div class="tab-pane active show" id="tab-profile" role="tabpanel">
-
-                            <div class="row">
-
-                                <div class="col-lg-6">
-
-                                    {% for rec in result1|slice:":10" %}
-
-                                        <div class="media media-single">
-                                            <a href="/recipe/{{ rec.id }}/">
-                                                {% if rec.cover_img != '暂无' %}
-                                                    <img src="{{ rec.cover_img }}" class="avatar avatar-xxl"
-                                                         alt="{{ rec.name }}">
-                                                {% else %}
-                                                    <span class="avatar avatar-xxl">暂无</span>
-                                                {% endif %}
-                                            </a>
-                                            <div class="media-body">
-                                                <a href="/recipe/{{ rec.id }}/">
-                                                    <h4 class="title">{{ rec.name }}</h4>
-                                                    <span>网友评分:{{ rec.rate_score }}</span>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    {% endfor %}
-
-                                </div>
-
-                                <div class="col-lg-6 col-lg-offset-6">
-
-                                    {% for rec in result1|slice:"10:20" %}
-
-                                        <div class="media media-single">
-                                            <a href="/recipe/{{ rec.id }}/">
-                                                <img src="{{ rec.cover_img }}" class="avatar avatar-xxl"
-                                                     alt="{{ rec.name }}">
-                                            </a>
-                                            <div class="media-body">
-                                                <a href="/recipe/{{ rec.id }}/">
-                                                    <h4 class="title">{{ rec.name }}</h4>
-                                                    <span>网友评分:{{ rec.rate_score }}</span>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    {% endfor %}
-
-                                </div>
-
-
-                                <div class="col-lg-10">
-                                    <nav class="mt-3">
-                                        <ul class="pagination justify-content-center">
-                                            {% if result1.has_previous %}
-                                                <li class="page-item">
-                                                    <a class="page-link"
-                                                       href="/menu/{{ key }}/{{ result1.previous_page_number }}/">
-                                                        <span class="ti-arrow-left"></span>
-                                                    </a>
-                                                </li>
-                                            {% else %}
-                                                <li class="page-item disabled">
-                                                    <a class="page-link" href="#">
-                                                        <span class="ti-arrow-left"></span>
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-                                            {% for x in page_nearby_range %}
-                                                {% if x == result1.number %}
-                                                    <li class="page-item active"><a class="page-link"
-                                                                                    href="#">{{ result1.number }}</a>
-                                                    </li>
-                                                {% else %}
-                                                    <li class="page-item"><a class="page-link"
-                                                                             href="/menu/{{ key }}/{{ x }}/">{{ x }}</a>
-                                                    </li>
-
-                                                {% endif %}
-                                            {% empty %}
-                                                <li class="page-item"><a class="page-link" href="#">...</a></li>
-                                            {% endfor %}
-
-                                            {% if result1.has_next %}
-                                                <li class="page-item">
-                                                    <a class="page-link"
-                                                       href="/menu/{{ key }}/{{ result1.next_page_number }}/">
-                                                        <span class="ti-arrow-right"></span>
-                                                    </a>
-                                                </li>
-                                            {% else %}
-                                                <li class="page-item disabled">
-                                                    <a class="page-link" href="#">
-                                                        <span class="ti-arrow-right"></span>
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-                                        </ul>
-                                    </nav>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="tab-pane " id="tab-messages" role="tabpanel">
-
-                            <div class="row">
-
-                                <div class="col-lg-6">
-
-                                    {% for rec in result2|slice:":10" %}
-
-                                        <div class="media media-single">
-                                            <a href="/recipe/{{ rec.id }}/">
-                                                <img src="{{ rec.cover_img }}" class="avatar avatar-xxl"
-                                                     alt="{{ rec.name }}">
-                                            </a>
-                                            <div class="media-body">
-                                                <a href="/recipe/{{ rec.id }}/">
-                                                    <h4 class="title">{{ rec.name }}）</h4>
-                                                    <span>网友评分:{{ rec.rate_score }}</span>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    {% endfor %}
-                                </div>
-
-                                <div class="col-lg-6 col-lg-offset-6">
-
-                                    {% for rec in result2|slice:"10:20" %}
-
-                                        <div class="media media-single">
-                                            <a href="/recipe/{{ rec.id }}/">
-                                                <img src="{{ rec.cover_img }}" class="avatar avatar-xxl"
-                                                     alt="{{ rec.name }}">
-                                            </a>
-                                            <div class="media-body">
-                                                <a href="/recipe/{{ rec.id }}/">
-                                                    <h4 class="title">{{ rec.name }}</h4>
-                                                    <span>网友评分:{{ rec.rate_score }}</span>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    {% endfor %}
-                                </div>
-
-                                <div class="col-lg-10">
-                                    <nav class="mt-3">
-                                        <ul class="pagination justify-content-center">
-                                            {% if result2.has_previous %}
-                                                <li class="page-item">
-                                                    <a class="page-link"
-                                                       href="/menu/{{ key }}/{{ result2.previous_page_number }}/">
-                                                        <span class="ti-arrow-left"></span>
-                                                    </a>
-                                                </li>
-                                            {% else %}
-                                                <li class="page-item disabled">
-                                                    <a class="page-link" href="#">
-                                                        <span class="ti-arrow-left"></span>
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-                                            {% for x in page_nearby_range %}
-                                                {% if x == result2.number %}
-                                                    <li class="page-item active"><a class="page-link"
-                                                                                    href="#">{{ result2.number }}</a>
-                                                    </li>
-                                                {% else %}
-                                                    <li class="page-item"><a class="page-link"
-                                                                             href="/menu/{{ key }}/{{ x }}/">{{ x }}</a>
-                                                    </li>
-
-                                                {% endif %}
-                                            {% empty %}
-                                                <li class="page-item"><a class="page-link" href="#">...</a></li>
-                                            {% endfor %}
-
-                                            {% if result2.has_next %}
-                                                <li class="page-item">
-                                                    <a class="page-link"
-                                                       href="/menu/{{ key }}/{{ result2.next_page_number }}/">
-                                                        <span class="ti-arrow-right"></span>
-                                                    </a>
-                                                </li>
-                                            {% else %}
-                                                <li class="page-item disabled">
-                                                    <a class="page-link" href="#">
-                                                        <span class="ti-arrow-right"></span>
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-                                        </ul>
-                                    </nav>
-                                </div>
-
-                            </div>
-
-                        </div>
-
-                        <div class="tab-pane" id="tab-settings" role="tabpanel">
-
-                            <div class="row">
-
-                                <div class="col-lg-6">
-
-                                    {% for rec in result3|slice:":10" %}
-
-                                        <div class="media media-single">
-                                            <a href="/recipe/{{ rec.id }}/">
-                                                <img src="{{ rec.cover_img }}" class="avatar avatar-xxl"
-                                                     alt="{{ rec.name }}">
-                                            </a>
-                                            <div class="media-body">
-                                                <a href="/recipe/{{ rec.id }}/">
-                                                    <h4 class="title">{{ rec.name }}</h4>
-                                                    <span>网友评分:{{ rec.rate_score }}</span>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    {% endfor %}
-                                </div>
-
-                                <div class="col-lg-6 col-lg-offset-6">
-
-                                    {% for rec in result3|slice:"10:20" %}
-
-                                        <div class="media media-single">
-                                            <a href="/recipe/{{ rec.id }}/">
-                                                <img src="{{ rec.cover_img }}" class="avatar avatar-xxl"
-                                                     alt="{{ rec.name }}">
-                                            </a>
-                                            <div class="media-body">
-                                                <a href="/recipe/{{ rec.id }}/">
-                                                    <h4 class="title">{{ rec.name }}</h4>
-                                                    <span>网友评分:{{ rec.rate_score }}</span>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    {% endfor %}
-                                </div>
-
-                                <div class="col-lg-10">
-                                    <nav class="mt-3">
-                                        <ul class="pagination justify-content-center">
-                                            {% if obj_list3.has_previous %}
-                                                <li class="page-item">
-                                                    <a class="page-link"
-                                                       href="/menu/{{ key }}/{{ obj_list3.previous_page_number }}/">
-                                                        <span class="ti-arrow-left"></span>
-                                                    </a>
-                                                </li>
-                                            {% else %}
-                                                <li class="page-item disabled">
-                                                    <a class="page-link" href="#">
-                                                        <span class="ti-arrow-left"></span>
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-                                            {% for x in page_nearby_range %}
-                                                {% if x == result3.number %}
-                                                    <li class="page-item active"><a class="page-link"
-                                                                                    href="#">{{ result3.number }}</a>
-                                                    </li>
-                                                {% else %}
-                                                    <li class="page-item"><a class="page-link"
-                                                                             href="/menu/{{ key }}/{{ x }}/">{{ x }}</a>
-                                                    </li>
-
-                                                {% endif %}
-                                            {% empty %}
-                                                <li class="page-item"><a class="page-link" href="#">...</a></li>
-                                            {% endfor %}
-
-                                            {% if result3.has_next %}
-                                                <li class="page-item">
-                                                    <a class="page-link"
-                                                       href="/menu/{{ key }}/{{ result3.next_page_number }}/">
-                                                        <span class="ti-arrow-right"></span>
-                                                    </a>
-                                                </li>
-                                            {% else %}
-                                                <li class="page-item disabled">
-                                                    <a class="page-link" href="#">
-                                                        <span class="ti-arrow-right"></span>
-                                                    </a>
-                                                </li>
-                                            {% endif %}
-                                        </ul>
-                                    </nav>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-warning"><i class="fa fa-battery-quarter"></i></span>
+                        <span class="title">Only %25 battery is available.</span>
+                    </a>
                 </div>
             </div>
         </div>
-    </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <h2 class="card-title"><strong>蔬菜水果</strong></h2>
+
+                <div class="media-list media-list-hover media-list-divided">
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-primary"><i class="fa fa-user"></i></span>
+                        <span class="title">New user registered in website.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-success"><i class="fa fa-usd"></i></span>
+                        <span class="title">New payment has made through PayPal.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-danger"><i class="fa fa-area-chart"></i></span>
+                        <span class="title">CPU usage went above 80%.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-yellow"><i class="fa fa-star"></i></span>
+                        <span class="title">New rating has received.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-warning"><i class="fa fa-battery-quarter"></i></span>
+                        <span class="title">Only %25 battery is available.</span>
+                    </a>
+                </div>
+            </div>
+        </div>
 
 
+        <div class="col-md-4">
+            <div class="card">
+                <h2 class="card-title"><strong>烘焙甜品</strong></h2>
 
+                <div class="media-list media-list-hover media-list-divided">
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-primary"><i class="fa fa-user"></i></span>
+                        <span class="title">New user registered in website.</span>
+                    </a>
 
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-success"><i class="fa fa-usd"></i></span>
+                        <span class="title">New payment has made through PayPal.</span>
+                    </a>
 
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-danger"><i class="fa fa-area-chart"></i></span>
+                        <span class="title">CPU usage went above 80%.</span>
+                    </a>
 
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-yellow"><i class="fa fa-star"></i></span>
+                        <span class="title">New rating has received.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-warning"><i class="fa fa-battery-quarter"></i></span>
+                        <span class="title">Only %25 battery is available.</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <h2 class="card-title"><strong>水产海鲜</strong></h2>
+
+                <div class="media-list media-list-hover media-list-divided">
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-primary"><i class="fa fa-user"></i></span>
+                        <span class="title">New user registered in website.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-success"><i class="fa fa-usd"></i></span>
+                        <span class="title">New payment has made through PayPal.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-danger"><i class="fa fa-area-chart"></i></span>
+                        <span class="title">CPU usage went above 80%.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-yellow"><i class="fa fa-star"></i></span>
+                        <span class="title">New rating has received.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-warning"><i class="fa fa-battery-quarter"></i></span>
+                        <span class="title">Only %25 battery is available.</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <h2 class="card-title"><strong>面食</strong></h2>
+
+                <div class="media-list media-list-hover media-list-divided">
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-primary"><i class="fa fa-user"></i></span>
+                        <span class="title">New user registered in website.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-success"><i class="fa fa-usd"></i></span>
+                        <span class="title">New payment has made through PayPal.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-danger"><i class="fa fa-area-chart"></i></span>
+                        <span class="title">CPU usage went above 80%.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-yellow"><i class="fa fa-star"></i></span>
+                        <span class="title">New rating has received.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-warning"><i class="fa fa-battery-quarter"></i></span>
+                        <span class="title">Only %25 battery is available.</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <h2 class="card-title"><strong>蛋奶豆制品</strong></h2>
+
+                <div class="media-list media-list-hover media-list-divided">
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-primary"><i class="fa fa-user"></i></span>
+                        <span class="title">New user registered in website.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-success"><i class="fa fa-usd"></i></span>
+                        <span class="title">New payment has made through PayPal.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-danger"><i class="fa fa-area-chart"></i></span>
+                        <span class="title">CPU usage went above 80%.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-yellow"><i class="fa fa-star"></i></span>
+                        <span class="title">New rating has received.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-warning"><i class="fa fa-battery-quarter"></i></span>
+                        <span class="title">Only %25 battery is available.</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <h2 class="card-title"><strong>减肥专题</strong></h2>
+
+                <div class="media-list media-list-hover media-list-divided">
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-primary"><i class="fa fa-user"></i></span>
+                        <span class="title">New user registered in website.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-success"><i class="fa fa-usd"></i></span>
+                        <span class="title">New payment has made through PayPal.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-danger"><i class="fa fa-area-chart"></i></span>
+                        <span class="title">CPU usage went above 80%.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-yellow"><i class="fa fa-star"></i></span>
+                        <span class="title">New rating has received.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-warning"><i class="fa fa-battery-quarter"></i></span>
+                        <span class="title">Only %25 battery is available.</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card">
+                <h2 class="card-title"><strong>肉食动物</strong></h2>
+
+                <div class="media-list media-list-hover media-list-divided">
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-primary"><i class="fa fa-user"></i></span>
+                        <span class="title">New user registered in website.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-success"><i class="fa fa-usd"></i></span>
+                        <span class="title">New payment has made through PayPal.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-danger"><i class="fa fa-area-chart"></i></span>
+                        <span class="title">CPU usage went above 80%.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-yellow"><i class="fa fa-star"></i></span>
+                        <span class="title">New rating has received.</span>
+                    </a>
+
+                    <a class="media media-single" href="#">
+                        <span class="avatar avatar-sm bg-warning"><i class="fa fa-battery-quarter"></i></span>
+                        <span class="title">Only %25 battery is available.</span>
+                    </a>
+                </div>
+            </div>
+        </div>
 {% endblock %}
-
-

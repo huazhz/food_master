@@ -66,12 +66,12 @@
     <div class="col-lg-12">
 
         <header class="header">
-{#            <div class="header-info">#}
-{#                <div class="left">#}
-{#                    <h6 class="header-title">当前菜谱<strong> {{ cat.name }} </strong>#}
-{#                    </h6>#}
-{#                </div>#}
-{#            </div>#}
+            {#            <div class="header-info">#}
+            {#                <div class="left">#}
+            {#                    <h6 class="header-title">当前菜谱<strong> {{ cat.name }} </strong>#}
+            {#                    </h6>#}
+            {#                </div>#}
+            {#            </div>#}
 
             <div class="header-action">
                 <ul class="nav nav-tabs" role="tablist">
@@ -83,75 +83,158 @@
                         </a>
                     </li>
                     <li class="nav-item d-none d-sm-block">
-                        <a class="nav-link" data-toggle="tab" href="#tab-settings" role="tab">按收藏</a>
+                        <a class="nav-link" data-toggle="tab" href="#tab-settings" role="tab">按名字</a>
                     </li>
                 </ul>
             </div>
         </header>
 
+
         <div class="tab-content card card-body">
+
+
             <div class="tab-pane active show" id="tab-profile" role="tabpanel">
 
+                <div class="row">
 
-                {% for rec in obj_list|slice:"0:10" %}
+                    <div class="col-lg-6">
 
-                    <div class="media media-single">
-                        <a href="/recipe/{{ rec.id }}/">
-                            <img src={{ rec.cover_img }}
-                                         class="avatar avatar-xxl"
-                            alt="【健康三餐】自制草莓油醋沙拉汁（无色素）">
-                        </a>
-                        <div class="media-body">
-                            <a href="/recipe/{{ rec.id }}/">
-                                <h4 class="title">{{ rec.name }}）</h4>
-                                <span>网友评分:{{ rec.rate_score }}</span>
-                            </a>
-                        </div>
+                        {% for rec in obj_list1|slice:"0:15" %}
+
+                            <div class="media media-single">
+                                <a href="/recipe/{{ rec.id }}/">
+                                    <img src={{ rec.cover_img }}
+                                                 class="avatar avatar-xxl"
+                                    alt={{ rec.name }}">
+                                </a>
+                                <div class="media-body">
+                                    <a href="/recipe/{{ rec.id }}/">
+                                        <h4 class="title">{{ rec.name }}）</h4>
+                                        <span>网友评分:{{ rec.rate_score }}</span>
+                                    </a>
+                                </div>
+
+                            </div>
+                        {% endfor %}
 
                     </div>
-                {% endfor %}
+
+                    <div class="col-lg-6 col-lg-offset-6">
+
+                        {% for rec in obj_list1|slice:"15:30" %}
+
+                            <div class="media media-single">
+                                <a href="/recipe/{{ rec.id }}/">
+                                    <img src={{ rec.cover_img }}
+                                                 class="avatar avatar-xxl"
+                                    alt={{ rec.name }}">
+                                </a>
+                                <div class="media-body">
+                                    <a href="/recipe/{{ rec.id }}/">
+                                        <h4 class="title">{{ rec.name }}）</h4>
+                                        <span>网友评分:{{ rec.rate_score }}</span>
+                                    </a>
+                                </div>
+
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
 
             </div>
 
             <div class="tab-pane " id="tab-messages" role="tabpanel">
 
-                {% for rec in obj_list|slice:"10:20" %}
+                <div class="row">
 
-                    <div class="media media-single">
-                        <a href="/recipe/{{ rec.id }}/">
-                            <img src={{ rec.cover_img }}
-                                         class="avatar avatar-xxl"
-                            alt={{ rec.name }}">
-                        </a>
-                        <div class="media-body">
-                            <a href="/recipe/{{ rec.id }}/">
-                                <h4 class="title">{{ rec.name }}）</h4>
-                                <span>网友评分:{{ rec.rate_score }}</span>
-                            </a>
-                        </div>
+                    <div class="col-lg-6">
 
+                        {% for rec in obj_list2|slice:":15" %}
+
+                            <div class="media media-single">
+                                <a href="/recipe/{{ rec.id }}/">
+                                    <img src={{ rec.cover_img }} class="avatar avatar-xxl" alt={{ rec.name }}">
+                                </a>
+                                <div class="media-body">
+                                    <a href="/recipe/{{ rec.id }}/">
+                                        <h4 class="title">{{ rec.name }}）</h4>
+                                        <span>网友评分:{{ rec.rate_score }}</span>
+                                    </a>
+                                </div>
+
+                            </div>
+                        {% endfor %}
                     </div>
-                {% endfor %}
+
+                    <div class="col-lg-6 col-lg-offset-6">
+
+                        {% for rec in obj_list2|slice:"15:30" %}
+
+                            <div class="media media-single">
+                                <a href="/recipe/{{ rec.id }}/">
+                                    <img src={{ rec.cover_img }} class="avatar avatar-xxl" alt={{ rec.name }}">
+                                </a>
+                                <div class="media-body">
+                                    <a href="/recipe/{{ rec.id }}/">
+                                        <h4 class="title">{{ rec.name }}）</h4>
+                                        <span>网友评分:{{ rec.rate_score }}</span>
+                                    </a>
+                                </div>
+
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
 
             </div>
 
             <div class="tab-pane" id="tab-settings" role="tabpanel">
 
-                {% for rec in obj_list|slice:"20:30" %}
+                <div class="row">
 
-                    <div class="media media-single">
-                        <a href="/recipe/{{ rec.id }}/">
-                            <img src={{ rec.cover_img }} class="avatar avatar-xxl" alt="【健康三餐】自制草莓油醋沙拉汁（无色素）">
-                        </a>
-                        <div class="media-body">
-                            <a href="/recipe/27348/">
-                                <h4 class="title">{{ rec.name }}）</h4>
-                                <span>网友评分:{{ rec.rate_score }}</span>
-                            </a>
-                        </div>
+                    <div class="col-lg-6">
 
+                        {% for rec in obj_list3|slice:":15" %}
+
+                            <div class="media media-single">
+                                <a href="/recipe/{{ rec.id }}/">
+                                    <img src={{ rec.cover_img }} class="avatar avatar-xxl" alt={{ rec.name }}">
+                                </a>
+                                <div class="media-body">
+                                    <a href="/recipe/{{ rec.id }}/">
+                                        <h4 class="title">{{ rec.name }}）</h4>
+                                        <span>网友评分:{{ rec.rate_score }}</span>
+                                    </a>
+                                </div>
+
+                            </div>
+                        {% endfor %}
                     </div>
-                {% endfor %}
+
+                    <div class="col-lg-6 col-lg-offset-6">
+
+                        {% for rec in obj_list3|slice:"15:30" %}
+
+                            <div class="media media-single">
+                                <a href="/recipe/{{ rec.id }}/">
+                                    <img src={{ rec.cover_img }} class="avatar avatar-xxl" alt={{ rec.name }}">
+                                </a>
+                                <div class="media-body">
+                                    <a href="/recipe/{{ rec.id }}/">
+                                        <h4 class="title">{{ rec.name }}）</h4>
+                                        <span>网友评分:{{ rec.rate_score }}</span>
+                                    </a>
+                                </div>
+
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
 
             </div>
         </div>

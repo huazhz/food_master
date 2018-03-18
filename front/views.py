@@ -3,6 +3,7 @@ import json
 from django.shortcuts import render
 from django.http import Http404, HttpResponse
 from django.db.models import Q
+from django.views.decorators import csrf
 from django.core.paginator import Paginator
 from front.models import Recipe, RecipeIngredient, RecipeCategory
 from utils import common_utils
@@ -86,7 +87,7 @@ def sitemap(req):
     #     return HttpResponse(f.readlines())
     return render(req, 'front/sitemap.txt')
 
-
+@csrf.csrf_exempt
 def webhook(req):
     # if req.method == "POST":
     print('webhook is running!')

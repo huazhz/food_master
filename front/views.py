@@ -23,7 +23,6 @@ logger.info("This is an error msg")
 def index(req):
     """ 首页 """
     
-    
     logger.info('fuck you!')
     
     recipe1 = Recipe.objects.filter(category__name='家常菜') \
@@ -40,6 +39,12 @@ def index(req):
                   .order_by('-rate_score')[:10]
     
     return render(req, 'front/index.html', locals())
+
+
+def category(req):
+    categories = RecipeCategory.objects.all()[:100]
+    
+    return render(req, 'front/category.html', locals())
 
 
 @cache_page(60 * 15)

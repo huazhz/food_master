@@ -22,6 +22,7 @@ from food_web import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
+    path('category/', views.category),
     path('menu/<int:id>/', views.menu),
     path('menu/<int:id>/<int:page_num>/', views.menu),
     path('search/<str:key>/', views.search_result),

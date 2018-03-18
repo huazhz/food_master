@@ -84,10 +84,13 @@ def sitemap(req):
 
 
 def webhook(req):
-    print('webhook is running!')
+    if req.method == "POST":
+        print('webhook is running!')
     
-    sh_file = '/home/www/food_master/webhook.sh'
-    os.system(('cd /home/www/food_master/ && ./webhook.sh'))
-    msg = os.popen(sh_file).read()
-    data = {'status': 'ok', 'message': msg}
-    return HttpResponse(json.dumps(data), content_type="application/json")
+        sh_file = '/home/www/food_master/webhook.sh'
+        os.system(('cd /home/www/food_master/ && ./webhook.sh'))
+        msg = os.popen(sh_file).read()
+        data = {'status': 'ok', 'message': msg}
+        return HttpResponse(json.dumps(data), content_type="application/json")
+    else:
+        return HttpResponse('you should not be here')

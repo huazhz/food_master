@@ -17,6 +17,8 @@ from front.models import Recipe
 
 recipes = Recipe.objects.order_by('-stars')
 
+length =
+
 ## xml edition
 
 # with open('sitemap.xml', 'a') as f:
@@ -30,13 +32,14 @@ recipes = Recipe.objects.order_by('-stars')
 #     f.write('\n</urlset>')
 
 
-for r in recipes:
-    print(r.stars)
+# for r in recipes:
+#     print(r.stars)
 
 # start 最高的100道
 with open('sitemap.txt', 'a') as f:
     for r in recipes[:100]:
-        print(r.stars)
+        # print(r.stars)
+        print(r.fid)
         f.write('''https://www.bestcaipu.com/recipe/%s/\n''' % (r.id))
     
     # f.write('\n</urlset>')

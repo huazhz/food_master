@@ -48,6 +48,7 @@ class RecipeCategoryAdmin(admin.ModelAdmin):
 
 
 class MemberRecipeListAdmin(admin.ModelAdmin):
+    search_fields = ('name',)
     list_display = ('name', 'created_member', 'last_modify_time', 'add_time')
 
 

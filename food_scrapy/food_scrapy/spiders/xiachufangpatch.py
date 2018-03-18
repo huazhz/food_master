@@ -22,7 +22,7 @@ class XiachufangpathSpider(scrapy.Spider):
     name = 'xiachufangpatch'
     handle_httpstatus_list = [404, 502]
     
-    r.set('begin', 0)
+    r.set('begin', 4074)
     begin = int(r.get('begin'))
     nowfid = fids[begin]
     allowed_domains = ['xiachufang.com']

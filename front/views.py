@@ -5,7 +5,7 @@ from django.shortcuts import render
 from django.http import Http404, HttpResponse
 from django.db.models import Q
 from django.core.paginator import Paginator
-from front.models import Recipe, RecipeIngredient, RecipeCategory
+from front.models import Recipe, RecipeIngredient, RecipeCategory, MemberRecipeList
 from utils import common_utils
 from front import rs
 from django.views.decorators.cache import cache_page
@@ -41,17 +41,28 @@ def index(req):
     return render(req, 'front/index.html', locals())
 
 
-def category(req):
+def menu(req):
     categories = RecipeCategory.objects.all()[:100]
     
-    return render(req, 'front/category.html', locals())
+    return render(req, 'front/menu.html', locals())
+
+
+def recipe_list(req, id, page=1):
+    list_obj = MemberRecipeList.objects.get(id=id)
+    list_name = list_obj.name
+    recipes = list_obj.recipes.all()
+    print(recipes.all())
+    return render(req, 'front/recipe_list.html',
+                  context={'recipes': recipes, 'list_name': list_name, })
 
 
 @cache_page(60 * 15)
-def menu(req, id, page_num=1):
+def category_detail(req, id, page_num=1):
     """ 分类列表 """
     
-    logger.debug('-----------------------')
+    menu_name = RecipeCategory.objects.get(id=id).name
+    
+    similar_menus = MemberRecipeList.objects.filter(name__contains=menu_name)[:20]
     
     obj_list1 = Recipe.objects.filter(category__id=id) \
         .order_by('-rate_score')
@@ -68,16 +79,19 @@ def menu(req, id, page_num=1):
     result2 = paginator2.get_page(page_num)
     result3 = paginator3.get_page(page_num)
     page_nearby_range = common_utils.get_nearby_pages(result1)
-    return render(req, 'front/menu.html',
+    return render(req, 'front/category_detail.html',
                   context={
                       'result1': result1,
                       'result2': result2,
                       'result3': result3,
-                      'key': id, 'cat': cat, 'cat_list': cat_list,
+                      'key': id, 'cat': cat,
+                      'cat_list': cat_list,
                       'obj_list1': obj_list1,
                       'obj_list2': obj_list2,
                       'obj_list3': obj_list3,
-                      'page_nearby_range': page_nearby_range})
+                      'similar_menus': similar_menus,
+                      'page_nearby_range': page_nearby_range}
+                  )
 
 
 @cache_page(60)

@@ -99,13 +99,15 @@
 
                     <div class="col-lg-6">
 
-                        {% for rec in obj_list1|slice:"0:15" %}
+                        {% for rec in result1|slice:":10" %}
 
                             <div class="media media-single">
                                 <a href="/recipe/{{ rec.id }}/">
-                                    <img src={{ rec.cover_img }}
-                                                 class="avatar avatar-xxl"
-                                    alt={{ rec.name }}">
+                                    {% if rec.cover_img != '暂无' %}
+                                        <img src="{{ rec.cover_img }}" class="avatar avatar-xxl" alt="{{ rec.name }}">
+                                    {% else %}
+                                        <span class="avatar avatar-xxl">暂无</span>
+                                    {% endif %}
                                 </a>
                                 <div class="media-body">
                                     <a href="/recipe/{{ rec.id }}/">
@@ -121,13 +123,12 @@
 
                     <div class="col-lg-6 col-lg-offset-6">
 
-                        {% for rec in obj_list1|slice:"15:30" %}
+                        {% for rec in result1|slice:"10:20" %}
 
                             <div class="media media-single">
                                 <a href="/recipe/{{ rec.id }}/">
-                                    <img src={{ rec.cover_img }}
-                                                 class="avatar avatar-xxl"
-                                    alt={{ rec.name }}">
+                                    <img src="{{ rec.cover_img }}" class="avatar avatar-xxl"
+                                         alt="{{ rec.name }}">
                                 </a>
                                 <div class="media-body">
                                     <a href="/recipe/{{ rec.id }}/">
@@ -140,6 +141,50 @@
                         {% endfor %}
 
                     </div>
+
+                    <nav class="mt-3">
+                        <ul class="pagination justify-content-center">
+                            {% if result1.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="/category/{{ key }}/{{ result1.previous_page_number }}/">
+                                        <span class="ti-arrow-left"></span>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#">
+                                        <span class="ti-arrow-left"></span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% for x in page_nearby_range %}
+                                {% if x == result1.number %}
+                                    <li class="page-item active"><a class="page-link" href="#">{{ result1.number }}</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link"
+                                                             href="/category/{{ key }}/{{ x }}/">{{ x }}</a></li>
+
+                                {% endif %}
+                            {% empty %}
+                                <li class="page-item"><a class="page-link" href="#">...</a></li>
+                            {% endfor %}
+
+                            {% if result1.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="/category/{{ key }}/{{ result1.next_page_number }}/">
+                                        <span class="ti-arrow-right"></span>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#">
+                                        <span class="ti-arrow-right"></span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
 
                 </div>
 
@@ -233,6 +278,51 @@
                             </div>
                         {% endfor %}
                     </div>
+
+                    <nav class="mt-3">
+                        <ul class="pagination justify-content-center">
+                            {% if obj_list3.has_previous %}
+                                <li class="page-item">
+                                    <a class="page-link" href="/search/{{ key }}/{{ obj_list1.previous_page_number }}/">
+                                        <span class="ti-arrow-left"></span>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#">
+                                        <span class="ti-arrow-left"></span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% for x in page_nearby_range %}
+                                {% if x == result.number %}
+                                    <li class="page-item active"><a class="page-link" href="#">{{ result.number }}</a>
+                                    </li>
+                                {% else %}
+                                    <li class="page-item"><a class="page-link"
+                                                             href="/search/{{ key }}/{{ x }}/">{{ x }}</a></li>
+
+                                {% endif %}
+                            {% empty %}
+                                <li class="page-item"><a class="page-link" href="#">...</a></li>
+                            {% endfor %}
+
+                            {% if result.has_next %}
+                                <li class="page-item">
+                                    <a class="page-link" href="/search/{{ key }}/{{ result.next_page_number }}/">
+                                        <span class="ti-arrow-right"></span>
+                                    </a>
+                                </li>
+                            {% else %}
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#">
+                                        <span class="ti-arrow-right"></span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+
                 </div>
 
 

@@ -37,22 +37,30 @@ def index(req):
 def category(req, id, page_num=1):
     """ 分类列表 """
     obj_list1 = Recipe.objects.filter(category__id=id) \
-                   .order_by('-rate_score')[:30]
+                    .order_by('-rate_score')
     obj_list2 = Recipe.objects.filter(category__id=id) \
-                   .order_by('-add_time')[:30]
+                    .order_by('-add_time')
     obj_list3 = Recipe.objects.filter(category__id=id) \
-                   .order_by('-name')[:30]
+                    .order_by('-name')
     cat = RecipeCategory.objects.get(id=id)
     cat_list = RecipeCategory.objects.all()[:30]
-    paginator = Paginator(obj_list3, 10)
-    result = paginator.get_page(page_num)
-    page_nearby_range = common_utils.get_nearby_pages(result)
+    paginator1 = Paginator(obj_list1, 20)
+    paginator2 = Paginator(obj_list2, 20)
+    paginator3 = Paginator(obj_list3, 20)
+    result1 = paginator1.get_page(page_num)
+    result2 = paginator2.get_page(page_num)
+    result3 = paginator3.get_page(page_num)
+    page_nearby_range = common_utils.get_nearby_pages(result1)
     return render(req, 'front/category.html',
-                  context={'result': result, 'key': id, 'cat': cat, 'cat_list': cat_list,
-                           'obj_list1': obj_list1,
-                           'obj_list2': obj_list2,
-                           'obj_list3': obj_list3,
-                           'page_nearby_range': page_nearby_range})
+                  context={
+                      'result1': result1,
+                      'result2': result2,
+                      'result3': result3,
+                      'key': id, 'cat': cat, 'cat_list': cat_list,
+                      'obj_list1': obj_list1,
+                      'obj_list2': obj_list2,
+                      'obj_list3': obj_list3,
+                      'page_nearby_range': page_nearby_range})
 
 
 @cache_page(60)

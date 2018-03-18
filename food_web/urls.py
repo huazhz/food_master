@@ -22,11 +22,13 @@ from food_web import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
-    path('category/', views.category),
-    path('menu/<int:id>/', views.menu),
-    path('menu/<int:id>/<int:page_num>/', views.menu),
+    path('menu/', views.menu),
+    path('category/<int:id>/', views.category_detail),
+    path('category/<int:id>/<int:page_num>/', views.category_detail),
     path('search/<str:key>/', views.search_result),
     path('search/<str:key>/<int:page_num>/', views.search_result),
+    path('recipe_list/<int:id>/', views.recipe_list),
+    path('recipe_list/<int:id>/<int:page_num>/', views.recipe_list),
     path('recipe/<int:id>/', views.recipe_details),
     path('sitemap/', views.sitemap),
     path('webhook/', views.webhook)

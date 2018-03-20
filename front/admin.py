@@ -2,7 +2,7 @@ from django.contrib import admin
 
 # Register your models here.
 from .models import Member, Recipe, Ingredient, Nutrition, RecipeStep, RecipeTag, RecipeCategory, MemberRecipeList, \
-    RecipeIngredient
+    RecipeIngredient, RecipeDetails
 
 
 class MemberAdmin(admin.ModelAdmin):
@@ -13,12 +13,17 @@ class MemberAdmin(admin.ModelAdmin):
 
 
 class RecipeAdmin(admin.ModelAdmin):
-    list_display = ('name', 'cover_img', 'rate_score', 'brief')
-    search_fields = ('name',)
+    list_display = ('id', 'fid', 'name', 'cover_img', 'rate_score', 'add_time', 'stars')
+    search_fields = ('fid', 'name',)
+
+
+class RecipeDetailsAdmin(admin.ModelAdmin):
+    list_display = ('brief', 'notice')
 
 
 class RecipeIngredientAdmin(admin.ModelAdmin):
     list_display = ("recipe", 'ingredient', 'usage')
+    search_fields = ('recipe__name', 'ingredient__name', 'usage')
 
 
 class IngredientAdmin(admin.ModelAdmin):
@@ -30,7 +35,8 @@ class NutritionAdmin(admin.ModelAdmin):
 
 
 class RecipeStepAdmin(admin.ModelAdmin):
-    list_display = ('step_detail', 'image_url', 'add_time')
+    search_fields = ('recipe__name',)
+    list_display = ('id', 'step_detail', 'image_url', 'add_time', 'recipe')
 
 
 class RecipeTagAdmin(admin.ModelAdmin):
@@ -47,6 +53,7 @@ class MemberRecipeListAdmin(admin.ModelAdmin):
 
 admin.site.register(Member, MemberAdmin)
 admin.site.register(Recipe, RecipeAdmin)
+admin.site.register(RecipeDetails, RecipeDetailsAdmin)
 admin.site.register(Ingredient, IngredientAdmin)
 admin.site.register(Nutrition, NutritionAdmin)
 admin.site.register(RecipeStep, RecipeStepAdmin)

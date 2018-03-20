@@ -1,4 +1,4 @@
-#!/home/arnold/PycharmProjects/lonely_island/.env/bin/python
+#!/home/www/food_master/.env/bin/python
 
 import sys
 import getopt

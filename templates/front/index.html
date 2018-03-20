@@ -1,50 +1,42 @@
 {% extends '../include/base.html' %}
-
-
+{% load cache %}
 {% block title %}
-    贝斯特厨房
+    菜谱大全
 {% endblock %}
-
 {% block keywords %}
     菜谱,美食,菜谱大全
 {% endblock %}
-
 {% block description %}
-    润厨房提供最全面的菜谱,还可学会如何做东北菜,冀菜,豫菜,鄂菜,本帮菜,客家菜,赣菜,京菜,清真菜.
+    菜谱大全提供最全面的菜谱,还可学会如何做川菜,东北菜,冀菜,豫菜,鄂菜,本帮菜,客家菜,赣菜,京菜,清真菜.
 {% endblock %}
-
-
 {% block content %}
     <div class="card card-shadowed">
-        <form class="lookup lookup-huge">
-            <input class="no-radius no-border" type="text" placeholder="搜索你想要做的菜...">
-        </form>
+        <div class="lookup lookup-huge">
+            <input class="no-radius no-border search-input" type="text" placeholder="搜索你想要做的菜...">
+        </div>
     </div>
     <div class="row">
         <div class="col-lg-4">
             <div class="card">
                 <h4 class="card-title"><strong>最受欢迎的家常菜</strong></h4>
-
                 <div class="card-body">
                     <div class="media-list media-list-divided media-list-hover">
-                        {% for x in recipe1 %}
-                            <div class="media media-single">
-                                <a  href="/recipe/{{ x.id }}">
-                                            <img src="{{ x.cover_img }}"  class="avatar avatar-xxxl">
+                        {% cache 500 recipe1 %}
+                            {% for x in recipe1 %}
+                                <div class="media media-single">
+                                    <a href="/recipe/{{ x.id }}/">
+                                        <img src="{{ x.cover_img }}" class="avatar avatar-xxl" alt="{{ x.name }}">
                                     </a>
                                     <div class="media-body">
-                                        <a  href="/recipe/{{ x.id }}">
-                                            <p class="title">{{ x.name }}</p>
-                                            <p>{{ x.brief }}</p>
+                                        <a href="/recipe/{{ x.id }}/">
+                                            <h4 class="title">{{ x.name }}</h4>
                                             <span>网友评分{{ x.rate_score }}</span>
                                         </a>
-                                        </div>
+                                    </div>
 
-                            </div>
-                        {% endfor %}
-
-
-
+                                </div>
+                            {% endfor %}
+                        {% endcache %}
                     </div>
                 </div>
             </div>
@@ -52,27 +44,24 @@
         <div class="col-lg-4">
             <div class="card">
                 <h4 class="card-title"><strong>最受欢迎的快手菜</strong></h4>
-
                 <div class="card-body">
                     <div class="media-list media-list-divided media-list-hover">
-                       {% for x in recipe2 %}
-                            <div class="media media-single">
-                                <a  href="/recipe/{{ x.id }}">
-                                            <img src="{{ x.cover_img }}"  class="avatar avatar-xxxl">
+                        {% cache 500 recipe2 %}
+                            {% for x in recipe2 %}
+                                <div class="media media-single">
+                                    <a href="/recipe/{{ x.id }}/">
+                                        <img src="{{ x.cover_img }}" class="avatar avatar-xxl" alt="{{ x.name }}">
                                     </a>
                                     <div class="media-body">
-                                        <a  href="/recipe/{{ x.id }}">
-                                            <p class="title">{{ x.name }}</p>
-                                            <p>{{ x.brief }}</p>
-                                            <span>网友评分{{ x.rate_score }}</span>
+                                        <a href="/recipe/{{ x.id }}/">
+                                            <h4 class="title">{{ x.name }}</h4>
+                                            <span>网友评分:{{ x.rate_score }}</span>
                                         </a>
-                                        </div>
+                                    </div>
 
-                            </div>
-                        {% endfor %}
-
-
-
+                                </div>
+                            {% endfor %}
+                        {% endcache %}
                     </div>
                 </div>
             </div>
@@ -80,27 +69,24 @@
         <div class="col-lg-4">
             <div class="card">
                 <h4 class="card-title"><strong>最受欢迎的下饭菜</strong></h4>
-
                 <div class="card-body">
                     <div class="media-list media-list-divided media-list-hover">
-                       {% for x in recipe3 %}
-                            <div class="media media-single">
-                                <a  href="/recipe/{{ x.id }}">
-                                            <img src="{{ x.cover_img }}"  class="avatar avatar-xxxl">
+                        {% cache 500 recipe3 %}
+                            {% for x in recipe3 %}
+                                <div class="media media-single">
+                                    <a href="/recipe/{{ x.id }}/">
+                                        <img src="{{ x.cover_img }}" class="avatar avatar-xxl" alt="{{ x.name }}">
                                     </a>
                                     <div class="media-body">
-                                        <a  href="/recipe/{{ x.id }}">
-                                            <p class="title">{{ x.name }}</p>
-                                            <p>{{ x.brief }}</p>
+                                        <a href="/recipe/{{ x.id }}/">
+                                            <h4 class="title">{{ x.name }}</h4>
                                             <span>网友评分{{ x.rate_score }}</span>
                                         </a>
-                                        </div>
+                                    </div>
 
-                            </div>
-                        {% endfor %}
-
-
-
+                                </div>
+                            {% endfor %}
+                        {% endcache %}
                     </div>
                 </div>
             </div>

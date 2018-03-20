@@ -2,15 +2,15 @@
 
 
 {% block title %}
-{{ recipe.name }} - {{ first_cate.name }} - 贝斯特厨房
+    {{ recipe.name }} - {{ first_cate.name }} - 菜谱大全
 {% endblock %}
 
 {% block keywords %}
-{{ recipe.name }},{{ first_cate.name }}
+    {{ recipe.name }},{{ first_cate.name }}
 {% endblock %}
 
 {% block description %}
-菜谱大全网提供最全面的{{ recipe.name }}做法,还可学会如何做{{ first_cate.name }}类的菜谱.
+    菜谱大全网提供最全面的{{ recipe.name }}做法,还可学会如何做{{ first_cate.name }}类的菜谱.
 {% endblock %}
 
 
@@ -18,12 +18,16 @@
     <header class="header">
         <div class="header-info">
             <div class="left">
-                <h1 class="header-title">{{ recipe.name }}</h1>
+                <h1>{{ recipe.name }}
+                    <small class="sidetitle">
+                        {{ recipe.cook.name }}
+                    </small>
+                </h1>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="/">首页</a></li>
                     {% if first_cate %}
                         <li class="breadcrumb-item">
-                            <a href="/category/{{ first_cate.id }}">
+                            <a href="/category/{{ first_cate.id }}/">
                                 {{ first_cate.name }}
                             </a>
                         </li>
@@ -34,23 +38,77 @@
             </div>
         </div>
     </header>
-    <div class="card-columns">
-        {% for step in recipe_steps %}
-            <div class="card">
-                <header class="card-header">
-                    <h4 class="card-title"><strong>第{{ step.step_order }}步</strong></h4>
-                </header>
-                <div class="card-body">
 
-                    <p>{{ step.step_detail }}
-                    </p>
-                    <p><small>{{ step.add_time }}</small></p>
+    <div class="card">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-xl-3">
+
+
+
+                    <table class="table table-bordered table-striped table-hover">
+                        <tbody>
+                        {% for x in recipe_ingredient %}
+                            <tr>
+                                <td>{{ x.ingredient.name }}</td>
+                                <td>{% if x.usage %}
+                                    {{ x.usage }}
+                                {% else %}
+                                    适量
+                                {% endif %}
+                                </td>
+                            </tr>
+                        {% endfor %}
+
+
+                        </tbody>
+                    </table>
                 </div>
-                {% if step.image_url != '暂无' %}
-                    <img class="card-img-top" src="{{ step.image_url }}" alt="Card image cap">
-                {% endif %}
+
+                <div class="col-xl-9">
+                    <h4>所在分类</h4>
+                    <div class="row">
+                        {% for x in category %}
+                            <div class="col-md-2">
+                                <a class="card card-body card-hover-shadow" href="/category/{{ x.id }}">
+                                    <div class="flexbox align-items-center">
+                                        <div>
+                                            <h6 class="mb-0">{{ x.name }}</h6>
+                                        </div>
+
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
 
 
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="row">
+        {% for step in recipe_steps %}
+            <div class="col-xl-2 col-md-4">
+                <div class="card">
+                    <header class="card-header">
+                        <h4 class="card-title"><strong>第{{ step.step_order }}步</strong></h4>
+                    </header>
+                    {% if step.image_url != '暂无' %}
+                        <img class="card-img-top" src="{{ step.image_url }}" alt="{{ recipe.name }}">
+                    {% endif %}
+                    <div class="card-body">
+
+                        <p>{{ step.step_detail }}
+                        </p>
+                        <p><small>{{ step.add_time }}</small></p>
+                    </div>
+
+
+
+                </div>
             </div>
         {% endfor %}
 

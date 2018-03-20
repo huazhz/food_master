@@ -16,10 +16,28 @@ class RecipeItem(scrapy.Item):
     rate_score = Field()
     brief = Field()
     cook = Field()
-    
     recipe_ingredients = Field()
     category = Field()
     fave_by = Field()
     tag = Field()
     steps = Field()
     url = Field()
+    notice = Field()
+    image_urls = Field()
+    images = Field()
+    stars = Field()
+
+
+class RecepeListItem(scrapy.Item):
+    fid = Field()
+    name = Field()
+    recipe_fids = Field()
+    created_member = Field()
+    recipes = Field()
+    fav_by = Field()
+
+
+class PatchItem(scrapy.Item):
+    fid = Field()
+    stars = Field()
+    brief = Field()

@@ -6,6 +6,15 @@ __pycache__/
 #settings
 food_web/settings.py
 
+# *.pid
+*.pid
+
+# 未成功上传oss的图片文件
+oss_pics/
+
+# nohup output
+nohup.out
+
 # __pycache__/
 food_web/__pycache__/
 front/__pycache__/
@@ -15,6 +24,8 @@ front/__pycache__/
 
 # ?
 _trial_temp
+
+#.env/bin/activate
 
 # setting 
 food_web/settings.py

@@ -1,5 +1,4 @@
 from django.db import models
-from django.db.models.functions import Now
 
 
 class Member(models.Model):
@@ -28,7 +27,8 @@ class Recipe(models.Model):
     name = models.CharField('名称', max_length=128, null=False, db_index=True)
     cover_img = models.CharField('封面图片', max_length=255, null=False)
     rate_score = models.CharField('综合评分', max_length=8, default='5')
-    brief = models.CharField('简介', max_length=2048, null=False)
+    stars = models.IntegerField('点赞数', default=0, null=False)
+    
     cook = models.ForeignKey(to=Member, null=True, on_delete=models.DO_NOTHING,
                              db_constraint=False, related_name='created_recipe')
     # 因为食谱和原料有一个用量的关联关系，所以用到了through这个参数。
@@ -36,10 +36,11 @@ class Recipe(models.Model):
                                          through_fields=('recipe', 'ingredient'))
     category = models.ManyToManyField(to='RecipeCategory')
     fav_by = models.ManyToManyField(to='Member', db_constraint=False,
-                               related_name='collected_recipe')
-    notice = models.CharField('小贴士', max_length=255, default='暂无')
+                                    related_name='collected_recipe')
+    
     tag = models.ManyToManyField(to='RecipeTag', db_constraint=False)
-    extra = models.CharField('预留字段', max_length=16, default='暂无')
+    details = models.ForeignKey(to='RecipeDetails', null=True, on_delete=models.DO_NOTHING,
+                                db_constraint=False, related_name='recipe')
     add_time = models.DateTimeField(auto_now_add=True)
     
     class Meta:
@@ -48,6 +49,11 @@ class Recipe(models.Model):
     
     def __str__(self):
         return self.name
+
+
+class RecipeDetails(models.Model):
+    brief = models.CharField('简介', max_length=2048, null=False, default='暂无')
+    notice = models.CharField('小贴士', max_length=255, default='暂无')
 
 
 class Ingredient(models.Model):
@@ -62,7 +68,7 @@ class Ingredient(models.Model):
     nutrition_knowledge = models.CharField('食材营养小知识', max_length=2048, default='暂无')
     suitable_people = models.CharField('使用人群', max_length=2048, default='暂无')
     cautions = models.CharField('饮食宜忌', max_length=2048, default='暂无')
-    tips = models.CharField('食材烹饪小窍门', max_length=2048, default='暂无')
+    tips = models.CharField('食材烹饪小窍门', max_length=4096, default='暂无')
     add_time = models.DateTimeField(auto_now_add=True)
     
     class Meta:
@@ -165,7 +171,7 @@ class MemberRecipeList(models.Model):
                                        related_name='created_recipe_list')
     recipes = models.ManyToManyField(to='Recipe', related_name='included_in_list', db_constraint=False)
     fav_by = models.ManyToManyField(to='Member', db_constraint=False,
-                               related_name='collected_lists')
+                                    related_name='collected_lists')
     last_modify_time = models.DateTimeField(auto_now_add=True)
     add_time = models.DateTimeField(auto_now_add=True)
     

@@ -57,14 +57,11 @@ def recipe_list(req, id, page=1):
                   context={'recipes': recipes, 'list_name': list_name, })
 
 
-@cache_page(60 * 15)
+# @cache_page(60 * 15)
 def category_detail(req, id, page_num=1):
     """ 分类列表 """
     
-    menu_name = RecipeCategory.objects.get(id=id).name
-    
-    similar_menus = MemberRecipeList.objects.filter(name__contains=menu_name)[:20]
-    
+
     obj_list1 = Recipe.objects.filter(category__id=id) \
         .order_by('-rate_score')
     obj_list2 = Recipe.objects.filter(category__id=id) \
@@ -72,7 +69,6 @@ def category_detail(req, id, page_num=1):
     obj_list3 = Recipe.objects.filter(category__id=id) \
         .order_by('-name')
     cat = RecipeCategory.objects.get(id=id)
-    cat_list = RecipeCategory.objects.all()[:30]
     paginator1 = Paginator(obj_list1, 20)
     paginator2 = Paginator(obj_list2, 20)
     paginator3 = Paginator(obj_list3, 20)
@@ -86,11 +82,9 @@ def category_detail(req, id, page_num=1):
                       'result2': result2,
                       'result3': result3,
                       'key': id, 'cat': cat,
-                      'cat_list': cat_list,
                       'obj_list1': obj_list1,
                       'obj_list2': obj_list2,
                       'obj_list3': obj_list3,
-                      'similar_menus': similar_menus,
                       'page_nearby_range': page_nearby_range}
                   )
 

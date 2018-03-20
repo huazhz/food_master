@@ -15,36 +15,22 @@
 
 
 {% block content %}
-
     <div class="row">
-
         <div class="col-lg-2">
-
             <div class="card">
                 <h2 class="card-title"><strong>相似的菜单</strong></h2>
-
                 <div class="media-list media-list-hover media-list-divided">
-
                     {% for menu in similar_menus %}
-
                         <a class="media media-single" href="/recipe_list/{{ menu.id }}/">
                             <span class="title">{{ menu.name }}</span>
-
                         </a>
-
                     {% endfor %}
-
-
                 </div>
             </div>
         </div>
-
         <div class="col-lg-10">
-
             <div class="row">
-
                 <div class="col-lg-12">
-
                     <header class="header">
                         <div class="header-info">
                             <div class="left">
@@ -68,19 +54,13 @@
                             </ul>
                         </div>
                     </header>
-
                 </div>
                 <div class="col-lg-12">
-
                     <div class="tab-content card card-body">
-
                         <div class="tab-pane active show" id="tab-profile" role="tabpanel">
-
                             <div class="row">
-
-                                <div class="col-lg-6">
-
-                                    {% for rec in result1|slice:":10" %}
+                                {% for rec in result1 %}
+                                    <div class="col-lg-6">
 
                                         <div class="media media-single">
                                             <a href="/recipe/{{ rec.id }}/">
@@ -99,33 +79,10 @@
                                             </div>
 
                                         </div>
-                                    {% endfor %}
 
-                                </div>
-
-                                <div class="col-lg-6 col-lg-offset-6">
-
-                                    {% for rec in result1|slice:"10:20" %}
-
-                                        <div class="media media-single">
-                                            <a href="/recipe/{{ rec.id }}/">
-                                                <img src="{{ rec.cover_img }}" class="avatar avatar-xxl"
-                                                     alt="{{ rec.name }}">
-                                            </a>
-                                            <div class="media-body">
-                                                <a href="/recipe/{{ rec.id }}/">
-                                                    <h4 class="title">{{ rec.name }}</h4>
-                                                    <span>网友评分:{{ rec.rate_score }}</span>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    {% endfor %}
-
-                                </div>
-
-
-                                <div class="col-lg-10">
+                                    </div>
+                                {% endfor %}
+                                <div class="col-lg-12">
                                     <nav class="mt-3">
                                         <ul class="pagination justify-content-center">
                                             {% if result1.has_previous %}
@@ -174,18 +131,12 @@
                                         </ul>
                                     </nav>
                                 </div>
-
                             </div>
-
                         </div>
-
                         <div class="tab-pane " id="tab-messages" role="tabpanel">
-
                             <div class="row">
-
-                                <div class="col-lg-6">
-
-                                    {% for rec in result2|slice:":10" %}
+                                {% for rec in result2 %}
+                                    <div class="col-lg-6">
 
                                         <div class="media media-single">
                                             <a href="/recipe/{{ rec.id }}/">
@@ -198,32 +149,11 @@
                                                     <span>网友评分:{{ rec.rate_score }}</span>
                                                 </a>
                                             </div>
-
                                         </div>
-                                    {% endfor %}
-                                </div>
 
-                                <div class="col-lg-6 col-lg-offset-6">
-
-                                    {% for rec in result2|slice:"10:20" %}
-
-                                        <div class="media media-single">
-                                            <a href="/recipe/{{ rec.id }}/">
-                                                <img src="{{ rec.cover_img }}" class="avatar avatar-xxl"
-                                                     alt="{{ rec.name }}">
-                                            </a>
-                                            <div class="media-body">
-                                                <a href="/recipe/{{ rec.id }}/">
-                                                    <h4 class="title">{{ rec.name }}</h4>
-                                                    <span>网友评分:{{ rec.rate_score }}</span>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    {% endfor %}
-                                </div>
-
-                                <div class="col-lg-10">
+                                    </div>
+                                {% endfor %}
+                                <div class="col-lg-12">
                                     <nav class="mt-3">
                                         <ul class="pagination justify-content-center">
                                             {% if result2.has_previous %}
@@ -272,18 +202,12 @@
                                         </ul>
                                     </nav>
                                 </div>
-
                             </div>
-
                         </div>
-
                         <div class="tab-pane" id="tab-settings" role="tabpanel">
-
                             <div class="row">
-
-                                <div class="col-lg-6">
-
-                                    {% for rec in result3|slice:":10" %}
+                                {% for rec in result3 %}
+                                    <div class="col-lg-6">
 
                                         <div class="media media-single">
                                             <a href="/recipe/{{ rec.id }}/">
@@ -298,30 +222,10 @@
                                             </div>
 
                                         </div>
-                                    {% endfor %}
-                                </div>
 
-                                <div class="col-lg-6 col-lg-offset-6">
-
-                                    {% for rec in result3|slice:"10:20" %}
-
-                                        <div class="media media-single">
-                                            <a href="/recipe/{{ rec.id }}/">
-                                                <img src="{{ rec.cover_img }}" class="avatar avatar-xxl"
-                                                     alt="{{ rec.name }}">
-                                            </a>
-                                            <div class="media-body">
-                                                <a href="/recipe/{{ rec.id }}/">
-                                                    <h4 class="title">{{ rec.name }}</h4>
-                                                    <span>网友评分:{{ rec.rate_score }}</span>
-                                                </a>
-                                            </div>
-
-                                        </div>
-                                    {% endfor %}
-                                </div>
-
-                                <div class="col-lg-10">
+                                    </div>
+                                {% endfor %}
+                                <div class="col-lg-12">
                                     <nav class="mt-3">
                                         <ul class="pagination justify-content-center">
                                             {% if obj_list3.has_previous %}
@@ -369,7 +273,6 @@
                                             {% endif %}
                                         </ul>
                                     </nav>
-
                                 </div>
                             </div>
                         </div>

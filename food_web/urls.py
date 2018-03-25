@@ -28,7 +28,10 @@ urlpatterns = [
     path('search/<str:key>/<int:page_num>/', views.search_result),
     path('recipe/<int:id>/', views.recipe_details),
     path('sitemap/', views.sitemap),
-    path('webhook/', views.webhook)
+    path('webhook/', views.webhook),
+    path('api/recipes/', views.recipe_list),
+    path('api/recipes/<int:id>', views.recipe_detail),
+    
 
 ]
 handler500 = common_utils.handle_500

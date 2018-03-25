@@ -1,15 +1,17 @@
 import os
 import json
 from django.shortcuts import render
-from django.http import Http404, HttpResponse
+from django.http import Http404, HttpResponse, JsonResponse
 from django.db.models import Q
 from django.views.decorators import csrf
 from django.core.paginator import Paginator
 from front.models import Recipe, RecipeIngredient, RecipeCategory
 from utils import common_utils
-from front import rs
 from django.views.decorators.cache import cache_page
-from django.core.cache import cache
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework.renderers import JSONRenderer
+from rest_framework.parsers import JSONParser
+from front.serializers import RecipeSerializer
 
 
 # Create your views here.
@@ -38,11 +40,11 @@ def index(req):
 def category(req, id, page_num=1):
     """ 分类列表 """
     obj_list1 = Recipe.objects.filter(category__id=id) \
-                   .order_by('-rate_score')[:30]
+                    .order_by('-rate_score')[:30]
     obj_list2 = Recipe.objects.filter(category__id=id) \
-                   .order_by('-add_time')[:30]
+                    .order_by('-add_time')[:30]
     obj_list3 = Recipe.objects.filter(category__id=id) \
-                   .order_by('-name')[:30]
+                    .order_by('-name')[:30]
     cat = RecipeCategory.objects.get(id=id)
     cat_list = RecipeCategory.objects.all()[:30]
     paginator = Paginator(obj_list3, 10)
@@ -87,15 +89,54 @@ def sitemap(req):
     #     return HttpResponse(f.readlines())
     return render(req, 'front/sitemap.txt')
 
+
 @csrf.csrf_exempt
 def webhook(req):
-    # if req.method == "POST":
+    """ 利用github的 webhook功能实现自动部署更新 """
     print('webhook is running!')
-
-    # sh_file = '/home/www/food_master/webhook.sh'
-    # os.system('cd /home/www/food_master/ && sh ./webhssook.sh')
+    
     msg = os.popen('sh /home/www/food_master/webhook.sh').read()
     data = {'status': 'ok', 'message': msg}
     return HttpResponse(json.dumps(data), content_type="application/json")
-    # else:
-    #     return HttpResponse('you should not be here')
+
+
+@csrf_exempt
+def recipe_list(request):
+    """ list first 10 recipes """
+    if request.method == "GET":
+        recipes = Recipe.objects.all()[:10]
+        recipe_serializer = RecipeSerializer(recipes, many=True)
+        return JsonResponse(recipe_serializer.data, safe=False)
+    
+    elif request.method == 'POST':
+        data = JSONParser().parse(request)
+        serializer = RecipeSerializer(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data, status=201)
+        return JsonResponse(serializer.errors, status=400)
+
+
+@csrf_exempt
+def recipe_detail(request, id):
+    """ Retrieve, update or delete a recipe. """
+    try:
+        recipe = Recipe.objects.get(pk=id)
+    except Recipe.DoesNotExist:
+        return HttpResponse(404)
+    
+    if request.method == "GET":
+        serializer = RecipeSerializer(recipe)
+        return JsonResponse(serializer.data)
+    
+    elif request.method == 'PUT':
+        data = JSONParser().parse(request)
+        serializer = RecipeSerializer(recipe, data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return JsonResponse(serializer.data)
+        return JsonResponse(serializer.errors, status=400)
+    
+    elif request.method == 'DELETE':
+        recipe.delete()
+        return HttpResponse(status=204)

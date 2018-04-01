@@ -16,26 +16,31 @@ class TestIndexView(TestCase):
         self.factory = RequestFactory()
     
     def test_index1(self):
-        ''' try Client '''
+        '''
+            try Client
+        '''
         response1 = self.client.get('/')
         self.assertEqual(response1.status_code, 200)
+        print(' 1st test pass ')
     
     def test_index2(self):
-        ''' try RequestFactory '''
+        '''
+            try RequestFactory
+        '''
         response2 = self.factory.get('/')
-        print(self.factory.request().method)
-        print(self.factory.request().path)
-        print(self.factory.request().build_absolute_uri())
-        print(response2.path)
-        print(response2.environ)
-        print(response2.body)
+        self.assertEqual(response2.path, '/')
+        self.assertEqual(self.factory.request().method, 'GET')
+        print('2nd test pass')
     
     def test_index3(self):
-        ''' 尝试第3种测试方法 '''
+        '''
+            尝试第3种测试方法
+        '''
         request = HttpRequest()
         response = index(request)
-        print(response.status_code)
-        print(response.content)
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('菜谱大全', response.content.decode('utf8'))
+        print(' 3rd test pass')
     
     def tearDown(self):
         pass

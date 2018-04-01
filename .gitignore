@@ -22,7 +22,7 @@ front/__pycache__/
 # python 
 *.pyc
 
-# ?
+# what is this?
 _trial_temp
 
 #.env/bin/activate

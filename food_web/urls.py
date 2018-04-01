@@ -15,9 +15,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.conf.urls import url
 from front import views
 from utils import common_utils
 from food_web import settings
+from rest_framework.documentation import include_docs_urls
+from rest_framework.schemas import get_schema_view
+# from front.views import RecipeListView
+from front.views import RecipeViewList
+from rest_framework.authtoken.views import obtain_auth_token
+
+schema_view = get_schema_view(title='Pastebin API')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -29,17 +37,9 @@ urlpatterns = [
     path('recipe/<int:id>/', views.recipe_details),
     path('sitemap/', views.sitemap),
     path('webhook/', views.webhook),
-    path('api/recipes/', views.recipe_list),
-    path('api/recipes/<int:id>', views.recipe_detail),
     
+    url(r'^api/recipes', RecipeViewList.as_view()),
 
 ]
 handler500 = common_utils.handle_500
 handler404 = common_utils.handle_404
-
-if settings.DEBUG:
-    import debug_toolbar
-    
-    urlpatterns = [
-                      path(r'^__debug__/', include(debug_toolbar.urls)),
-                  ] + urlpatterns

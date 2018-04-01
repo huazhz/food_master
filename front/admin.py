@@ -15,6 +15,7 @@ class MemberAdmin(admin.ModelAdmin):
 class RecipeAdmin(admin.ModelAdmin):
     list_display = ('id', 'fid', 'name', 'cover_img', 'rate_score', 'add_time', 'stars')
     search_fields = ('fid', 'name',)
+    list_per_page = 10
 
 
 class RecipeDetailsAdmin(admin.ModelAdmin):

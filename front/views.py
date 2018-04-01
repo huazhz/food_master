@@ -12,10 +12,23 @@ from django.views.decorators.csrf import csrf_exempt
 from rest_framework.renderers import JSONRenderer
 from rest_framework.parsers import JSONParser
 from front.serializers import RecipeSerializer
+from django.contrib.auth import get_user_model
+from django.contrib.auth.backends import ModelBackend
+from rest_framework import generics, mixins, viewsets
+from rest_framework.views import APIView
+from rest_framework.pagination import PageNumberPagination
+
+User = get_user_model()
 
 
 # Create your views here.
 # I know, shut your mouth.
+
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 20
+    page_size_query_param = 'page_size'
+    max_page_size = 30
+
 
 @cache_page(15)
 def index(req):
@@ -100,43 +113,31 @@ def webhook(req):
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 
-@csrf_exempt
-def recipe_list(request):
-    """ list first 10 recipes """
-    if request.method == "GET":
-        recipes = Recipe.objects.all()[:10]
-        recipe_serializer = RecipeSerializer(recipes, many=True)
-        return JsonResponse(recipe_serializer.data, safe=False)
-    
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = RecipeSerializer(data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+from rest_framework.response import Response
 
 
-@csrf_exempt
-def recipe_detail(request, id):
-    """ Retrieve, update or delete a recipe. """
-    try:
-        recipe = Recipe.objects.get(pk=id)
-    except Recipe.DoesNotExist:
-        return HttpResponse(404)
+class RecipeViewList(generics.ListAPIView):
+    query_list = Recipe.objects.all()
+    serializer_class = RecipeSerializer
+    # pagination_class = StandardResultsSetPagination
     
-    if request.method == "GET":
-        serializer = RecipeSerializer(recipe)
-        return JsonResponse(serializer.data)
-    
-    elif request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = RecipeSerializer(recipe, data=data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data)
-        return JsonResponse(serializer.errors, status=400)
-    
-    elif request.method == 'DELETE':
-        recipe.delete()
-        return HttpResponse(status=204)
+    def get_queryset(self):
+        query_arg = self.request.query_params.get('kk', None)
+        if query_arg:
+            # # queryset = self.query_list.filter(Q(name__contains='鱼') | Q(name__contains='牛肉'))
+            qs = self.query_list.filter(name__contains=query_arg)
+            return qs[:10]
+            # return self.query_list
+        else:
+            qs = Recipe.objects.all()[:10]
+            return qs
+
+
+class CustomBackends(ModelBackend):
+    def authenticate(self, request, username=None, password=None, **kwargs):
+        try:
+            user = User.objects.get(email=username)
+            if user.check_password(password):
+                return user
+        except Exception:
+            return None

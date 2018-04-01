@@ -35,7 +35,7 @@ for r in recipes:
 
 # start 最高的100道
 with open('sitemap.txt', 'a') as f:
-    for r in recipes[:100]:
+    for r in recipes[1700:2200]:
         print(r.stars)
         f.write('''https://www.bestcaipu.com/recipe/%s/\n''' % (r.id))
     

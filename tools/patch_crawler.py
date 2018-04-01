@@ -25,7 +25,7 @@ app = Celery('tasks', broker='pyamqp://guest@localhost//')
 
 @app.task(name='food_scrapy.spiders.xiachufangpatch.patch_xiachufang')
 def patch_xiachufang(v):
-    print('start to patch the spider')
+    print('start to tools the spider')
     infos = json.loads(v)
     fid = infos.get('fid')
     print('the fid is %s' % fid)

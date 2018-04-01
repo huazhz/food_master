@@ -8,8 +8,8 @@ from celery_app import r
 from ..items import PatchItem
 from front.models import Recipe
 from scrapy import Request
-from twisted.internet.error import TimeoutError, TCPTimedOutError
-from patch_crawler import patch_xiachufang
+from twisted.internet.error import TimeoutError
+from tools.patch_crawler import patch_xiachufang
 
 fids = []
 for rec in Recipe.objects.all():

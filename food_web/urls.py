@@ -18,27 +18,26 @@ from django.urls import path, include
 from django.conf.urls import url
 from front import views
 from utils import common_utils
-from food_web import settings
-from rest_framework.documentation import include_docs_urls
 from rest_framework.schemas import get_schema_view
-# from front.views import RecipeListView
-from front.views import RecipeViewList
-from rest_framework.authtoken.views import obtain_auth_token
+from front.views import RecipeView
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'api/recipes', RecipeView, base_name='recipe')
+urlpatterns = router.urls
 
 schema_view = get_schema_view(title='Pastebin API')
 
-urlpatterns = [
+urlpatterns += [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('category/<int:id>/', views.category),
-    path('category/<int:id>/<int:page_num>/$', views.category),
+    path('category/<int:id>/<int:page_num>/', views.category),
     path('search/<str:key>/', views.search_result),
     path('search/<str:key>/<int:page_num>/', views.search_result),
     path('recipe/<int:id>/', views.recipe_details),
     path('sitemap/', views.sitemap),
     path('webhook/', views.webhook),
-    
-    url(r'^api/recipes', RecipeViewList.as_view()),
 
 ]
 handler500 = common_utils.handle_500

@@ -16,11 +16,9 @@ class RecipeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Recipe
         fields = ('fid',
-                  'cook',
                   'cookname',
                   'name',
                   'cover_img',
                   'rate_score',
                   'stars'
                   )
-        depth = 1

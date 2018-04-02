@@ -119,22 +119,18 @@ def webhook(req):
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 
-class RecipeViewList(generics.ListAPIView):
-    query_list = Recipe.objects.all()
+class RecipeView(viewsets.ModelViewSet):
     serializer_class = RecipeSerializer
     pagination_class = LargeResultsSetPagination
     
-    # pagination_class = StandardResultsSetPagination
-    
     def get_queryset(self):
-        query_arg = self.request.query_params.get('kk', None)
+        query_list = Recipe.objects.all()
+        query_arg = self.request.query_params.get('keyword', None)
         if query_arg:
-            # # queryset = self.query_list.filter(Q(name__contains='鱼') | Q(name__contains='牛肉'))
-            qs = self.query_list.filter(name__contains=query_arg)
-            return qs[:10]
-            # return self.query_list
+            qs = query_list.filter(name__contains=query_arg)
+            return qs
         else:
-            qs = Recipe.objects.all()[:10]
+            qs = Recipe.objects.all()
             return qs
 
 

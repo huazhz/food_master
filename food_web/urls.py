@@ -19,16 +19,15 @@ from django.conf.urls import url
 from front import views
 from utils import common_utils
 from rest_framework.schemas import get_schema_view
-from front.views import RecipeView
+from front.views import RecipeAPIView
 from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
-router.register(r'api/recipes', RecipeView, base_name='recipe')
-urlpatterns = router.urls
+router.register(r'api/recipes', RecipeAPIView, base_name='recipe')
 
 schema_view = get_schema_view(title='Pastebin API')
 
-urlpatterns += [
+urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.index, name='index'),
     path('category/<int:id>/', views.category),
@@ -40,5 +39,8 @@ urlpatterns += [
     path('webhook/', views.webhook),
 
 ]
+
+urlpatterns += router.urls
+
 handler500 = common_utils.handle_500
 handler404 = common_utils.handle_404

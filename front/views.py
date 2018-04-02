@@ -8,14 +8,10 @@ from django.core.paginator import Paginator
 from front.models import Recipe, RecipeIngredient, RecipeCategory
 from utils import common_utils
 from django.views.decorators.cache import cache_page
-from django.views.decorators.csrf import csrf_exempt
-from rest_framework.renderers import JSONRenderer
-from rest_framework.parsers import JSONParser
 from front.serializers import RecipeSerializer
 from django.contrib.auth import get_user_model
 from django.contrib.auth.backends import ModelBackend
-from rest_framework import generics, mixins, viewsets
-from rest_framework.views import APIView
+from rest_framework import viewsets
 from rest_framework.pagination import PageNumberPagination
 
 User = get_user_model()
@@ -119,7 +115,7 @@ def webhook(req):
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 
-class RecipeView(viewsets.ModelViewSet):
+class RecipeAPIView(viewsets.ModelViewSet):
     serializer_class = RecipeSerializer
     pagination_class = LargeResultsSetPagination
     

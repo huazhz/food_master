@@ -21,6 +21,12 @@ from rest_framework.pagination import PageNumberPagination
 User = get_user_model()
 
 
+class LargeResultsSetPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 50
+
+
 # Create your views here.
 # I know, shut your mouth.
 
@@ -113,12 +119,11 @@ def webhook(req):
     return HttpResponse(json.dumps(data), content_type="application/json")
 
 
-from rest_framework.response import Response
-
-
 class RecipeViewList(generics.ListAPIView):
     query_list = Recipe.objects.all()
     serializer_class = RecipeSerializer
+    pagination_class = LargeResultsSetPagination
+    
     # pagination_class = StandardResultsSetPagination
     
     def get_queryset(self):
